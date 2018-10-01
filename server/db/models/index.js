@@ -1,7 +1,6 @@
 const User = require('./user')
 
-User.belongsToMany(User, {as: 'Friends', through: 'friendship'})
-
+User.belongsToMany(User, {as: 'Friend', through: 'friendship'})
 module.exports = {
   User
 }

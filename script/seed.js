@@ -2,6 +2,7 @@
 
 const db = require('../server/db')
 const {User} = require('../server/db/models')
+const mockData = require('./MOCK_DATA.json')
 
 async function seed() {
   await db.sync({force: true})
@@ -22,7 +23,18 @@ async function seed() {
     })
   ])
 
-  console.log(`seeded ${users.length} users`)
+  const usersData = []
+  for (let i = 0; i < 20; i++) {
+    usersData.push(User.create(mockData[i]))
+  }
+  await Promise.all(usersData)
+  //this line gets us all our users to associate them.
+  const userAssociation = await User.findAll()
+  //we loop through all the created users and associate them with the next user in the database
+  for (let i = 0; i < userAssociation.length - 1; i++) {
+    await userAssociation[i].addFriend(userAssociation[i + 1])
+  }
+  console.log(`seeded ${users.length + usersData.length} users`)
   console.log(`seeded successfully`)
 }
 
