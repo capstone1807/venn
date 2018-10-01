@@ -19,8 +19,8 @@ router.get('/', async (req, res, next) => {
 router.get('/friends', async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
-    const friends = await user.getFriends()
-    res.json(friends)
+    const friend = await user.getFriends()
+    res.json(friend)
   } catch (err) {
     next(err)
   }
@@ -30,7 +30,8 @@ router.post('/friends', async (req, res, next) => {
   if (req.body.friendId !== req.user.id) {
     try {
       const user = await User.findById(req.user.id)
-      const result = await user.setFriends(req.body.friendId)
+      const newFriend = await User.findById(req.body.friendId)
+      const result = await user.addFriends(newFriend)
       res.status(201).send(result)
     } catch (err) {
       next(err)
@@ -43,7 +44,7 @@ router.post('/friends', async (req, res, next) => {
 router.delete('/friends/:id', async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
-    await user.removeFriends(req.params.id)
+    await user.removeFriends({ where: {friendId: req.params.id}})
     res.status(204).end()
   } catch (err) {
     next(err)

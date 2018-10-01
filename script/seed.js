@@ -2,6 +2,7 @@
 
 const db = require('../server/db')
 const {User} = require('../server/db/models')
+const Friendship = db.model('friendship')
 
 async function seed() {
   await db.sync({force: true})
@@ -19,8 +20,21 @@ async function seed() {
       lastName: 'Murph',
       email: 'murphy@email.com',
       password: '123'
+    }),
+    User.create({
+      firstName: 'Smurfy',
+      lastName: 'Smurf',
+      email: 'smurfy@email.com',
+      password: '123'
     })
+
   ])
+
+  const cody = await User.findById(1)
+  const murphy = await User.findById(2)
+  const smurfy = await User.findById(3)
+  await cody.addFriends(murphy)
+  await cody.addFriends(smurfy)
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
