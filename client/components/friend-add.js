@@ -2,8 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchUsersFromDB, addFriend} from '../store'
 import {
-  Search,
-  Grid,
   Divider,
   Select,
   Form,
@@ -34,17 +32,13 @@ export class AddFriend extends React.Component {
   async handleSubmit(event) {
     event.preventDefault()
     const username = this.state.selectedUser.split(' ')[2].slice(1, -1)
-    console.log('USERNAME*****: ', username)
     const users = this.props.users.slice()
     const filtered = users.filter(user => user.username === username)
-    console.log('FILTERED***: ', filtered)
     const id = filtered[0].id
-    console.log('ID***: ', id)
     await this.props.addToFriends(id)
   }
 
   render() {
-    console.log('USERS => ', this.props.users)
     const userNames =
       this.props.users &&
       this.props.users.map(function(user) {
@@ -57,15 +51,25 @@ export class AddFriend extends React.Component {
       })
     return (
       <Container textAlign="center">
-        <Segment vertical>
+        <Segment vertical style={{width: 500}}>
           <Header as="h2">Find your friends:</Header>
           <Divider hidden />
           <Select
             onChange={this.handleChange}
             placeholder="Search Name"
             search
-            options={userNames ? userNames : [{key: 999, text: 'hello'}]}
+            options={
+              userNames
+                ? userNames
+                : [
+                    {
+                      key: 999,
+                      text: 'add your friends'
+                    }
+                  ]
+            }
             value={this.state.value}
+            fluid
           />
           <Divider hidden />
           <Form onSubmit={this.handleSubmit}>

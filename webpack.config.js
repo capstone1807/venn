@@ -1,4 +1,6 @@
 const isDev = process.env.NODE_ENV === 'development'
+var LiveReloadPlugin = require('webpack-livereload-plugin');
+
 
 module.exports = {
   mode: isDev ? 'development' : 'production',
@@ -13,7 +15,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx']
   },
-  devtool: 'source-map',
+  devtool: 'eval',
   module: {
     rules: [
       {
@@ -22,5 +24,8 @@ module.exports = {
         loader: 'babel-loader'
       }
     ]
-  }
+  },
+  plugins: [
+    new LiveReloadPlugin({appendScriptTag: true})
+  ]
 }
