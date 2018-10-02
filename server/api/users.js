@@ -19,15 +19,14 @@ router.get('/', async (req, res, next) => {
 router.get('/friends', async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
-    const friend = await user.getFriends()
-    res.json(friend)
+    const friends = await user.getFriends()
+    res.json(friends)
   } catch (err) {
     next(err)
   }
 })
 
 router.post('/friends', async (req, res, next) => {
-  console.log('REQ.BODY.FRIENDID****** =>', req.body.friendId)
   if (req.body.friendId !== req.user.id) {
     try {
       const user = await User.findById(req.user.id)
