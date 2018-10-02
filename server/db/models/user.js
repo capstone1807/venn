@@ -17,6 +17,11 @@ const User = db.define('user', {
       notEmpty: true
     }
   },
+  username: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
