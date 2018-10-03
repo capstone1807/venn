@@ -23,7 +23,8 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         {isLoggedIn && (
           <Switch>
-            {/* Routes placed here are only available after logging in */}
+            {/* Routes placed here are only available after logging in */
+             /* OB/JL: consider route names standardization */}
             <Route path="/home" component={UserHome} />
             <Route path="/addfriend" component={AddFriend} />
             <Route path="/newevent" component={CreateEvent} />

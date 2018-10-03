@@ -16,6 +16,13 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+// OB/JL: non-standard / non-RESTful route name here
+/*
+GET /api/users/friends looks like "all friends of all users" but it isn't
+instead could be
+GET /api/current-user/friends looks like "all friends of currently logged in user"
+...ditto for the routes below
+*/
 router.get('/friends', async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
@@ -27,11 +34,14 @@ router.get('/friends', async (req, res, next) => {
 })
 
 //should we change this to 'put'?
+// OB/JL: POST v PUT, I think PUT because the route is / should be idempotent
 router.post('/friends', async (req, res, next) => {
+  // OB/JL: could be a validation you add to your requelize model
   if (req.body.friendId !== req.user.id) {
     try {
       const user = await User.findById(req.user.id)
       const newFriend = await User.findById(req.body.friendId)
+      // OB/JL: might need to be .addFriend instead of .addFriends...?
       await user.addFriends(newFriend)
       res.status(201).send(newFriend)
     } catch (err) {
