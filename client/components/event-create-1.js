@@ -4,7 +4,7 @@ import {fetchFriends, postEvent} from '../store'
 import {
   Form,
   TextArea,
-  Dropdown,
+  Select,
   Radio,
   Container,
   Divider,
@@ -93,9 +93,10 @@ export class CreateEvent extends React.Component {
             </Form.Field>
           </Container>
           <Container centered style={{width: 538}}>
-            <Dropdown
+            <Select
               placeholder="choose friends"
               fluid
+              search
               multiple
               selection
               options={friends}
