@@ -7,7 +7,8 @@ import {
   Dropdown,
   Radio,
   Container,
-  Divider
+  Divider,
+  Grid
 } from 'semantic-ui-react'
 
 export class CreateEvent extends React.Component {
@@ -72,8 +73,8 @@ export class CreateEvent extends React.Component {
         }
       })
     return (
-      <Container>
-        <Form onSubmit={this.handleSubmit}>
+        <Form centered verticalAlign='middle' onSubmit={this.handleSubmit}>
+          <Container centered style={{width: 500}}>
             <Form.Field>
               <label>Name Your Event</label>
               <input
@@ -82,17 +83,16 @@ export class CreateEvent extends React.Component {
               />
             </Form.Field>
 
-          {/* event description field */}
-          <Form.Field>
-            <label>Description</label>
-            <TextArea
-              autoHeight
-              placeholder="Anything else you want your guests to know?"
-              onChange={this.handleChangeDescription}
-            />
-          </Form.Field>
-          {/* // select friends to invite */}
-          <Container style={{width: 500}}>
+            <Form.Field>
+              <label>Description</label>
+              <TextArea
+                autoHeight
+                placeholder="Anything else you want your guests to know?"
+                onChange={this.handleChangeDescription}
+              />
+            </Form.Field>
+          </Container>
+          <Container centered style={{width: 538}}>
             <Dropdown
               placeholder="choose friends"
               fluid
@@ -102,14 +102,22 @@ export class CreateEvent extends React.Component {
               onChange={this.handleChangeGuests}
             />
           </Container>
-          <Divider horizontal hidden />
-          {/* // isPrivate?\*/}
-          <Radio toggle onChange={this.toggle} />
-          {/* cancel + next buttons */}
-          <Form.Button>Cancel</Form.Button>
-          <Form.Button>Next</Form.Button>
+            <Divider horizontal hidden />
+          <Grid centered verticalAlign='middle'>
+            <Grid.Row style={{width: 500}}>
+              <Grid.Column style={{width: 300}}>
+                <h3>Friends can invite friends</h3>
+              </Grid.Column>
+              <Grid.Column>
+                <Radio toggle onChange={this.toggle} />
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Form.Button>Cancel</Form.Button>
+              <Form.Button color='orange'>Next</Form.Button>
+            </Grid.Row>
+            </Grid>
         </Form>
-      </Container>
     )
   }
 }
