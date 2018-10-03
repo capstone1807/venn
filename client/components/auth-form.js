@@ -95,7 +95,6 @@ const mapDispatchSignup = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
-      console.log('handleSubmit signup')
 
       const formName = evt.target.name
       const username = evt.target.username.value
