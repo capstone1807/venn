@@ -9,6 +9,9 @@ const Event = db.define('event', {
       notEmpty: true
     }
   },
+  description: {
+    type: Sequelize.TEXT,
+  },
   guests: {
     type: Sequelize.ARRAY(Sequelize.STRING),
     allowNull: false

@@ -3,20 +3,21 @@ const {Event, User} = require('../db/models')
 module.exports = router
 
 router.post('/', async (req, res, next) => {
-    try {
-      const user = await User.findById(req.user.id)
-      const newEvent = await Event.create({
-        // know name of event
-        name: req.body.eventName,
-        // know private
-        isPrivate: req.body.isPrivate
-      })
-      // know friends invited
-      await newEvent.addGuests(req.body.guests)
-      // know creator
-      await newEvent.addCreator(user)
-      res.json(newEvent)
-    } catch (err) {
-      next(err)
+  try {
+    // const user = await User.findById(req.user.id)
+    let description = ''
+    if (req.body.description) {
+      description = req.body.description
     }
+    const newEvent = await Event.create({
+      name: req.body.eventName,
+      description: description,
+      guests: req.body.guests,
+      isPrivate: req.body.isPrivate,
+      creatorId: req.user.id
+    })
+    res.json(newEvent).status(201)
+  } catch (err) {
+    next(err)
+  }
 })

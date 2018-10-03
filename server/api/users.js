@@ -26,6 +26,7 @@ router.get('/friends', async (req, res, next) => {
   }
 })
 
+//should we change this to 'put'?
 router.post('/friends', async (req, res, next) => {
   if (req.body.friendId !== req.user.id) {
     try {
