@@ -1,7 +1,14 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchFriends, postEvent} from '../store'
-import {Form, TextArea, Dropdown, Segment, Radio} from 'semantic-ui-react'
+import {
+  Form,
+  TextArea,
+  Dropdown,
+  Radio,
+  Container,
+  Divider
+} from 'semantic-ui-react'
 
 export class CreateEvent extends React.Component {
   constructor(props) {
@@ -49,16 +56,12 @@ export class CreateEvent extends React.Component {
     })
   }
 
-  async handleSubmit(event) {
+  handleSubmit(event) {
     event.preventDefault()
     this.props.createEvent(this.state)
-    console.log('I clicked!')
   }
 
   render() {
-    console.log('STATE', this.state)
-    console.log('GUESTS =>', this.state.guests)
-
     const friends =
       this.props.friends &&
       this.props.friends.map(function(friend) {
@@ -69,26 +72,27 @@ export class CreateEvent extends React.Component {
         }
       })
     return (
-      <Segment>
-        {/* // event name */}
+      <Container>
         <Form onSubmit={this.handleSubmit}>
-          <Form.Field>
-            <label>Name Your Event</label>
-            <input
-              placeholder="Event Name"
-              onChange={this.handleChangeEventName}
-            />
-          </Form.Field>
+            <Form.Field>
+              <label>Name Your Event</label>
+              <input
+                placeholder="Event Name"
+                onChange={this.handleChangeEventName}
+              />
+            </Form.Field>
+
           {/* event description field */}
           <Form.Field>
             <label>Description</label>
             <TextArea
+              autoHeight
               placeholder="Anything else you want your guests to know?"
               onChange={this.handleChangeDescription}
             />
           </Form.Field>
           {/* // select friends to invite */}
-          <Segment vertical style={{width: 500}}>
+          <Container style={{width: 500}}>
             <Dropdown
               placeholder="choose friends"
               fluid
@@ -97,14 +101,15 @@ export class CreateEvent extends React.Component {
               options={friends}
               onChange={this.handleChangeGuests}
             />
-          </Segment>
+          </Container>
+          <Divider horizontal hidden />
           {/* // isPrivate?\*/}
           <Radio toggle onChange={this.toggle} />
           {/* cancel + next buttons */}
           <Form.Button>Cancel</Form.Button>
           <Form.Button>Next</Form.Button>
         </Form>
-      </Segment>
+      </Container>
     )
   }
 }
