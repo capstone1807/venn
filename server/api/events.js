@@ -4,7 +4,6 @@ module.exports = router
 
 router.post('/', async (req, res, next) => {
   try {
-    // const user = await User.findById(req.user.id)
     let description = ''
     if (req.body.description) {
       description = req.body.description
