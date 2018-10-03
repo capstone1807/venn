@@ -20,3 +20,12 @@ router.post('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.get('/:id', async (req, res, next) => {
+  try{
+    const foundEvent = await Event.findById(req.params.id)
+    res.json(foundEvent)
+  } catch(err){
+    next(err)
+  }
+})

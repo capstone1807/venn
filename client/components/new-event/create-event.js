@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchFriends, postEvent} from '../store'
+import {fetchFriends, postEvent} from '../../store'
 import {
   Form,
   TextArea,
@@ -73,7 +73,7 @@ export class CreateEvent extends React.Component {
         }
       })
     return (
-        <Form centered verticalAlign='middle' onSubmit={this.handleSubmit}>
+        <Form centered verticalalign='middle' onSubmit={this.handleSubmit}>
           <Container centered style={{width: 500}}>
             <Form.Field>
               <label>Name Your Event</label>
@@ -104,7 +104,7 @@ export class CreateEvent extends React.Component {
             />
           </Container>
             <Divider horizontal hidden />
-          <Grid centered verticalAlign='middle'>
+          <Grid centered verticalalign='middle'>
             <Grid.Row style={{width: 500}}>
               <Grid.Column style={{width: 300}}>
                 <h3>Friends can invite friends</h3>

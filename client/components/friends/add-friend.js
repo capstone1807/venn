@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchUsersFromDB, addFriend} from '../store'
+import {fetchUsersFromDB, addFriend} from '../../store'
 import {
   Divider,
   Select,
