@@ -1,8 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
-const Friendship = db.model('friendship')
+const {User, Restaurant} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -30,7 +29,20 @@ async function seed() {
       email: 'smurfy@email.com',
       password: '123'
     })
+  ])
 
+  const restaurants = await Promise.all([
+    Restaurant.create({
+      title: 'Ottimo Cafe',
+      description: 'U.S. 9, Howell, NJ, USA',
+      placeId: 'ChIJ8VK-FVV_wYkR4A3G7hRBkjU'
+    }),
+
+    Restaurant.create({
+      title: 'Dairy Queen',
+      description: 'Trenton Lakewood Road, Clarksburg, NJ, USA',
+      placeId: 'ChIJv-c_qCNjwYkRK--WCcRJ6y0'
+    })
   ])
 
   const cody = await User.findById(1)
@@ -39,7 +51,13 @@ async function seed() {
   await cody.addFriends(murphy)
   await cody.addFriends(smurfy)
 
+  const ottimo = await Restaurant.findById(1)
+  const dairyQueen = await Restaurant.findById(2)
+  await cody.addRestaurant(ottimo)
+  await cody.addRestaurant(dairyQueen)
+
   console.log(`seeded ${users.length} users`)
+  console.log(`seeded ${restaurants.length} users`)
   console.log(`seeded successfully`)
 }
 

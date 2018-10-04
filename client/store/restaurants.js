@@ -17,24 +17,7 @@ const getRestaurants = restaurants => ({type: GET_RESTAURANTS, restaurants})
 
 export const fetchRestaurants = () => async dispatch => {
   try {
-    // const {data: restaurants} = await axios.get(`/api/me/restaurants`)
-    const restaurants = [
-      {
-        header: 'Dairy Queen',
-        description: 'blah blah',
-        meta: 'ROI: 30%'
-      },
-      {
-        header: 'IHOP',
-        description: 'blah blah',
-        meta: 'ROI: 34%'
-      },
-      {
-        header: 'Chuck E Cheese',
-        description: 'blah blahblah blahblah blahblah blah',
-        meta: 'ROI: 27%'
-      }
-    ]
+    const {data: restaurants} = await axios.get(`/api/restaurants`)
     dispatch(getRestaurants(restaurants))
   } catch (err) {
     console.error(err)

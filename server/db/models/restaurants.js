@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const Restaurant = db.define('restaurant', {
-  name: {
+  title: {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {

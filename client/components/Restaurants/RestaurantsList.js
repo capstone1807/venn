@@ -12,7 +12,9 @@ class RestaurantsList extends Component {
 
   render() {
     const {restaurants} = this.props
-
+    const restaurantItems = restaurants.map(item => {
+      return {header: item.title, meta: item.description}
+    })
     return (
       <Fragment>
         <Header>Favorite Restaurants</Header>
@@ -20,8 +22,7 @@ class RestaurantsList extends Component {
         <PlacesAutoComplete />
         {restaurants && (
           <Container>
-            {/* CARD: Restaurant name, Area?? */}
-            <Card.Group items={restaurants} />
+            <Card.Group items={restaurantItems} />
           </Container>
         )}
       </Fragment>
