@@ -1,7 +1,8 @@
 const router = require('express').Router()
-const {Event, EventRestaurants} = require('../db/models')
+const {Event, EventRestaurant} = require('../db/models')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
+const chalk = require('chalk')
 module.exports = router
 
 router.post('/', async (req, res, next) => {
@@ -35,21 +36,23 @@ router.get('/:id', async (req, res, next) => {
 router.post('/:id/restaurants', (req, res, next) => {
   try {
     const eventId = req.params.id
+    console.log("** req.body", req.body)
     const restaurants = req.body.restaurants
     const importance = req.body.importance
-    restaurants.forEach(async rId => {
-      let foundExisting = await EventRestaurants.findOne({
+    restaurants.forEach(async restaurantId => {
+      console.log(chalk.red(restaurantId))
+      let foundExisting = await EventRestaurant.findOne({
         where: {
-          eventId: eventId,
-          restaurantId: rId
+          eventId,
+          restaurantId,
         }
       })
       if(foundExisting){
         await foundExisting.update({score: foundExisting.updateScore(importance)})
       } else {
-        await EventRestaurants.create({
-          eventId: eventId,
-          restaurantId: rId,
+        await EventRestaurant.create({
+          eventId,
+          restaurantId,
           score: importance
         })
       }
