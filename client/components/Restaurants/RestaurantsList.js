@@ -1,24 +1,38 @@
 import React, {Component, Fragment} from 'react'
+import {connect} from 'react-redux'
+import {fetchRestaurants} from '../../store'
 import RestaurantsEmpty from './RestaurantsEmpty'
-import {Container} from 'semantic-ui-react'
+import PlacesAutoComplete from './PlacesAutoComplete'
+import {Container, Header, Card} from 'semantic-ui-react'
 
-class Restaurants extends Component {
-  state = {}
-  componentDidMount() {
-    // fetchFromPropsFromMapDispatchThunk
+class RestaurantsList extends Component {
+  async componentDidMount() {
+    await this.props.getRestaurants()
   }
 
   render() {
-    console.log('render')
     const {restaurants} = this.props
-    return !restaurants ? (
-      <RestaurantsEmpty />
-    ) : (
-      <Container text>List Restaurants Here </Container>
+
+    return (
+      <Fragment>
+        <Header>Favorite Restaurants</Header>
+        {!restaurants.length && <RestaurantsEmpty />}
+        <PlacesAutoComplete />
+        {restaurants && (
+          <Container>
+            {/* CARD: Restaurant name, Area?? */}
+            <Card.Group items={restaurants} />
+          </Container>
+        )}
+      </Fragment>
     )
   }
 }
 
-// connect
+const mapStateToProps = state => ({restaurants: state.restaurants})
 
-export default Restaurants
+const mapDispatchToProps = dispatch => ({
+  getRestaurants: () => dispatch(fetchRestaurants())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(RestaurantsList)

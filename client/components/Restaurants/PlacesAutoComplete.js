@@ -1,6 +1,6 @@
 import debounce from 'lodash.debounce'
 import React, {Component, Fragment} from 'react'
-import {Search, Grid, Header} from 'semantic-ui-react'
+import {Search} from 'semantic-ui-react'
 
 const autocompleteService = new google.maps.places.AutocompleteService()
 
@@ -62,6 +62,7 @@ export default class PlacesAutoComplete extends Component {
     return (
       <Fragment>
         <Search
+          placeholder="Search for restaurants by name to add more"
           fluid
           input={{fluid: true}}
           loading={isLoading}
@@ -73,16 +74,6 @@ export default class PlacesAutoComplete extends Component {
           value={value}
           {...this.props}
         />
-        <Grid>
-          <Grid.Column width={6}>
-            <Header>State</Header>
-            <pre>{JSON.stringify(this.state, null, 2)}</pre>
-          </Grid.Column>
-          <Grid.Column width={6}>
-            <Header>Selected Place</Header>
-            <pre>{JSON.stringify(this.state.selectedPlace, null, 2)}</pre>
-          </Grid.Column>
-        </Grid>
       </Fragment>
     )
   }
