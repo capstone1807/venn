@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const EventRestaurants = db.define('event_restaurants', {
+const EventRestaurant = db.define('event_restaurant', {
   score: {
     type: Sequelize.DECIMAL(10, 2),
     allowNull: false
@@ -12,9 +12,9 @@ const EventRestaurants = db.define('event_restaurants', {
   }
 })
 
-EventRestaurants.prototype.updateScore = function(importance) {
+EventRestaurant.prototype.updateScore = function(importance) {
   this.score = parseFloat(this.score) + parseFloat(importance)
   return this.score
 }
 
-module.exports = EventRestaurants
+module.exports = EventRestaurant
