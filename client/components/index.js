@@ -5,6 +5,7 @@
  */
 export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
-export {default as AddFriend} from './friend-add'
-export {default as CreateEvent} from './event-create-1'
+export {default as AddFriend} from './friends/add-friend'
+export {default as CreateEvent} from './new-event/create-event'
+export {default as GuestRestaurantChoice} from './pending-event/restaurant'
 export {Login, Signup} from './auth-form'
