@@ -22,7 +22,8 @@ const User = db.define('user', {
     allowNull: false,
     unique: true,
     validate: {
-      notEmpty: true
+      notEmpty: true,
+      isEmail: true
     }
   },
   email: {
