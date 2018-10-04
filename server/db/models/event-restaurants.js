@@ -20,4 +20,9 @@ const EventRestaurants = db.define('event', {
   }
 })
 
+EventRestaurants.prototype.updateScore = function (importance){
+  this.score += importance
+  return this.score
+}
+
 module.exports = EventRestaurants

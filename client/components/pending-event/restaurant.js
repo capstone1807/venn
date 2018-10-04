@@ -41,11 +41,11 @@ export class GuestRestaurantChoice extends React.Component {
   }
 
   handleClickDeal(){
-    this.setState({importance: 3})
+    this.setState({importance: 2.25})
   }
 
   handleClickLike(){
-    this.setState({importance: 2})
+    this.setState({importance: 1.5})
   }
 
   handleClickWhat(){
@@ -97,66 +97,6 @@ export class GuestRestaurantChoice extends React.Component {
           <Form.Button color='orange'>Next</Form.Button>
         </Container>
       </Form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //       <Form centered verticalAlign='middle' onSubmit={this.handleSubmit}>
-  //         <Container centered style={{width: 500}}>
-  //           <Form.Field>
-  //             <label>Name Your Event</label>
-  //             <input
-  //               placeholder="Event Name"
-  //               onChange={this.handleChangeEventName}
-  //             />
-  //           </Form.Field>
-
-  //           <Form.Field>
-  //             <label>Description</label>
-  //             <TextArea
-  //               autoHeight
-  //               placeholder="Anything else you want your guests to know?"
-  //               onChange={this.handleChangeDescription}
-  //             />
-  //           </Form.Field>
-  //         </Container>
-  //         <Container centered style={{width: 538}}>
-  //           <Select
-  //             placeholder="choose friends"
-  //             fluid
-  //             search
-  //             multiple
-  //             selection
-  //             options={friends}
-  //             onChange={this.handleChangeGuests}
-  //           />
-  //         </Container>
-  //           <Divider horizontal hidden />
-  //         <Grid centered verticalAlign='middle'>
-  //           <Grid.Row style={{width: 500}}>
-  //             <Grid.Column style={{width: 300}}>
-  //               <h3>Friends can invite friends</h3>
-  //             </Grid.Column>
-  //             <Grid.Column>
-  //               <Radio toggle onChange={this.toggle} />
-  //             </Grid.Column>
-  //           </Grid.Row>
-  //           <Grid.Row>
-  //             <Form.Button>Cancel</Form.Button>
-  //             <Form.Button color='orange'>Next</Form.Button>
-  //           </Grid.Row>
-  //           </Grid>
-  //       </Form>
     )
   }
 }
