@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {fetchEvent} from '../../store'
+import {fetchEvent, updateEventRestaurants} from '../../store'
 import {
   Form,
   Header,
@@ -37,29 +37,31 @@ export class GuestRestaurantChoice extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    // grab everything from state and send to.....
+    this.props.scoreRestaurants(this.props.currentEvent.id, this.state.restaurants, this.state.importance)
   }
 
-  handleClickDeal(){
-    this.setState({importance: 3})
+  handleClickDeal = () => {
+    this.setState({importance: 2.25})
   }
 
-  handleClickLike(){
-    this.setState({importance: 2})
+  handleClickLike = () => {
+    this.setState({importance: 1.5})
   }
 
-  handleClickWhat(){
+  handleClickWhat = () => {
     this.setState({importance: 1})
   }
 
   render() {
     const restaurants = [{
       key: 1,
-      value: 'Dippy\'s delicious dots',
+      id: 17,
+      value: 17,
       text: 'Dippy\'s delicious dots'
     }, {
       key: 2,
-      value: 'Big Bellatrix Steakhouse',
+      id: 48,
+      value: 48,
       text: 'Big Bellatrix Steakhouse'
     }]
     console.log("CURRENT: ", this.props.currentEvent)
@@ -97,66 +99,6 @@ export class GuestRestaurantChoice extends React.Component {
           <Form.Button color='orange'>Next</Form.Button>
         </Container>
       </Form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //       <Form centered verticalAlign='middle' onSubmit={this.handleSubmit}>
-  //         <Container centered style={{width: 500}}>
-  //           <Form.Field>
-  //             <label>Name Your Event</label>
-  //             <input
-  //               placeholder="Event Name"
-  //               onChange={this.handleChangeEventName}
-  //             />
-  //           </Form.Field>
-
-  //           <Form.Field>
-  //             <label>Description</label>
-  //             <TextArea
-  //               autoHeight
-  //               placeholder="Anything else you want your guests to know?"
-  //               onChange={this.handleChangeDescription}
-  //             />
-  //           </Form.Field>
-  //         </Container>
-  //         <Container centered style={{width: 538}}>
-  //           <Select
-  //             placeholder="choose friends"
-  //             fluid
-  //             search
-  //             multiple
-  //             selection
-  //             options={friends}
-  //             onChange={this.handleChangeGuests}
-  //           />
-  //         </Container>
-  //           <Divider horizontal hidden />
-  //         <Grid centered verticalAlign='middle'>
-  //           <Grid.Row style={{width: 500}}>
-  //             <Grid.Column style={{width: 300}}>
-  //               <h3>Friends can invite friends</h3>
-  //             </Grid.Column>
-  //             <Grid.Column>
-  //               <Radio toggle onChange={this.toggle} />
-  //             </Grid.Column>
-  //           </Grid.Row>
-  //           <Grid.Row>
-  //             <Form.Button>Cancel</Form.Button>
-  //             <Form.Button color='orange'>Next</Form.Button>
-  //           </Grid.Row>
-  //           </Grid>
-  //       </Form>
     )
   }
 }
@@ -166,6 +108,7 @@ const mapStateToProps = (state) => ({
 })
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getEvent: () => dispatch(fetchEvent(Number(ownProps.match.params.id))),
+  scoreRestaurants: (eventId, restaurants, importance) => dispatch(updateEventRestaurants(eventId, restaurants, importance))
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GuestRestaurantChoice))
