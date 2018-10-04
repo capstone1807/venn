@@ -37,6 +37,7 @@ export const fetchEvent = id => async dispatch => {
 /**
  * REDUCER
  */
+
 export default function (state = defaultEvent, action) {
   switch (action.type) {
     case GET_EVENT:

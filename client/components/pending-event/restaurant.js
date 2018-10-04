@@ -37,7 +37,19 @@ export class GuestRestaurantChoice extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.props.createEvent(this.state)
+    // grab everything from state and send to.....
+  }
+
+  handleClickDeal(){
+    this.setState({importance: 3})
+  }
+
+  handleClickLike(){
+    this.setState({importance: 2})
+  }
+
+  handleClickWhat(){
+    this.setState({importance: 1})
   }
 
   render() {
@@ -53,7 +65,7 @@ export class GuestRestaurantChoice extends React.Component {
     console.log("CURRENT: ", this.props.currentEvent)
     const {currentEvent} = this.props
     return (
-      <Container>
+      <Form centered verticalalign='middle' onSubmit={this.handleSubmit}>
         {/* event name */}
         <Header>{currentEvent.name}</Header>
         {/* choose restaurant */}
@@ -74,13 +86,17 @@ export class GuestRestaurantChoice extends React.Component {
         {/* importance rating button group */}
         <Container>
           <Button.Group>
-            <Button>Dealbreaker</Button>
-            <Button>I'd like it</Button>
-            <Button>Whatever</Button>
+            <Button onClick={this.handleClickDeal}>Dealbreaker</Button>
+            <Button onClick={this.handleClickLike}>I'd like it</Button>
+            <Button onClick={this.handleClickWhat}>Whatever</Button>
           </Button.Group>
         </Container>
         {/* cancel and next buttons */}
-      </Container>
+        <Container>
+          <Form.Button >Cancel</Form.Button>
+          <Form.Button color='orange'>Next</Form.Button>
+        </Container>
+      </Form>
 
 
 
