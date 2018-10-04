@@ -6,7 +6,6 @@ import axios from 'axios'
 
 const UPDATE_RESTAURANTS_ON_EVENT = 'UPDATE_RESTAURANTS_ON_EVENT'
 
-
 /**
  * INITIAL STATE
  */
@@ -31,9 +30,9 @@ const updateRestaurantsOnEvent = (eventId, restaurants) => ({
  * THUNK CREATORS
  */
 
-export const updateEventRestaurants = (eventId, restaurants) => async dispatch => {
+export const updateEventRestaurants = (eventId, restaurants, importance) => async dispatch => {
   try {
-    await axios.post(`/api/events/${eventId}/restaurants`)
+    await axios.post(`/api/events/${eventId}/restaurants`, {restaurants, importance})
     dispatch(updateRestaurantsOnEvent(eventId, restaurants))
   } catch (err){
     console.log(err)

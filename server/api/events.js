@@ -35,7 +35,7 @@ router.get('/:id', async (req, res, next) => {
 router.post(':id/restaurants', (req, res, next) => {
   try {
     const eventId = req.params.id
-    const restaurants = req.body.restaurantId
+    const restaurants = req.body.restaurants
     const importance = req.body.importance
     restaurants.forEach(async rId => {
       let foundExisting = await EventRestaurants.findOne({

@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {fetchEvent} from '../../store'
+import {fetchEvent, updateEventRestaurants} from '../../store'
 import {
   Form,
   Header,
@@ -37,7 +37,7 @@ export class GuestRestaurantChoice extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    // grab everything from state and send to.....
+    this.props.scoreRestaurants(this.props.currentEvent.id, this.state.restaurants, this.state.importance)
   }
 
   handleClickDeal(){
@@ -106,6 +106,7 @@ const mapStateToProps = (state) => ({
 })
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getEvent: () => dispatch(fetchEvent(Number(ownProps.match.params.id))),
+  scoreRestaurants: (eventId, restaurants, importance) => dispatch(updateEventRestaurants(eventId, restaurants, importance))
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GuestRestaurantChoice))
