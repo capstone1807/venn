@@ -88,5 +88,11 @@ const setSaltAndPassword = user => {
   }
 }
 
+const setUsername = user => {
+  if (!user.googleId) return user
+  user.username = user.email.split('@')[0]
+  return user
+}
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
+User.beforeValidate(setUsername)

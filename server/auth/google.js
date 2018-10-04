@@ -41,7 +41,16 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
         defaults: {firstName, lastName, email}
       })
         .then(([user]) => done(null, user))
-        .catch(done)
+        .catch(error => {
+          if (
+            error.name === 'SequelizeUniqueConstraintError' &&
+            error.errors[0].path === 'username'
+          ) {
+            done(new Error('Username already exists'))
+          }
+
+          done(error)
+        })
     }
   )
 
