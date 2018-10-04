@@ -1,5 +1,4 @@
 import axios from 'axios'
-import restaurant from '../components/pending-event/restaurant';
 
 /**
  * ACTION TYPES

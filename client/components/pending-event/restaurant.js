@@ -40,26 +40,28 @@ export class GuestRestaurantChoice extends React.Component {
     this.props.scoreRestaurants(this.props.currentEvent.id, this.state.restaurants, this.state.importance)
   }
 
-  handleClickDeal(){
+  handleClickDeal = () => {
     this.setState({importance: 2.25})
   }
 
-  handleClickLike(){
+  handleClickLike = () => {
     this.setState({importance: 1.5})
   }
 
-  handleClickWhat(){
+  handleClickWhat = () => {
     this.setState({importance: 1})
   }
 
   render() {
     const restaurants = [{
       key: 1,
-      value: 'Dippy\'s delicious dots',
+      id: 17,
+      value: 17,
       text: 'Dippy\'s delicious dots'
     }, {
       key: 2,
-      value: 'Big Bellatrix Steakhouse',
+      id: 48,
+      value: 48,
       text: 'Big Bellatrix Steakhouse'
     }]
     console.log("CURRENT: ", this.props.currentEvent)

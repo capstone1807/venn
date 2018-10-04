@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Event, EventRestaurants, User} = require('../db/models')
+const {Event, EventRestaurants} = require('../db/models')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 module.exports = router
@@ -32,7 +32,7 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.post(':id/restaurants', (req, res, next) => {
+router.post('/:id/restaurants', (req, res, next) => {
   try {
     const eventId = req.params.id
     const restaurants = req.body.restaurants
@@ -54,7 +54,7 @@ router.post(':id/restaurants', (req, res, next) => {
         })
       }
     })
-    res.send(201).status('Updated restaurants')
+    res.status(201).send('Updated restaurants')
   } catch (err){
     next(err)
   }
