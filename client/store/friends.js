@@ -11,6 +11,8 @@ const ADD_FRIEND = 'ADD_FRIEND'
 /**
  * INITIAL STATE
  */
+
+// OB/JL: looks like multiple reducers
 const defaultUsers = {
   users: [],
   friends: []

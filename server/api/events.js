@@ -4,6 +4,7 @@ module.exports = router
 
 router.post('/', async (req, res, next) => {
   try {
+    // OB/JL: unnecessary default value here
     let description = ''
     if (req.body.description) {
       description = req.body.description

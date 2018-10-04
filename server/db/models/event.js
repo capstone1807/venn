@@ -12,6 +12,7 @@ const Event = db.define('event', {
   description: {
     type: Sequelize.TEXT,
   },
+  // OB/JL: might be unnecessary (we should fix the join table)
   guests: {
     type: Sequelize.ARRAY(Sequelize.STRING),
     allowNull: false

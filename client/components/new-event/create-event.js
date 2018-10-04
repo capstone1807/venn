@@ -30,6 +30,7 @@ export class CreateEvent extends React.Component {
     await this.props.getFriends()
   }
 
+  // OB: might be able to squish into one `handleChange` method
   handleChangeEventName(event) {
     event.persist()
     this.setState({
