@@ -1,10 +1,12 @@
 import axios from 'axios'
+import restaurant from '../components/pending-event/restaurant';
 
 /**
  * ACTION TYPES
  */
 
 const GET_EVENT = 'GET_EVENT'
+
 
 /**
  * INITIAL STATE
