@@ -22,8 +22,7 @@ const User = db.define('user', {
     allowNull: false,
     unique: true,
     validate: {
-      notEmpty: true,
-      isEmail: true
+      notEmpty: true
     }
   },
   email: {
@@ -31,7 +30,8 @@ const User = db.define('user', {
     unique: true,
     allowNull: false,
     validate: {
-      notEmpty: true
+      notEmpty: true,
+      isEmail: true
     }
   },
   password: {
