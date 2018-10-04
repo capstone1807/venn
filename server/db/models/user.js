@@ -17,6 +17,7 @@ const User = db.define('user', {
       notEmpty: true
     }
   },
+  // OB: could make this the primary key
   username: {
     type: Sequelize.STRING,
     allowNull: false,

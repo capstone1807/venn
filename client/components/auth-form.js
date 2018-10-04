@@ -12,7 +12,8 @@ const AuthForm = props => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} name={name}>
+      <form onSubmit={props.handleSubmit} name={name}>
+        {/* OB: instead of having auth form be responsible for knowing how its parent (sign up) wants it to render, we could define the JSX when defining the parent and pass it to the child (auth form) */}
         {isSignup && (
           <Fragment>
             <div>

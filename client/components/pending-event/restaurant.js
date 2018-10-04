@@ -50,6 +50,7 @@ export class GuestRestaurantChoice extends React.Component {
       value: 'Big Bellatrix Steakhouse',
       text: 'Big Bellatrix Steakhouse'
     }]
+    // OB: logs to put through the wood chipper
     console.log("CURRENT: ", this.props.currentEvent)
     const {currentEvent} = this.props
     return (
