@@ -1,10 +1,12 @@
 import debounce from 'lodash.debounce'
 import React, {Component, Fragment} from 'react'
-import {Search} from 'semantic-ui-react'
+import {saveRestaurant} from '../../store'
+import {connect} from 'react-redux'
+import {Search, Button} from 'semantic-ui-react'
 
 const autocompleteService = new google.maps.places.AutocompleteService()
 
-export default class PlacesAutoComplete extends Component {
+class PlacesAutoComplete extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -17,6 +19,11 @@ export default class PlacesAutoComplete extends Component {
 
   handleResultSelect = (e, {result}) => {
     this.setState({value: result.title, selectedPlace: result})
+  }
+
+  handleSubmit = () => {
+    console.log('SELECTED PLACE =>', this.state.selectedPlace)
+    this.props.addRestaurant(this.state.selectedPlace)
   }
 
   handleSearchChange = (e, {value}) => {
@@ -56,9 +63,8 @@ export default class PlacesAutoComplete extends Component {
   }
 
   render() {
-    const {isLoading, value, results, selectedPlace} = this.state
+    const {isLoading, value, results} = this.state
     console.log({value})
-
     return (
       <Fragment>
         <Search
@@ -72,9 +78,20 @@ export default class PlacesAutoComplete extends Component {
           })}
           results={results}
           value={value}
-          {...this.props}
+        />
+        <Button
+          onClick={this.handleSubmit}
+          content="Add restaurant!"
+          color="teal"
+          size="medium"
         />
       </Fragment>
     )
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  addRestaurant: (rest) => dispatch(saveRestaurant(rest))
+})
+
+export default connect(null, mapDispatchToProps)(PlacesAutoComplete)
