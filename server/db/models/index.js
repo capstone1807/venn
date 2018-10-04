@@ -1,6 +1,7 @@
 const User = require('./user')
 const Event = require('./event')
 const Restaurant = require('./restaurants')
+const EventRestaurants = require('./event-restaurants')
 
 User.belongsToMany(User, {as: 'friends', through: 'friendship'})
 
@@ -16,5 +17,6 @@ Event.belongsTo(User, {as: 'creator'})
 module.exports = {
   User,
   Event,
-  Restaurant
+  Restaurant,
+  EventRestaurants
 }

@@ -7,13 +7,15 @@ import friends from './friends'
 import restaurants from './restaurants'
 import events from './events'
 import currentEvent from './current-event'
+import eventRestaurants from './event-restaurants'
 
 const reducer = combineReducers({
   user,
   friends,
   events,
   currentEvent,
-  restaurants
+  restaurants,
+  eventRestaurants
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -26,3 +28,4 @@ export * from './friends'
 export * from './events'
 export * from './current-event'
 export * from './restaurants'
+export * from './event-restaurants'
