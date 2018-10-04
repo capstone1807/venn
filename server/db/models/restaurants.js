@@ -9,17 +9,23 @@ const Restaurant = db.define('restaurant', {
       notEmpty: true
     }
   },
-  latitude: {
-    // is this how we should save them?
-    type: Sequelize.DECIMAL,
+  description: {
+    type: Sequelize.STRING,
     allowNull: false,
     validate: {
       notEmpty: true
     }
   },
+  latitude: {
+    // is this how we should save them?
+    type: Sequelize.DECIMAL
+  },
   longitude: {
     // is this how we should save them?
-    type: Sequelize.DECIMAL,
+    type: Sequelize.DECIMAL
+  },
+  placeId: {
+    type: Sequelize.STRING,
     allowNull: false,
     validate: {
       notEmpty: true
