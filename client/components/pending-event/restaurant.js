@@ -33,6 +33,7 @@ export class GuestRestaurantChoice extends React.Component {
       this.state.restaurants,
       this.state.importance
     )
+    // push only if successful
     history.push('/events')
   }
 
@@ -62,7 +63,10 @@ export class GuestRestaurantChoice extends React.Component {
         <h3>Choose restaurant:</h3>
         {/* google places api search reusable component */}
         {/* search select from favorites */}
-        <PlacesAutoComplete />
+        <Container style={{width: 538}}>
+          <PlacesAutoComplete />
+        </Container>
+        <br />
         <Form verticalalign="middle" onSubmit={this.handleSubmit}>
           <Container style={{width: 538}}>
             <Select
