@@ -61,12 +61,7 @@ export class GuestRestaurantChoice extends React.Component {
         <Header>{currentEvent && currentEvent.name}</Header>
         {/* choose restaurant */}
         <h3>Choose restaurant:</h3>
-        {/* google places api search reusable component */}
         {/* search select from favorites */}
-        <Container style={{width: 538}}>
-          <PlacesAutoComplete />
-        </Container>
-        <br />
         <Form verticalalign="middle" onSubmit={this.handleSubmit}>
           <Container style={{width: 538}}>
             <Select
@@ -77,7 +72,7 @@ export class GuestRestaurantChoice extends React.Component {
               selection
               options={restaurantItems}
               onChange={this.handleChangeRestaurants}
-            />
+              />
           </Container>
           {/* importance rating button group */}
           <Container>
@@ -94,6 +89,11 @@ export class GuestRestaurantChoice extends React.Component {
             </Button.Group>
           </Container>
           {/* cancel and next buttons */}
+          <h3>Need more favorites?</h3>
+          {/* google places api search reusable component */}
+          <Container style={{width: 538}}>
+            <PlacesAutoComplete/>
+          </Container>
           <Container>
             <Form.Button type="button" onClick={() => history.goBack()}>
               Cancel
