@@ -3,7 +3,7 @@ const {User, Restaurant} = require('../db/models')
 const db = require('../../server/db')
 const Friendship = db.model('friendship')
 const Sequelize = require('sequelize')
-const Op = Sequelize.Op;
+const Op = Sequelize.Op
 
 module.exports = router
 
@@ -21,11 +21,11 @@ router.get('/notfriends', async (req, res, next) => {
   try {
     const users = await User.findAll({
       attributes: ['id', 'firstName', 'lastName', 'username'],
-          where: {
-            id: {
-              [Op.not]: req.user.id,
-            }
-          }
+      where: {
+        id: {
+          [Op.not]: req.user.id
+        }
+      }
     })
     const user = await User.findById(req.user.id)
     const friends = await user.getFriends();

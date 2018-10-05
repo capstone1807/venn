@@ -26,8 +26,6 @@ const createEvent = () => ({
 export const fetchEvents = () => async dispatch => {
   try {
     const {data: events} = await axios.get(`/api/me/events`)
-    console.log(events)
-
     dispatch(getEvents(events))
   } catch (err) {
     console.error(err)

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Event, Restaurant, EventRestaurant} = require('../db/models')
+const {User, Event, EventUser, Restaurant, EventRestaurant} = require('../db/models')
 module.exports = router
 
 router.post('/', async (req, res, next) => {
@@ -7,9 +7,26 @@ router.post('/', async (req, res, next) => {
     const newEvent = await Event.create({
       name: req.body.eventName,
       description: req.body.description,
-      guests: req.body.guests,
       isPrivate: req.body.isPrivate,
       creatorId: req.user.id
+    });
+    req.body.guests.forEach(async guest => {
+      const guestObject = await User.findOne({
+        where: {
+          username: guest
+        }
+      })
+      await newEvent.addUser(guestObject)
+    })
+    const creator = await User.findById(req.user.id)
+    await newEvent.addUser(creator)
+    await EventUser.update({
+      isAdmin: true
+    },{
+      where: {
+        eventId: newEvent.id,
+        userId: req.user.id
+      }
     })
     res.json(newEvent).status(201)
   } catch (err) {

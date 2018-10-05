@@ -4,40 +4,56 @@ import history from '../../history'
 import {fetchEvents} from '../../store'
 import NoData from '../Utils/NoData'
 import {Container, Header, Card, Button, Icon} from 'semantic-ui-react'
+import {EventItem} from './EventItem'
+import {EventFilter} from './EventFilter'
 
 class EventList extends Component {
+  state = {activeItem: 'allEvents'}
+
+  handleFilterClick = (e, {name}) => this.setState({activeItem: name})
+
   async componentDidMount() {
     await this.props.getEvents()
   }
 
   render() {
-    const events = this.props.events.map(item => ({
-      header: item.name,
-      meta: item.description
-    }))
+    const {activeItem} = this.state
+    const events = this.props.events.filter(event => {
+      switch (this.state.activeItem) {
+        case 'myEvents':
+          return event.event_user.isAdmin
+        default:
+          return true
+      }
+    })
+    const hasEvents = events.length > 0
 
     return (
       <Fragment>
         <Header>Events</Header>
+        {!hasEvents && (
+          <NoData iconName="calendar outline" message="You have no events" />
+        )}
         <Button primary animated onClick={() => history.push('/newevent')}>
           <Button.Content visible>Add Event</Button.Content>
           <Button.Content hidden>
             <Icon name="plus" />
           </Button.Content>
         </Button>
-        {!events.length ? (
-          <NoData iconName="calendar outline" message="You have no events" />)
-          : (<Container>
-              <Button.Group widths="4">
-                <Button>Pending</Button>
-                <Button>Upcoming</Button>
-                <Button>Past</Button>
-                <Button>My Events</Button>
-              </Button.Group>
-            <Card.Group items={events} />
-            {/* add onClick for each card/item to view detail */}
+        {hasEvents && (
+          <Container>
+            <EventFilter
+              activeItem={activeItem}
+              handleFilterClick={this.handleFilterClick}
+            />
+
+            <Card.Group>
+              {events.map(event => {
+                return <EventItem key={event.id} event={event} />
+              })}
+            </Card.Group>
           </Container>
-          )}
+        )}
       </Fragment>
     )
   }
