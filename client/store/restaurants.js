@@ -18,7 +18,7 @@ const addRestaurant = restaurant => ({type: ADD_RESTAURANT, restaurant})
 
 export const fetchRestaurants = () => async dispatch => {
   try {
-    const {data: restaurants} = await axios.get(`/api/restaurants`)
+    const {data: restaurants} = await axios.get(`/api/me/restaurants`)
     dispatch(getRestaurants(restaurants))
   } catch (err) {
     console.error(err)
@@ -27,7 +27,7 @@ export const fetchRestaurants = () => async dispatch => {
 
 export const saveRestaurant = rest => async dispatch => {
   try {
-    const {data: restaurant} = await axios.put(`/api/restaurants`,
+    const {data: restaurant} = await axios.put(`/api/me/restaurants`,
     {title: rest.title, description: rest.description, placeId: rest.source.place_id})
     dispatch(addRestaurant(restaurant))
   } catch (err) {
