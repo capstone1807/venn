@@ -1,17 +1,14 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {fetchEvent, updateEventRestaurants} from '../../store'
+import {fetchEvent, fetchRestaurants, updateEventRestaurants} from '../../store'
+import {PlacesAutoComplete} from '../index'
 import {
   Form,
   Header,
-  TextArea,
   Select,
-  Radio,
   Container,
-  Button,
-  Divider,
-  Grid
+  Button
 } from 'semantic-ui-react'
 
 export class GuestRestaurantChoice extends React.Component {
@@ -24,6 +21,7 @@ export class GuestRestaurantChoice extends React.Component {
   }
   async componentDidMount() {
     await this.props.getEvent()
+    await this.props.getRestaurants()
   }
 
   handleChangeRestaurants = (event, data) => {
@@ -51,63 +49,59 @@ export class GuestRestaurantChoice extends React.Component {
   }
 
   render() {
-    console.log("STATE: ", this.state)
-    const restaurants = [{
-      key: 1,
-      id: 17,
-      value: 17,
-      text: 'Dippy\'s delicious dots'
-    }, {
-      key: 2,
-      id: 48,
-      value: 48,
-      text: 'Big Bellatrix Steakhouse'
-    }]
-
+    const {restaurants} = this.props
     const {currentEvent} = this.props
+    const restaurantItems = restaurants.map(item => {
+      return {text: item.title, value: item.placeId}})
     return (
-      <Form centered verticalalign='middle' onSubmit={this.handleSubmit}>
+      <Fragment>
         {/* event name */}
-        <Header>{currentEvent.name}</Header>
+        <Header>{currentEvent && currentEvent.name}</Header>
         {/* choose restaurant */}
         <h3>Choose restaurant:</h3>
         {/* google places api search reusable component */}
         {/* search select from favorites */}
-        <Container centered style={{width: 538}}>
-           <Select
-             placeholder="choose from your favorites"
-             fluid
-             search
-             multiple
-             selection
-             options={restaurants}
-             onChange={this.handleChangeRestaurants}
-           />
-         </Container>
-        {/* importance rating button group */}
-        <Container>
-          <Button.Group>
-            <Button type='button' onClick={this.handleClickDeal}>Dealbreaker</Button>
-            <Button type='button' onClick={this.handleClickLike}>I'd like it</Button>
-            <Button type='button' onClick={this.handleClickWhat}>Whatever</Button>
-          </Button.Group>
-        </Container>
-        {/* cancel and next buttons */}
-        <Container>
-          <Form.Button type='button'>Cancel</Form.Button>
-          <Form.Button color='orange'>Next</Form.Button>
-        </Container>
-      </Form>
+        <PlacesAutoComplete />
+        <Form verticalalign='middle' onSubmit={this.handleSubmit}>
+
+          <Container style={{width: 538}}>
+            <Select
+              placeholder="choose from your favorites"
+              fluid
+              search
+              multiple
+              selection
+              options={restaurantItems}
+              onChange={this.handleChangeRestaurants}
+            />
+          </Container>
+          {/* importance rating button group */}
+          <Container>
+            <Button.Group>
+              <Button type='button' onClick={this.handleClickDeal}>Dealbreaker</Button>
+              <Button type='button' onClick={this.handleClickLike}>I'd like it</Button>
+              <Button type='button' onClick={this.handleClickWhat}>Whatever</Button>
+            </Button.Group>
+          </Container>
+          {/* cancel and next buttons */}
+          <Container>
+            <Form.Button type='button'>Cancel</Form.Button>
+            <Form.Button color='orange'>Next</Form.Button>
+          </Container>
+        </Form>
+      </Fragment>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  currentEvent: state.currentEvent
+  currentEvent: state.currentEvent,
+  restaurants: state.restaurants
 })
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getEvent: () => dispatch(fetchEvent(Number(ownProps.match.params.id))),
-  scoreRestaurants: (eventId, restaurants, importance) => dispatch(updateEventRestaurants(eventId, restaurants, importance))
+  scoreRestaurants: (eventId, restaurantKeys, importance) => dispatch(updateEventRestaurants(eventId, restaurantKeys, importance)),
+  getRestaurants: () => dispatch(fetchRestaurants())
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GuestRestaurantChoice))

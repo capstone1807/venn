@@ -32,7 +32,9 @@ class RestaurantsList extends Component {
   }
 }
 
-const mapStateToProps = state => ({restaurants: state.restaurants})
+const mapStateToProps = state => ({
+  restaurants: state.restaurants
+})
 
 const mapDispatchToProps = dispatch => ({
   getRestaurants: () => dispatch(fetchRestaurants())
