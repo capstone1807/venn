@@ -25,21 +25,27 @@ class EventList extends Component {
             <Icon name="plus" />
           </Button.Content>
         </Button>
-        {!events.length && (
-          <NoData iconName="calendar outline" message="You have no events" />
-        )}
-        {events && (
-          <Container>
+        {!events.length ? (
+          <NoData iconName="calendar outline" message="You have no events" />)
+          : (<Container>
+              <Button.Group widths="4">
+                <Button>Pending</Button>
+                <Button>Upcoming</Button>
+                <Button>Past</Button>
+                <Button>My Events</Button>
+              </Button.Group>
             <Card.Group items={events} />
             {/* add onClick for each card/item to view detail */}
           </Container>
-        )}
+          )}
       </Fragment>
     )
   }
 }
 
-const mapStateToProps = state => ({events: state.events})
+const mapStateToProps = state => ({
+  events: state.events
+})
 
 const mapDispatchToProps = dispatch => ({
   getEvents: () => dispatch(fetchEvents())
