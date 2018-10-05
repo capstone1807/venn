@@ -8,7 +8,7 @@ import {EventItem} from './EventItem'
 import {EventFilter} from './EventFilter'
 
 class EventList extends Component {
-  state = {activeItem: 'closest'}
+  state = {activeItem: 'allEvents'}
 
   handleFilterClick = (e, {name}) => this.setState({activeItem: name})
 
@@ -18,7 +18,14 @@ class EventList extends Component {
 
   render() {
     const {activeItem} = this.state
-    const {events} = this.props
+    const events = this.props.events.filter(event => {
+      switch (this.state.activeItem) {
+        case 'myEvents':
+          return event.event_user.isAdmin
+        default:
+          return true
+      }
+    })
     const hasEvents = events.length > 0
 
     return (

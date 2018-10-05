@@ -8,8 +8,8 @@ export const EventFilter = ({activeItem, handleFilterClick}) => {
       <Menu text>
         <Menu.Item header>Filter By</Menu.Item>
         <Menu.Item
-          name="pending"
-          active={activeItem === 'all'}
+          name="allEvents"
+          active={activeItem === 'allEvents'}
           onClick={handleFilterClick}
         />
         <Menu.Item
