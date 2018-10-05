@@ -68,8 +68,8 @@ export class CreateEvent extends React.Component {
         }
       })
     return (
-        <Form centered verticalalign='middle' onSubmit={this.handleSubmit}>
-          <Container centered style={{width: 500}}>
+        <Form verticalalign='middle' onSubmit={this.handleSubmit}>
+          <Container style={{width: 500}}>
             <Form.Field>
               <label>Name Your Event</label>
               <input
@@ -87,7 +87,7 @@ export class CreateEvent extends React.Component {
               />
             </Form.Field>
           </Container>
-          <Container centered style={{width: 538}}>
+          <Container style={{width: 538}}>
             <Select
               placeholder="choose friends"
               fluid
@@ -109,7 +109,7 @@ export class CreateEvent extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  friends: state.friends.friends
+  friends: state.friends
 })
 
 const mapDispatchToProps = dispatch => ({

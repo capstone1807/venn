@@ -26,7 +26,7 @@ const store = createStore(reducer, middleware)
 
 export default store
 export * from './user'
-export * from '.users'
+export * from './users'
 export * from './friends'
 export * from './events'
 export * from './current-event'

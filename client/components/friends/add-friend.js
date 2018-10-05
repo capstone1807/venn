@@ -66,7 +66,6 @@ export class AddFriend extends React.Component {
                 : [
                     {
                       key: 999,
-                      value: 'default username',
                       text: 'add your friends'
                     }
                   ]
@@ -89,14 +88,14 @@ export class AddFriend extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  users: state.friends.users,
-  friends: state.friends.friends
+  users: state.users,
+  friends: state.friends
 })
 
-const mapDispatchToProps = {
-  getUsers: fetchUsersFromDB,
-  addToFriends: addFriend
-};
-
+const mapDispatchToProps = dispatch => ({
+  getUsers: () => dispatch(fetchUsersFromDB()),
+  addToFriends: id => dispatch(addFriend(id)),
+  getFriends: () => dispatch(fetchFriends())
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddFriend)

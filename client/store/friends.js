@@ -20,6 +20,7 @@ const getFriends = friends => ({
   type: GET_FRIENDS,
   friends
 })
+
 const addNewFriend = friend => ({
   type: ADD_FRIEND,
   friend
