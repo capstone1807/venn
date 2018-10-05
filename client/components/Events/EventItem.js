@@ -19,7 +19,7 @@ export const EventItem = ({event}) => {
       <Card.Content>
         <Card.Header>{event.name}</Card.Header>
         <Card.Meta>{event.description}</Card.Meta>
-        <Card.Description>Choose you restaurant preferences</Card.Description>
+        <Card.Description>Choose your restaurant preferences</Card.Description>
       </Card.Content>
     </Card>
   )
