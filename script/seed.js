@@ -1,5 +1,4 @@
 'use strict'
-
 const db = require('../server/db')
 const {User, Restaurant} = require('../server/db/models')
 
