@@ -8,4 +8,9 @@ const EventUser = db.define('event_user', {
   }
 })
 
+EventUser.prototype.setAdmin = function(){
+  console.log(this.userId, this.eventId)
+  this.isAdmin = !this.isAdmin
+}
+
 module.exports = EventUser

@@ -12,10 +12,6 @@ const Event = db.define('event', {
   description: {
     type: Sequelize.TEXT,
   },
-  guests: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
-    allowNull: false
-  },
   isPrivate: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
