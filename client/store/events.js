@@ -25,9 +25,31 @@ const createEvent = () => ({
  */
 export const fetchEvents = () => async dispatch => {
   try {
-    const {data: events} = await axios.get(`/api/me/events`)
-    console.log(events)
-
+    // const {data: events} = await axios.get(`/api/me/events`)
+    const events = [
+      {
+        id: 1,
+        name: 'F&F Night',
+        description: 'Friends and Family',
+        isAdmin: false,
+        status: 'pending'
+      },
+      {
+        id: 2,
+        name: 'BDAY Celebration for RLD',
+        description:
+          'Bring to the table win-win survival strategies to ensure proactive domination.',
+        isAdmin: true,
+        status: 'past'
+      },
+      {
+        id: 3,
+        name: 'BDAY Celebration for EB',
+        description: 'Better late than never',
+        isAdmin: false,
+        status: 'upcoming'
+      }
+    ]
     dispatch(getEvents(events))
   } catch (err) {
     console.error(err)
