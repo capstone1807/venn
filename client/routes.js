@@ -10,7 +10,8 @@ import {
   CreateEvent,
   GuestRestaurantChoice,
   RestaurantsList,
-  EventsList
+  EventsList,
+  EventDetail
 } from './components'
 import {me} from './store'
 
@@ -37,12 +38,9 @@ class Routes extends Component {
             <Route path="/friends" component={Friends} />
             <Route exact path="/restaurants" component={RestaurantsList} />
             <Route exact path="/events" component={EventsList} />
-            <Route path="/events/new" component={CreateEvent} />
-            <Route
-              exact
-              path="/events/:id/choices/restaurants"
-              component={GuestRestaurantChoice}
-            />
+            <Route exact path="/events/new" component={CreateEvent} />
+            <Route exact path="/events/:id" component={EventDetail}/>
+            <Route exact path="/events/:id/choices/restaurants" component={GuestRestaurantChoice} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
