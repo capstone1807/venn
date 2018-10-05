@@ -11,7 +11,7 @@ import {
   Card
 } from 'semantic-ui-react'
 
-export class AddFriend extends React.Component {
+export class FriendsList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -28,7 +28,7 @@ export class AddFriend extends React.Component {
     this.setState({selectedUser: data.value})
   }
 
- handleSubmit =  async (event) => {
+  handleSubmit = async event => {
     event.preventDefault()
     const username = this.state.selectedUser
     const id = this.props.users.find(user => user.username === username).id
@@ -36,9 +36,14 @@ export class AddFriend extends React.Component {
   }
 
   render() {
+    const {friends, users} = this.props
+    const friendUsernames = friends.map(friend => friend.username)
+    const notFriends = users.filter(
+      user => !friendUsernames.includes(user.username)
+    )
     const userOptions =
-      this.props.users &&
-      this.props.users.map(function(user) {
+      notFriends &&
+      notFriends.map(function(user) {
         return {
           key: user.username,
           value: user.username,
@@ -46,11 +51,9 @@ export class AddFriend extends React.Component {
             user.firstName + ' ' + user.lastName + ' (' + user.username + ')'
         }
       })
-    const {friends} = this.props
     const friendItems = friends.map(item => {
       return {header: `${item.firstName} ${item.lastName}`, meta: item.username}
     })
-    console.log('FRIENDS =>', friends)
     return (
       <Container textAlign="center">
         <Segment vertical style={{width: 500}}>
@@ -98,4 +101,4 @@ const mapDispatchToProps = dispatch => ({
   getFriends: () => dispatch(fetchFriends())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddFriend)
+export default connect(mapStateToProps, mapDispatchToProps)(FriendsList)
