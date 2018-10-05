@@ -41,9 +41,6 @@ export class AddFriend extends React.Component {
   }
 
   render() {
-    // const filtered = this.props.users.filter(user => {
-    //   if (user)
-    // })
     const userNames =
       this.props.users &&
       this.props.users.map(function(user) {
