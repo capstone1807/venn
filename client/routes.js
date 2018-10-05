@@ -9,7 +9,8 @@ import {
   AddFriend,
   CreateEvent,
   GuestRestaurantChoice,
-  RestaurantsList
+  RestaurantsList,
+  EventsList
 } from './components'
 import {me} from './store'
 
@@ -36,6 +37,7 @@ class Routes extends Component {
             <Route path="/addfriend" component={AddFriend} />
             <Route path="/newevent" component={CreateEvent} />
             <Route exact path="/restaurants" component={RestaurantsList} />
+            <Route exact path="/events" component={EventsList} />
             <Route
               exact
               path="/:id/choices/restaurants"
