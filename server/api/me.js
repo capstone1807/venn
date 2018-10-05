@@ -1,5 +1,8 @@
 const router = require('express').Router()
 const {User, Restaurant} = require('../db/models')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op;
+
 module.exports = router
 
 router.get('/events', async (req, res, next) => {
@@ -16,7 +19,12 @@ router.get('/events', async (req, res, next) => {
 router.get('/notfriends', async (req, res, next) => {
   try {
     const users = await User.findAll({
-      attributes: ['id', 'firstName', 'lastName', 'username']
+      attributes: ['id', 'firstName', 'lastName', 'username'],
+          where: {
+            id: {
+              [Op.not]: req.user.id,
+            }
+          }
     })
     res.json(users)
   } catch (err) {
