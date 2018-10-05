@@ -40,7 +40,7 @@ class Routes extends Component {
             <Route path="/events/new" component={CreateEvent} />
             <Route
               exact
-              path="/:id/choices/restaurants"
+              path="/events/:id/choices/restaurants"
               component={GuestRestaurantChoice}
             />
           </Switch>
