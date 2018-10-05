@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import history from '../../history'
 import {fetchFriends, postEvent} from '../../store'
 import {
   Form,
@@ -51,9 +52,10 @@ export class CreateEvent extends React.Component {
     })
   }
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault()
-    this.props.createEvent(this.state)
+    await this.props.createEvent(this.state)
+    history.push('/events')
   }
 
   render() {
@@ -100,7 +102,9 @@ export class CreateEvent extends React.Component {
         <Divider horizontal hidden />
         <h3>Friends can invite friends</h3>
         <Radio toggle onChange={this.toggle} />
-        <Form.Button>Cancel</Form.Button>
+        <Form.Button type="button" onClick={() => history.goBack()}>
+          Cancel
+        </Form.Button>
         <Form.Button color="orange">Next</Form.Button>
       </Form>
     )
