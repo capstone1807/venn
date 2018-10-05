@@ -14,7 +14,6 @@ router.get('/', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
   try {
-    console.log('REQ.BODY*******', req.body)
     const user = await User.findById(req.user.id)
     const restaurant = await Restaurant.create(req.body)
     await user.addRestaurant(restaurant)

@@ -64,7 +64,6 @@ class PlacesAutoComplete extends Component {
 
   render() {
     const {isLoading, value, results} = this.state
-    console.log({value})
     return (
       <Fragment>
         <Search

@@ -19,10 +19,10 @@ const defaultEventRestaurants = [{
  * ACTION CREATORS
  */
 
-const updateRestaurantsOnEvent = (eventId, restaurants) => ({
+const updateRestaurantsOnEvent = (eventId, restaurantKeys) => ({
   type: UPDATE_RESTAURANTS_ON_EVENT,
   eventId,
-  restaurants
+  restaurantKeys
 })
 
 
@@ -30,10 +30,10 @@ const updateRestaurantsOnEvent = (eventId, restaurants) => ({
  * THUNK CREATORS
  */
 
-export const updateEventRestaurants = (eventId, restaurants, importance) => async dispatch => {
+export const updateEventRestaurants = (eventId, restaurantKeys, importance) => async dispatch => {
   try {
-    await axios.post(`/api/events/${eventId}/restaurants`, {restaurants, importance})
-    dispatch(updateRestaurantsOnEvent(eventId, restaurants))
+    await axios.post(`/api/events/${eventId}/restaurants`, {restaurantKeys, importance})
+    dispatch(updateRestaurantsOnEvent(eventId, restaurantKeys))
   } catch (err){
     console.log(err)
   }
@@ -46,7 +46,7 @@ export const updateEventRestaurants = (eventId, restaurants, importance) => asyn
 export default function (state = defaultEventRestaurants, action) {
   switch (action.type) {
     case UPDATE_RESTAURANTS_ON_EVENT:
-      return [...state, {eventId: action.eventId, restaurants: action.restaurants}]
+      return [...state, {eventId: action.eventId, restaurants: action.restaurantKeys}]
     default:
       return state
   }
