@@ -23,9 +23,10 @@ const getUsers = users => ({
  * THUNK CREATORS
  */
 
+ //// change this all to 'not friends'
 export const fetchUsersFromDB = () => async dispatch => {
   try {
-    const {data: users} = await axios.get(`/api/users/`)
+    const {data: users} = await axios.get(`/api/me/notfriends`)
     dispatch(getUsers(users))
   } catch (err) {
     console.error(err)

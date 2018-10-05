@@ -32,7 +32,7 @@ const addNewFriend = friend => ({
 
 export const fetchFriends = () => async dispatch => {
   try {
-    const {data: friends} = await axios.get(`/api/users/friends`)
+    const {data: friends} = await axios.get(`/api/me/friends`)
     dispatch(getFriends(friends))
   } catch (err) {
     console.error(err)
@@ -41,7 +41,7 @@ export const fetchFriends = () => async dispatch => {
 
 export const addFriend = id => async dispatch => {
   try {
-    const {data: friend} = await axios.post(`/api/users/friends`, {friendId: id})
+    const {data: friend} = await axios.put(`/api/me/friends`, {friendId: id})
     dispatch(addNewFriend(friend))
   } catch (err) {
     console.error(err)
