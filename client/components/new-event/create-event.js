@@ -20,44 +20,39 @@ export class CreateEvent extends React.Component {
       guests: [],
       isPrivate: false
     }
-    this.handleChangeEventName = this.handleChangeEventName.bind(this)
-    this.handleChangeDescription = this.handleChangeDescription.bind(this)
-    this.handleChangeGuests = this.handleChangeGuests.bind(this)
-    this.toggle = this.toggle.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
   async componentDidMount() {
     await this.props.getFriends()
   }
 
-  handleChangeEventName(event) {
+  handleChangeEventName = (event) => {
     event.persist()
     this.setState({
       eventName: event.target.value
     })
   }
 
-  handleChangeDescription(event) {
+  handleChangeDescription = (event) => {
     event.persist()
     this.setState({
       description: event.target.value
     })
   }
 
-  handleChangeGuests(event, data) {
+  handleChangeGuests = (event, data) => {
     event.persist()
     this.setState({
       guests: data.value
     })
   }
 
-  toggle() {
+  toggle = () => {
     this.setState(state => {
       return {isPrivate: !state.isPrivate}
     })
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault()
     this.props.createEvent(this.state)
   }
@@ -103,21 +98,11 @@ export class CreateEvent extends React.Component {
               onChange={this.handleChangeGuests}
             />
           </Container>
-            <Divider horizontal hidden />
-          <Grid centered verticalalign='middle'>
-            <Grid.Row style={{width: 500}}>
-              <Grid.Column style={{width: 300}}>
-                <h3>Friends can invite friends</h3>
-              </Grid.Column>
-              <Grid.Column>
-                <Radio toggle onChange={this.toggle} />
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-              <Form.Button>Cancel</Form.Button>
-              <Form.Button color='orange'>Next</Form.Button>
-            </Grid.Row>
-            </Grid>
+          <Divider horizontal hidden />
+          <h3>Friends can invite friends</h3>
+          <Radio toggle onChange={this.toggle} />
+          <Form.Button>Cancel</Form.Button>
+          <Form.Button color='orange'>Next</Form.Button>
         </Form>
     )
   }

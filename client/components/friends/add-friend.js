@@ -17,8 +17,6 @@ export class AddFriend extends React.Component {
     this.state = {
       selectedUser: ''
     }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   async componentDidMount() {
@@ -26,22 +24,19 @@ export class AddFriend extends React.Component {
     await this.props.getFriends()
   }
 
-  handleChange(event) {
-    event.persist()
-    this.setState({selectedUser: event.target.textContent})
+  handleChange = (event, data) => {
+    this.setState({selectedUser: data.value})
   }
 
-  async handleSubmit(event) {
+ handleSubmit =  async (event) => {
     event.preventDefault()
-    const username = this.state.selectedUser.split(' ')[2].slice(1, -1)
-    const users = this.props.users.slice()
-    const filtered = users.filter(user => user.username === username)
-    const id = filtered[0].id
+    const username = this.state.selectedUser
+    const id = this.props.users.find(user => user.username === username).id
     await this.props.addToFriends(id)
   }
 
   render() {
-    const userNames =
+    const userOptions =
       this.props.users &&
       this.props.users.map(function(user) {
         return {
@@ -66,11 +61,12 @@ export class AddFriend extends React.Component {
             placeholder="Search Name"
             search
             options={
-              userNames
-                ? userNames
+              userOptions
+                ? userOptions
                 : [
                     {
                       key: 999,
+                      value: 'default username',
                       text: 'add your friends'
                     }
                   ]
@@ -97,10 +93,10 @@ const mapStateToProps = state => ({
   friends: state.friends.friends
 })
 
-const mapDispatchToProps = dispatch => ({
-  getUsers: () => dispatch(fetchUsersFromDB()),
-  addToFriends: id => dispatch(addFriend(id)),
-  getFriends: () => dispatch(fetchFriends())
-})
+const mapDispatchToProps = {
+  getUsers: fetchUsersFromDB,
+  addToFriends: addFriend
+};
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddFriend)
