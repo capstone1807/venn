@@ -1,13 +1,14 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchUsersFromDB, addFriend} from '../../store'
+import {fetchUsersFromDB, fetchFriends, addFriend} from '../../store'
 import {
   Divider,
   Select,
   Form,
   Container,
   Header,
-  Segment
+  Segment,
+  Card
 } from 'semantic-ui-react'
 
 export class AddFriend extends React.Component {
@@ -20,6 +21,7 @@ export class AddFriend extends React.Component {
 
   async componentDidMount() {
     await this.props.getUsers()
+    await this.props.getFriends()
   }
 
   handleChange = (event, data) => {
@@ -44,6 +46,11 @@ export class AddFriend extends React.Component {
             user.firstName + ' ' + user.lastName + ' (' + user.username + ')'
         }
       })
+    const {friends} = this.props
+    const friendItems = friends.map(item => {
+      return {header: `${item.firstName} ${item.lastName}`, meta: item.username}
+    })
+    console.log('FRIENDS =>', friends)
     return (
       <Container textAlign="center">
         <Segment vertical style={{width: 500}}>
@@ -72,6 +79,9 @@ export class AddFriend extends React.Component {
             <Form.Button content="Add friend!" color="teal" size="medium" />
           </Form>
         </Segment>
+        <Container>
+          <Card.Group items={friendItems} />
+        </Container>
         <Divider hidden />
       </Container>
     )
@@ -79,12 +89,14 @@ export class AddFriend extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  users: state.friends.users
+  users: state.friends.users,
+  friends: state.friends.friends
 })
 
 const mapDispatchToProps = {
   getUsers: fetchUsersFromDB,
   addToFriends: addFriend
 };
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddFriend)
