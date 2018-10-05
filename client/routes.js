@@ -6,7 +6,7 @@ import {
   Login,
   Signup,
   UserHome,
-  AddFriend,
+  Friends,
   CreateEvent,
   GuestRestaurantChoice,
   RestaurantsList,
@@ -34,7 +34,7 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
-            <Route path="/addfriend" component={AddFriend} />
+            <Route path="/friends" component={Friends} />
             <Route exact path="/restaurants" component={RestaurantsList} />
             <Route exact path="/events" component={EventsList} />
             <Route path="/events/new" component={CreateEvent} />

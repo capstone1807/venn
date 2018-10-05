@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const {User, Restaurant} = require('../db/models')
+const db = require('../../server/db')
+const Friendship = db.model('friendship')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
@@ -25,6 +27,9 @@ router.get('/notfriends', async (req, res, next) => {
         }
       }
     })
+    const user = await User.findById(req.user.id)
+    const friends = await user.getFriends();
+    console.log('FRIENDS =>', friends)
     res.json(users)
   } catch (err) {
     next(err)
@@ -35,7 +40,6 @@ router.get('/friends', async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
     const friends = await user.getFriends()
-    console.log('friends in route', friends)
     res.json(friends)
   } catch (err) {
     next(err)
