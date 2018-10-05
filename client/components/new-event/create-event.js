@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import history from '../../history'
 import {fetchFriends, postEvent} from '../../store'
 import {
   Form,
@@ -7,8 +8,7 @@ import {
   Select,
   Radio,
   Container,
-  Divider,
-  Grid
+  Divider
 } from 'semantic-ui-react'
 
 export class CreateEvent extends React.Component {
@@ -25,14 +25,14 @@ export class CreateEvent extends React.Component {
     await this.props.getFriends()
   }
 
-  handleChangeEventName = (event) => {
+  handleChangeEventName = event => {
     event.persist()
     this.setState({
       eventName: event.target.value
     })
   }
 
-  handleChangeDescription = (event) => {
+  handleChangeDescription = event => {
     event.persist()
     this.setState({
       description: event.target.value
@@ -52,9 +52,10 @@ export class CreateEvent extends React.Component {
     })
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async event => {
     event.preventDefault()
-    this.props.createEvent(this.state)
+    await this.props.createEvent(this.state)
+    history.push('/events')
   }
 
   render() {
@@ -68,42 +69,44 @@ export class CreateEvent extends React.Component {
         }
       })
     return (
-        <Form verticalalign='middle' onSubmit={this.handleSubmit}>
-          <Container style={{width: 500}}>
-            <Form.Field>
-              <label>Name Your Event</label>
-              <input
-                placeholder="Event Name"
-                onChange={this.handleChangeEventName}
-              />
-            </Form.Field>
-
-            <Form.Field>
-              <label>Description</label>
-              <TextArea
-                autoHeight
-                placeholder="Anything else you want your guests to know?"
-                onChange={this.handleChangeDescription}
-              />
-            </Form.Field>
-          </Container>
-          <Container style={{width: 538}}>
-            <Select
-              placeholder="choose friends"
-              fluid
-              search
-              multiple
-              selection
-              options={friends}
-              onChange={this.handleChangeGuests}
+      <Form verticalalign="middle" onSubmit={this.handleSubmit}>
+        <Container style={{width: 500}}>
+          <Form.Field>
+            <label>Name Your Event</label>
+            <input
+              placeholder="Event Name"
+              onChange={this.handleChangeEventName}
             />
-          </Container>
-          <Divider horizontal hidden />
-          <h3>Friends can invite friends</h3>
-          <Radio toggle onChange={this.toggle} />
-          <Form.Button>Cancel</Form.Button>
-          <Form.Button color='orange'>Next</Form.Button>
-        </Form>
+          </Form.Field>
+
+          <Form.Field>
+            <label>Description</label>
+            <TextArea
+              autoHeight
+              placeholder="Anything else you want your guests to know?"
+              onChange={this.handleChangeDescription}
+            />
+          </Form.Field>
+        </Container>
+        <Container style={{width: 538}}>
+          <Select
+            placeholder="choose friends"
+            fluid
+            search
+            multiple
+            selection
+            options={friends}
+            onChange={this.handleChangeGuests}
+          />
+        </Container>
+        <Divider horizontal hidden />
+        <h3>Friends can invite friends</h3>
+        <Radio toggle onChange={this.toggle} />
+        <Form.Button type="button" onClick={() => history.goBack()}>
+          Cancel
+        </Form.Button>
+        <Form.Button color="orange">Next</Form.Button>
+      </Form>
     )
   }
 }

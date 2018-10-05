@@ -35,12 +35,12 @@ class Routes extends Component {
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
             <Route path="/friends" component={Friends} />
-            <Route path="/newevent" component={CreateEvent} />
             <Route exact path="/restaurants" component={RestaurantsList} />
             <Route exact path="/events" component={EventsList} />
+            <Route path="/events/new" component={CreateEvent} />
             <Route
               exact
-              path="/:id/choices/restaurants"
+              path="/events/:id/choices/restaurants"
               component={GuestRestaurantChoice}
             />
           </Switch>

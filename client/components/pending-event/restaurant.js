@@ -1,15 +1,10 @@
 import React, {Fragment} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
+import history from '../../history'
 import {fetchEvent, fetchRestaurants, updateEventRestaurants} from '../../store'
 import {PlacesAutoComplete} from '../index'
-import {
-  Form,
-  Header,
-  Select,
-  Container,
-  Button
-} from 'semantic-ui-react'
+import {Form, Header, Select, Container, Button} from 'semantic-ui-react'
 
 export class GuestRestaurantChoice extends React.Component {
   constructor(props) {
@@ -31,9 +26,15 @@ export class GuestRestaurantChoice extends React.Component {
     })
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async event => {
     event.preventDefault()
-    this.props.scoreRestaurants(this.props.currentEvent.id, this.state.restaurants, this.state.importance)
+    await this.props.scoreRestaurants(
+      this.props.currentEvent.id,
+      this.state.restaurants,
+      this.state.importance
+    )
+    // push only if successful
+    history.push('/events')
   }
 
   handleClickDeal = () => {
@@ -52,7 +53,8 @@ export class GuestRestaurantChoice extends React.Component {
     const {restaurants} = this.props
     const {currentEvent} = this.props
     const restaurantItems = restaurants.map(item => {
-      return {text: item.title, value: item.placeId}})
+      return {text: item.title, value: item.placeId}
+    })
     return (
       <Fragment>
         {/* event name */}
@@ -61,9 +63,11 @@ export class GuestRestaurantChoice extends React.Component {
         <h3>Choose restaurant:</h3>
         {/* google places api search reusable component */}
         {/* search select from favorites */}
-        <PlacesAutoComplete />
-        <Form verticalalign='middle' onSubmit={this.handleSubmit}>
-
+        <Container style={{width: 538}}>
+          <PlacesAutoComplete />
+        </Container>
+        <br />
+        <Form verticalalign="middle" onSubmit={this.handleSubmit}>
           <Container style={{width: 538}}>
             <Select
               placeholder="choose from your favorites"
@@ -78,15 +82,23 @@ export class GuestRestaurantChoice extends React.Component {
           {/* importance rating button group */}
           <Container>
             <Button.Group>
-              <Button type='button' onClick={this.handleClickDeal}>Dealbreaker</Button>
-              <Button type='button' onClick={this.handleClickLike}>I'd like it</Button>
-              <Button type='button' onClick={this.handleClickWhat}>Whatever</Button>
+              <Button type="button" onClick={this.handleClickDeal}>
+                Dealbreaker
+              </Button>
+              <Button type="button" onClick={this.handleClickLike}>
+                I'd like it
+              </Button>
+              <Button type="button" onClick={this.handleClickWhat}>
+                Whatever
+              </Button>
             </Button.Group>
           </Container>
           {/* cancel and next buttons */}
           <Container>
-            <Form.Button type='button'>Cancel</Form.Button>
-            <Form.Button color='orange'>Next</Form.Button>
+            <Form.Button type="button" onClick={() => history.goBack()}>
+              Cancel
+            </Form.Button>
+            <Form.Button color="orange">Submit Choices</Form.Button>
           </Container>
         </Form>
       </Fragment>
@@ -94,14 +106,17 @@ export class GuestRestaurantChoice extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentEvent: state.currentEvent,
   restaurants: state.restaurants
 })
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getEvent: () => dispatch(fetchEvent(Number(ownProps.match.params.id))),
-  scoreRestaurants: (eventId, restaurantKeys, importance) => dispatch(updateEventRestaurants(eventId, restaurantKeys, importance)),
+  scoreRestaurants: (eventId, restaurantKeys, importance) =>
+    dispatch(updateEventRestaurants(eventId, restaurantKeys, importance)),
   getRestaurants: () => dispatch(fetchRestaurants())
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GuestRestaurantChoice))
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(GuestRestaurantChoice)
+)

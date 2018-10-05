@@ -34,7 +34,7 @@ class EventList extends Component {
         {!hasEvents && (
           <NoData iconName="calendar outline" message="You have no events" />
         )}
-        <Button primary animated onClick={() => history.push('/newevent')}>
+        <Button primary animated onClick={() => history.push('/events/new')}>
           <Button.Content visible>Add Event</Button.Content>
           <Button.Content hidden>
             <Icon name="plus" />
@@ -48,8 +48,8 @@ class EventList extends Component {
             />
 
             <Card.Group>
-              {events.map(event => {
-                return <EventItem key={event.id} event={event} />
+              {events.map((event, idx) => {
+                return <EventItem key={idx} event={event} />
               })}
             </Card.Group>
           </Container>
