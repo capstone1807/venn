@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchUsersFromDB, fetchFriends, addFriend} from '../../store'
+import NoData from '../Utils/NoData'
 import {
   Divider,
   Select,
@@ -57,8 +58,11 @@ export class FriendsList extends React.Component {
     return (
       <Container textAlign="center">
         <Segment vertical style={{width: 500}}>
-          <Header as="h2">Find your friends:</Header>
+          <Header as="h2">Your Friends</Header>
           <Divider hidden />
+          {!friends.length && (
+            <NoData iconName="frown outline" message="You have no friends saved" />
+          )}
           <Select
             onChange={this.handleChange}
             placeholder="Search Name"
