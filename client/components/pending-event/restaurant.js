@@ -21,21 +21,19 @@ export class GuestRestaurantChoice extends React.Component {
       restaurants: [],
       importance: 0
     }
-    this.handleChangeRestaurants = this.handleChangeRestaurants.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
   async componentDidMount() {
     await this.props.getEvent()
   }
 
-  handleChangeRestaurants(event, data) {
+  handleChangeRestaurants = (event, data) => {
     event.persist()
     this.setState({
       restaurants: data.value
     })
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault()
     this.props.scoreRestaurants(this.props.currentEvent.id, this.state.restaurants, this.state.importance)
   }
@@ -53,6 +51,7 @@ export class GuestRestaurantChoice extends React.Component {
   }
 
   render() {
+    console.log("STATE: ", this.state)
     const restaurants = [{
       key: 1,
       id: 17,
@@ -64,7 +63,7 @@ export class GuestRestaurantChoice extends React.Component {
       value: 48,
       text: 'Big Bellatrix Steakhouse'
     }]
-    console.log("CURRENT: ", this.props.currentEvent)
+
     const {currentEvent} = this.props
     return (
       <Form centered verticalalign='middle' onSubmit={this.handleSubmit}>
@@ -88,14 +87,14 @@ export class GuestRestaurantChoice extends React.Component {
         {/* importance rating button group */}
         <Container>
           <Button.Group>
-            <Button onClick={this.handleClickDeal}>Dealbreaker</Button>
-            <Button onClick={this.handleClickLike}>I'd like it</Button>
-            <Button onClick={this.handleClickWhat}>Whatever</Button>
+            <Button type='button' onClick={this.handleClickDeal}>Dealbreaker</Button>
+            <Button type='button' onClick={this.handleClickLike}>I'd like it</Button>
+            <Button type='button' onClick={this.handleClickWhat}>Whatever</Button>
           </Button.Group>
         </Container>
         {/* cancel and next buttons */}
         <Container>
-          <Form.Button >Cancel</Form.Button>
+          <Form.Button type='button'>Cancel</Form.Button>
           <Form.Button color='orange'>Next</Form.Button>
         </Container>
       </Form>
