@@ -7,13 +7,9 @@ module.exports = router
 
 router.post('/', async (req, res, next) => {
   try {
-    let description = ''
-    if (req.body.description) {
-      description = req.body.description
-    }
     const newEvent = await Event.create({
       name: req.body.eventName,
-      description: description,
+      description: req.body.description,
       guests: req.body.guests,
       isPrivate: req.body.isPrivate,
       creatorId: req.user.id
