@@ -9,7 +9,9 @@ import {
   Container,
   Header,
   Segment,
-  Card
+  Card,
+  Button,
+  Icon
 } from 'semantic-ui-react'
 
 export class FriendsList extends React.Component {
@@ -52,16 +54,16 @@ export class FriendsList extends React.Component {
             user.firstName + ' ' + user.lastName + ' (' + user.username + ')'
         }
       })
-    const friendItems = friends.map(item => {
-      return {header: `${item.firstName} ${item.lastName}`, meta: item.username}
-    })
     return (
       <Container textAlign="center">
         <Segment vertical style={{width: 500}}>
           <Header as="h2">Your Friends</Header>
           <Divider hidden />
           {!friends.length && (
-            <NoData iconName="frown outline" message="You have no friends saved" />
+            <NoData
+              iconName="frown outline"
+              message="You have no friends saved"
+            />
           )}
           <Select
             onChange={this.handleChange}
@@ -86,7 +88,21 @@ export class FriendsList extends React.Component {
           </Form>
         </Segment>
         <Container>
-          <Card.Group items={friendItems} />
+          <Card.Group>
+            {friends.map(item => (
+              <Card key={item.id}>
+                <Card.Content>
+                  <Card.Header content={`${item.firstName} ${item.lastName}`} />
+                  <Card.Description content={item.username} />
+                </Card.Content>
+                <Button attached="bottom" circular>
+                  <Button.Content>
+                    <Icon name="trash alternate outline" />
+                  </Button.Content>
+                </Button>
+              </Card>
+            ))}
+          </Card.Group>
         </Container>
         <Divider hidden />
       </Container>
