@@ -20,7 +20,6 @@ router.get('/friends', async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
     const friends = await user.getFriends()
-    console.log("friends in route", friends)
     res.json(friends)
   } catch (err) {
     next(err)
