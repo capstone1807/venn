@@ -22,7 +22,6 @@ class PlacesAutoComplete extends Component {
   }
 
   handleSubmit = () => {
-    console.log('SELECTED PLACE =>', this.state.selectedPlace)
     this.props.addRestaurant(this.state.selectedPlace)
   }
 
@@ -90,7 +89,7 @@ class PlacesAutoComplete extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  addRestaurant: (rest) => dispatch(saveRestaurant(rest))
+  addRestaurant: rest => dispatch(saveRestaurant(rest))
 })
 
 export default connect(null, mapDispatchToProps)(PlacesAutoComplete)
