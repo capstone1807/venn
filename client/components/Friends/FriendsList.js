@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchUsersFromDB, fetchFriends, addFriend} from '../../store'
+import {fetchUsersFromDB, fetchFriends, addFriend, removeFriend} from '../../store'
 import NoData from '../Utils/NoData'
 import {
   Divider,
@@ -29,6 +29,12 @@ export class FriendsList extends React.Component {
 
   handleChange = (event, data) => {
     this.setState({selectedUser: data.value})
+  }
+
+  handleClick = async (event, data) => {
+    event.preventDefault()
+    const friendId = data.value
+    await this.props.deleteFriend(friendId)
   }
 
   handleSubmit = async event => {
@@ -95,9 +101,9 @@ export class FriendsList extends React.Component {
                   <Card.Header content={`${item.firstName} ${item.lastName}`} />
                   <Card.Description content={item.username} />
                 </Card.Content>
-                <Button attached="bottom" circular>
+                <Button attached="bottom" circular value={item.id} onClick={this.handleClick}>
                   <Button.Content>
-                    <Icon name="trash alternate outline" />
+                    <Icon name="times circle outline" />
                   </Button.Content>
                 </Button>
               </Card>
@@ -118,7 +124,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getUsers: () => dispatch(fetchUsersFromDB()),
   addToFriends: id => dispatch(addFriend(id)),
-  getFriends: () => dispatch(fetchFriends())
+  getFriends: () => dispatch(fetchFriends()),
+  deleteFriend: (id) => dispatch(removeFriend(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FriendsList)

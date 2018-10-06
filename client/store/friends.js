@@ -3,9 +3,9 @@ import axios from 'axios'
 /**
  * ACTION TYPES
  */
-
 const GET_FRIENDS = 'GET_FRIENDS'
 const ADD_FRIEND = 'ADD_FRIEND'
+const DELETE_FRIEND = 'DELETE_FRIEND'
 
 /**
  * INITIAL STATE
@@ -26,6 +26,10 @@ const addNewFriend = friend => ({
   friend
 })
 
+const deleteFriend = friendId => ({
+  type: DELETE_FRIEND,
+  friendId
+})
 /**
  * THUNK CREATORS
  */
@@ -48,7 +52,17 @@ export const addFriend = id => async dispatch => {
   }
 }
 
-/**
+export const removeFriend = id => async dispatch => {
+  try {
+    await axios.delete(`/api/me/friends/
+    ${id}`)
+    dispatch(deleteFriend(id))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+/**DELETE_FRIEND
  * REDUCER
  */
 export default function(state = defaultFriends, action) {
@@ -57,6 +71,8 @@ export default function(state = defaultFriends, action) {
       return action.friends
     case ADD_FRIEND:
       return [...state, action.friend]
+    case DELETE_FRIEND:
+      return state.filter(friend => friend.id !== action.friendId)
     default:
       return state
   }
