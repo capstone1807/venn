@@ -14,7 +14,18 @@ const Event = db.define('event', {
   },
   isPrivate: {
     type: Sequelize.BOOLEAN,
-    defaultValue: false
+    defaultValue: false,
+    allowNull: false,
+  },
+  isPending: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true,
+    allowNull: false,
+  },
+  isPast: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+    allowNull: false,
   }
 })
 
