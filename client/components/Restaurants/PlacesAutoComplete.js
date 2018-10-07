@@ -26,8 +26,6 @@ class PlacesAutoComplete extends Component {
   }
 
   handleSearchChange = (e, {value}) => {
-    console.log(value.length)
-
     if (value.length === 0) {
       this.setState({
         isLoading: false,
