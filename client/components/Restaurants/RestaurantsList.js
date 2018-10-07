@@ -6,20 +6,44 @@ import PlacesAutoComplete from './PlacesAutoComplete'
 import {Container, Header, Card, Button, Icon} from 'semantic-ui-react'
 
 class RestaurantsList extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isReversed: false,
+      icon: 'sort alphabet up'
+    }
+  }
 
   async componentDidMount() {
     await this.props.getRestaurants()
+    this.props.restaurants.sort((a, b) => {
+      const A = a.title.toUpperCase();
+      const B = b.title.toUpperCase();
+    let comparison = 0;
+    (A > B) ? comparison = 1 : comparison = -1;
+    return comparison;
+  });
   }
 
   handleClick = async (event, data) => {
     event.preventDefault()
     const restId = data.value
-    console.log('REST ID =>', restId)
     await this.props.deleteRestaurant(restId)
+  }
+
+  handleSort = () => {
+    if (!this.state.isReversed) {
+      this.setState({icon: 'sort alphabet down', isReversed: true})
+      this.props.restaurants.reverse()
+    } else {
+      this.setState({icon: 'sort alphabet up', isReversed: false})
+      this.props.restaurants.reverse()
+    }
   }
 
   render() {
     const {restaurants} = this.props
+    console.log(restaurants)
     return (
       <Fragment>
         <Header>Favorite Restaurants</Header>
@@ -27,6 +51,9 @@ class RestaurantsList extends Component {
           <NoData iconName="food" message="You have no restaurants saved" />
         )}
         <PlacesAutoComplete />
+        <Button onClick={this.handleSort}>
+            <Icon name={this.state.icon} />
+          </Button>
         {restaurants && (
           <Container>
           <Card.Group>
