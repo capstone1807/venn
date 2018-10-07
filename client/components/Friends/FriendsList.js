@@ -50,7 +50,7 @@ export class FriendsList extends React.Component {
       this.props.friends.reverse()
     } else {
       this.setState({icon: 'sort alphabet up', isReversed: false})
-      this.props.friends.sort()
+      this.props.friends.reverse()
     }
   }
 
