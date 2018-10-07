@@ -1,7 +1,5 @@
 const router = require('express').Router()
 const {User, Restaurant} = require('../db/models')
-const db = require('../../server/db')
-const Friendship = db.model('friendship')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
@@ -64,7 +62,6 @@ router.delete('/friends/:id', async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
     const friendToRemove = await User.findById(req.params.id)
-    console.log(friendToRemove)
     await user.removeFriends(friendToRemove)
     res.sendStatus(204)
   } catch (err) {
@@ -88,6 +85,17 @@ router.put('/restaurants', async (req, res, next) => {
     const restaurant = await Restaurant.create(req.body)
     await user.addRestaurant(restaurant)
     res.status(201).send(restaurant)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.delete('/restaurants/:id', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id)
+    const restToRemove = await Restaurant.findById(req.params.id)
+    await user.removeRestaurants(restToRemove)
+    res.sendStatus(204)
   } catch (err) {
     next(err)
   }

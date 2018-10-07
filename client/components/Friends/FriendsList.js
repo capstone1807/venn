@@ -77,8 +77,6 @@ export class FriendsList extends React.Component {
             user.firstName + ' ' + user.lastName + ' (' + user.username + ')'
         }
       })
-      console.log('IS REVERSED?', this.state.isReversed)
-      console.log('ICON =>', this.state.icon)
 
     return (
       <Container textAlign="center">
