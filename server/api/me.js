@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, Restaurant} = require('../db/models')
+const {User, Event, Restaurant, EventUser} = require('../db/models')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
@@ -9,6 +9,50 @@ router.get('/events', async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
     const events = await user.getEvents()
+    res.json(events)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/events/pending', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id)
+    let events = await user.getEvents({
+      where: {
+        isPast: false
+      }
+    })
+    events = events.filter(event => !event.event_user.hasResponded)
+    res.json(events)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/events/scheduled', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id)
+    let events = await user.getEvents({
+      where: {
+        isPast: false
+      }
+    })
+    events = events.filter(event => event.event_user.hasResponded)
+    res.json(events)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/events/past', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id)
+    let events = await user.getEvents({
+      where: {
+        isPast: true
+      }
+    })
     res.json(events)
   } catch (err) {
     next(err)
