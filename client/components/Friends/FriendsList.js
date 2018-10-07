@@ -1,6 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchUsersFromDB, fetchFriends, addFriend} from '../../store'
+import {
+  fetchUsersFromDB,
+  fetchFriends,
+  addFriend,
+  removeFriend
+} from '../../store'
 import NoData from '../Utils/NoData'
 import {
   Divider,
@@ -9,14 +14,18 @@ import {
   Container,
   Header,
   Segment,
-  Card
+  Card,
+  Button,
+  Icon
 } from 'semantic-ui-react'
 
 export class FriendsList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedUser: ''
+      selectedUser: '',
+      isReversed: false,
+      icon: 'sort alphabet up'
     }
   }
 
@@ -29,6 +38,22 @@ export class FriendsList extends React.Component {
     this.setState({selectedUser: data.value})
   }
 
+  handleClick = async (event, data) => {
+    event.preventDefault()
+    const friendId = data.value
+    await this.props.deleteFriend(friendId)
+  }
+
+  handleSort = () => {
+    if (!this.state.isReversed) {
+      this.setState({icon: 'sort alphabet down', isReversed: true})
+      this.props.friends.reverse()
+    } else {
+      this.setState({icon: 'sort alphabet up', isReversed: false})
+      this.props.friends.sort()
+    }
+  }
+
   handleSubmit = async event => {
     event.preventDefault()
     const username = this.state.selectedUser
@@ -37,7 +62,7 @@ export class FriendsList extends React.Component {
   }
 
   render() {
-    const {friends, users} = this.props
+    const {users, friends} = this.props
     const friendUsernames = friends.map(friend => friend.username)
     const notFriends = users.filter(
       user => !friendUsernames.includes(user.username)
@@ -52,16 +77,17 @@ export class FriendsList extends React.Component {
             user.firstName + ' ' + user.lastName + ' (' + user.username + ')'
         }
       })
-    const friendItems = friends.map(item => {
-      return {header: `${item.firstName} ${item.lastName}`, meta: item.username}
-    })
+
     return (
       <Container textAlign="center">
         <Segment vertical style={{width: 500}}>
           <Header as="h2">Your Friends</Header>
           <Divider hidden />
           {!friends.length && (
-            <NoData iconName="frown outline" message="You have no friends saved" />
+            <NoData
+              iconName="frown outline"
+              message="You have no friends saved"
+            />
           )}
           <Select
             onChange={this.handleChange}
@@ -86,7 +112,29 @@ export class FriendsList extends React.Component {
           </Form>
         </Segment>
         <Container>
-          <Card.Group items={friendItems} />
+          <Button onClick={this.handleSort}>
+            <Icon name={this.state.icon} />
+          </Button>
+          <Card.Group>
+            {friends.map(item => (
+              <Card key={item.id}>
+                <Card.Content>
+                  <Card.Header content={`${item.firstName} ${item.lastName}`} />
+                  <Card.Description content={item.username} />
+                </Card.Content>
+                <Button
+                  attached="bottom"
+                  circular
+                  value={item.id}
+                  onClick={this.handleClick}
+                >
+                  <Button.Content>
+                    <Icon name="times circle outline" />
+                  </Button.Content>
+                </Button>
+              </Card>
+            ))}
+          </Card.Group>
         </Container>
         <Divider hidden />
       </Container>
@@ -96,13 +144,14 @@ export class FriendsList extends React.Component {
 
 const mapStateToProps = state => ({
   users: state.users,
-  friends: state.friends
+  friends: state.friends.sort()
 })
 
 const mapDispatchToProps = dispatch => ({
   getUsers: () => dispatch(fetchUsersFromDB()),
   addToFriends: id => dispatch(addFriend(id)),
-  getFriends: () => dispatch(fetchFriends())
+  getFriends: () => dispatch(fetchFriends()),
+  deleteFriend: id => dispatch(removeFriend(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FriendsList)
