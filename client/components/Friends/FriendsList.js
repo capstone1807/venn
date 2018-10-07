@@ -32,6 +32,13 @@ export class FriendsList extends React.Component {
   async componentDidMount() {
     await this.props.getUsers()
     await this.props.getFriends()
+    this.props.friends.sort((a, b) => {
+      const A = a.firstName.toUpperCase();
+      const B = b.firstName.toUpperCase();
+    let comparison = 0;
+    (A > B) ? comparison = 1 : comparison = -1;
+    return comparison;
+  });
   }
 
   handleChange = (event, data) => {
@@ -63,6 +70,7 @@ export class FriendsList extends React.Component {
 
   render() {
     const {users, friends} = this.props
+    console.log(friends)
     const friendUsernames = friends.map(friend => friend.username)
     const notFriends = users.filter(
       user => !friendUsernames.includes(user.username)
@@ -77,7 +85,6 @@ export class FriendsList extends React.Component {
             user.firstName + ' ' + user.lastName + ' (' + user.username + ')'
         }
       })
-
     return (
       <Container textAlign="center">
         <Segment vertical style={{width: 500}}>
@@ -144,7 +151,7 @@ export class FriendsList extends React.Component {
 
 const mapStateToProps = state => ({
   users: state.users,
-  friends: state.friends.sort()
+  friends: state.friends
 })
 
 const mapDispatchToProps = dispatch => ({
