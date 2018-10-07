@@ -1,6 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchUsersFromDB, fetchFriends, addFriend, removeFriend} from '../../store'
+import {
+  fetchUsersFromDB,
+  fetchFriends,
+  addFriend,
+  removeFriend
+} from '../../store'
 import NoData from '../Utils/NoData'
 import {
   Divider,
@@ -18,7 +23,9 @@ export class FriendsList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedUser: ''
+      selectedUser: '',
+      isReversed: false,
+      icon: 'sort alphabet up'
     }
   }
 
@@ -37,6 +44,16 @@ export class FriendsList extends React.Component {
     await this.props.deleteFriend(friendId)
   }
 
+  handleSort = () => {
+    if (!this.state.isReversed) {
+      this.setState({icon: 'sort alphabet down', isReversed: true})
+      this.props.friends.reverse()
+    } else {
+      this.setState({icon: 'sort alphabet up', isReversed: false})
+      this.props.friends.sort()
+    }
+  }
+
   handleSubmit = async event => {
     event.preventDefault()
     const username = this.state.selectedUser
@@ -45,7 +62,7 @@ export class FriendsList extends React.Component {
   }
 
   render() {
-    const {friends, users} = this.props
+    const {users, friends} = this.props
     const friendUsernames = friends.map(friend => friend.username)
     const notFriends = users.filter(
       user => !friendUsernames.includes(user.username)
@@ -60,6 +77,9 @@ export class FriendsList extends React.Component {
             user.firstName + ' ' + user.lastName + ' (' + user.username + ')'
         }
       })
+      console.log('IS REVERSED?', this.state.isReversed)
+      console.log('ICON =>', this.state.icon)
+
     return (
       <Container textAlign="center">
         <Segment vertical style={{width: 500}}>
@@ -94,6 +114,9 @@ export class FriendsList extends React.Component {
           </Form>
         </Segment>
         <Container>
+          <Button onClick={this.handleSort}>
+            <Icon name={this.state.icon} />
+          </Button>
           <Card.Group>
             {friends.map(item => (
               <Card key={item.id}>
@@ -101,7 +124,12 @@ export class FriendsList extends React.Component {
                   <Card.Header content={`${item.firstName} ${item.lastName}`} />
                   <Card.Description content={item.username} />
                 </Card.Content>
-                <Button attached="bottom" circular value={item.id} onClick={this.handleClick}>
+                <Button
+                  attached="bottom"
+                  circular
+                  value={item.id}
+                  onClick={this.handleClick}
+                >
                   <Button.Content>
                     <Icon name="times circle outline" />
                   </Button.Content>
@@ -118,14 +146,14 @@ export class FriendsList extends React.Component {
 
 const mapStateToProps = state => ({
   users: state.users,
-  friends: state.friends
+  friends: state.friends.sort()
 })
 
 const mapDispatchToProps = dispatch => ({
   getUsers: () => dispatch(fetchUsersFromDB()),
   addToFriends: id => dispatch(addFriend(id)),
   getFriends: () => dispatch(fetchFriends()),
-  deleteFriend: (id) => dispatch(removeFriend(id))
+  deleteFriend: id => dispatch(removeFriend(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FriendsList)
