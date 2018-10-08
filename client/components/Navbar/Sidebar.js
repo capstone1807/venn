@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import { withRouter } from 'react-router';
 import {Link} from 'react-router-dom'
 import {logout} from '../../store'
 import App from '../../app'
@@ -32,18 +33,21 @@ class SidebarMenu extends Component {
             width='thin'
           >
           <Menu.Item>
-              <Link to="/events"> <Icon name='calendar alternate' /></Link>
+              <Link to="/events"> <Icon name='calendar alternate' /> Events</Link>
             </Menu.Item>
             <Menu.Item>
-              <Link to="/friends"> <Icon name='users' /></Link>
+              <Link to="/friends"> <Icon name='users' /> Friends</Link>
             </Menu.Item>
             <Menu.Item>
-              <Link to="/restaurants"> <Icon name='food' /></Link>
+              <Link to="/restaurants"> <Icon name='food' /> Restaurants</Link>
             </Menu.Item>
-            {isLoggedIn &&
-              <Menu.Item>
-              <Link to="/login" onClick={handleClick}> <Icon name='log out' />log out</Link>
-            </Menu.Item>}
+            {isLoggedIn ?
+              (<Menu.Item>
+              <Link to="/login" onClick={handleClick}> <Icon name='log out' /> Log Out</Link>
+            </Menu.Item>) :
+            (<Menu.Item>
+              <Link to="/login" onClick={handleClick}> <Icon name='log out' /> Log In</Link>
+            </Menu.Item>)}
           </Sidebar>
           <Sidebar.Pusher>
             <Segment basic>
@@ -70,7 +74,7 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(SidebarMenu)
+export default withRouter(connect(mapState, mapDispatch)(SidebarMenu))
 
 /**
  * PROP TYPES
