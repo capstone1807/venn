@@ -3,7 +3,6 @@
  * This way, we can import all of our components from the same place, rather than
  * having to figure out which file they belong to!
  */
-export {default as Navbar} from './Navbar/navbar'
 export {default as UserHome} from './Auth/user-home'
 export {default as Friends} from './Friends/FriendsList'
 export {default as CreateEvent} from './Events/create-event'
