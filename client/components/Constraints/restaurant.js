@@ -3,13 +3,14 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import history from '../../history'
 import {fetchEvent, fetchRestaurants, updateEventRestaurants} from '../../store'
-import {PlacesAutoComplete} from '../index'
+import {PlacesAutoComplete, ErrorMessage} from '../index'
 import {Form, Header, Select, Container, Button} from 'semantic-ui-react'
 
 export class GuestRestaurantChoice extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      errorVisible: true,
       restaurants: [],
       importance: 0
     }
@@ -28,13 +29,15 @@ export class GuestRestaurantChoice extends React.Component {
 
   handleSubmit = async event => {
     event.preventDefault()
-    await this.props.scoreRestaurants(
-      this.props.currentEvent.id,
-      this.state.restaurants,
-      this.state.importance
-    )
-    // push only if successful
-    history.push('/events')
+    if(this.state.restaurants.length <= 3){
+      await this.props.scoreRestaurants(
+        this.props.currentEvent.id,
+        this.state.restaurants,
+        this.state.importance
+      )
+      // push only if successful
+      history.push('/events')
+    }
   }
 
   handleClickDeal = () => {
@@ -62,6 +65,7 @@ export class GuestRestaurantChoice extends React.Component {
         {/* choose restaurant */}
         <h3>Choose restaurant:</h3>
         {/* search select from favorites */}
+        {(this.state.restaurants.length > 3) && <ErrorMessage headerMessage="Oops! You can only suggest 3 restaurants" message="Please remove a restaurant before submitting" />}
         <Form verticalalign="middle" onSubmit={this.handleSubmit}>
           <Container style={{width: 538}}>
             <Select
