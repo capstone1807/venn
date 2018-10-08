@@ -19,6 +19,8 @@ class EventList extends Component {
 
   render() {
     const {activeItem} = this.state
+    console.log(this.props.events.length > 0)
+
     const events = this.props.events.filter(event => {
       switch (this.state.activeItem) {
         case 'myEvents':
@@ -51,22 +53,23 @@ class EventList extends Component {
             </Fragment>
           )}
 
-          <Grid.Column width={16}>
-            <EventAddButton />
-          </Grid.Column>
-
           {hasEvents && (
-            <Grid.Column width={16}>
-              <EventFilter
-                activeItem={activeItem}
-                handleFilterClick={this.handleFilterClick}
-              />
-              <Card.Group>
-                {events.map((event, idx) => {
-                  return <EventItem key={idx} event={event} />
-                })}
-              </Card.Group>
-            </Grid.Column>
+            <Fragment>
+              <Grid.Column width={16}>
+                <EventAddButton />
+              </Grid.Column>
+              <Grid.Column width={16}>
+                <EventFilter
+                  activeItem={activeItem}
+                  handleFilterClick={this.handleFilterClick}
+                />
+                <Card.Group>
+                  {events.map((event, idx) => {
+                    return <EventItem key={idx} event={event} />
+                  })}
+                </Card.Group>
+              </Grid.Column>
+            </Fragment>
           )}
         </Grid>
       </Container>
