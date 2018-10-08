@@ -28,11 +28,12 @@ router.post('/', async (req, res, next) => {
         userId: req.user.id
       }
     })
-    let updatedEvent = creator.getEvent({
+    let updatedEvent = await creator.getEvents({
       where: {
         eventId: newEvent.id
       }
     })
+    updatedEvent = updatedEvent[0]
     res.json(updatedEvent).status(201)
   } catch (err) {
     next(err)

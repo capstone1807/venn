@@ -21,7 +21,8 @@ class PlacesAutoComplete extends Component {
     this.setState({value: result.title, selectedPlace: result})
   }
 
-  handleSubmit = () => {
+  handleSubmit = (event) => {
+    event.preventDefault()
     this.props.addRestaurant(this.state.selectedPlace)
   }
 
