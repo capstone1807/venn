@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import {Link} from 'react-router-dom'
 import {logout} from '../../store'
 import App from '../../app'
-import { Button, Icon, Menu, Segment, Sidebar } from 'semantic-ui-react'
+import { Icon, Menu, Segment, Sidebar } from 'semantic-ui-react'
 
 class SidebarMenu extends Component {
   state = { visible: false }
