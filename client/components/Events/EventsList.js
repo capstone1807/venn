@@ -19,8 +19,6 @@ class EventList extends Component {
 
   render() {
     const {activeItem} = this.state
-    console.log(this.props.events.length > 0)
-
     const events = this.props.events.filter(event => {
       switch (this.state.activeItem) {
         case 'myEvents':
