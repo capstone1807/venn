@@ -22,6 +22,21 @@ export const EventFilter = ({activeItem, handleFilterClick}) => {
         handleFilterClick={handleFilterClick}
       />
       <EventFilterMenuItem
+        name="pending"
+        activeItem={activeItem}
+        handleFilterClick={handleFilterClick}
+      />
+      <EventFilterMenuItem
+        name="scheduled"
+        activeItem={activeItem}
+        handleFilterClick={handleFilterClick}
+      />
+      <EventFilterMenuItem
+        name="past"
+        activeItem={activeItem}
+        handleFilterClick={handleFilterClick}
+      />
+      <EventFilterMenuItem
         name="myEvents"
         activeItem={activeItem}
         handleFilterClick={handleFilterClick}

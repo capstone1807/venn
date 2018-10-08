@@ -23,18 +23,34 @@ class EventList extends Component {
       switch (this.state.activeItem) {
         case 'myEvents':
           return event.event_user.isAdmin
+
+        case 'pending':
+          return event.isPending
+
+        case 'scheduled':
+          return !event.isPending && !event.isPast
+
+        case 'past':
+          return event.isPast
+
         default:
           return true
       }
     })
 
-    const hasEvents = events.length > 0
+    const hasEvents = this.props.events.length > 0
 
     return (
       <Container>
         <Grid>
           <Grid.Column width={16}>
             <Header as="h1" content="Events" style={style.h1} />
+          </Grid.Column>
+          <Grid.Column width={16}>
+            <EventFilter
+              activeItem={activeItem}
+              handleFilterClick={this.handleFilterClick}
+            />
           </Grid.Column>
 
           {!hasEvents && (
@@ -57,10 +73,6 @@ class EventList extends Component {
                 <EventAddButton />
               </Grid.Column>
               <Grid.Column width={16}>
-                <EventFilter
-                  activeItem={activeItem}
-                  handleFilterClick={this.handleFilterClick}
-                />
                 <Card.Group>
                   {events.map((event, idx) => {
                     return <EventItem key={idx} event={event} />
