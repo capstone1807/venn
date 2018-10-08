@@ -1,11 +1,12 @@
 import React from 'react'
 import {Card, Button, Icon} from 'semantic-ui-react'
+import {Link} from 'react-router-dom'
 import history from '../../history'
 import styles from '../Utils/Global.css'
 
 export const EventItem = ({event}) => {
   return (
-    <Card>
+    <Card as={Link} to={`/events/${event.id}`}>
       <Card.Content>
         <Card.Header>{event.name}</Card.Header>
         {console.log(event.description.length)}
