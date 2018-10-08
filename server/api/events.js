@@ -43,6 +43,23 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+router.put('/:id/pending', async (req, res, next) => {
+  try {
+    const updatedEvent = await EventUser.update({
+      hasResponded: true
+    }, {
+      where:{
+        userId: req.user.id,
+        eventId: req.params.id
+      },
+      returning: true
+    })
+    res.status(201).json(updatedEvent)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.post('/:id/restaurants', (req, res, next) => {
   try {
     const eventId = req.params.id
