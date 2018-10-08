@@ -1,11 +1,12 @@
 import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
-import history from '../../history'
 import {fetchEvents} from '../../store'
 import NoData from '../Utils/NoData'
-import {Container, Header, Card, Button, Icon} from 'semantic-ui-react'
+import {Container, Header, Card, Grid} from 'semantic-ui-react'
 import {EventItem} from './EventItem'
 import {EventFilter} from './EventFilter'
+import EventAddButton from './EventAddButton'
+import style from '../Utils/Global.css'
 
 class EventList extends Component {
   state = {activeItem: 'allEvents'}
@@ -22,39 +23,66 @@ class EventList extends Component {
       switch (this.state.activeItem) {
         case 'myEvents':
           return event.event_user.isAdmin
+
+        case 'pending':
+          return event.isPending
+
+        case 'scheduled':
+          return !event.isPending && !event.isPast
+
+        case 'past':
+          return event.isPast
+
         default:
           return true
       }
     })
-    const hasEvents = events.length > 0
+
+    const hasEvents = this.props.events.length > 0
 
     return (
-      <Fragment>
-        <Header>Events</Header>
-        {!hasEvents && (
-          <NoData iconName="calendar outline" message="You have no events" />
-        )}
-        <Button primary animated onClick={() => history.push('/events/new')}>
-          <Button.Content visible>Add Event</Button.Content>
-          <Button.Content hidden>
-            <Icon name="plus" />
-          </Button.Content>
-        </Button>
-        {hasEvents && (
-          <Container>
+      <Container>
+        <Grid>
+          <Grid.Column width={16}>
+            <Header as="h1" content="Events" style={style.h1} />
+          </Grid.Column>
+          <Grid.Column width={16}>
             <EventFilter
               activeItem={activeItem}
               handleFilterClick={this.handleFilterClick}
             />
+          </Grid.Column>
 
-            <Card.Group>
-              {events.map((event, idx) => {
-                return <EventItem key={idx} event={event} />
-              })}
-            </Card.Group>
-          </Container>
-        )}
-      </Fragment>
+          {!hasEvents && (
+            <Fragment>
+              <Grid.Column width={16} textAlign="center">
+                <NoData
+                  iconName="calendar outline"
+                  message="You have no events"
+                />
+              </Grid.Column>
+              <Grid.Column width={16} textAlign="center">
+                <EventAddButton />
+              </Grid.Column>
+            </Fragment>
+          )}
+
+          {hasEvents && (
+            <Fragment>
+              <Grid.Column width={16}>
+                <EventAddButton />
+              </Grid.Column>
+              <Grid.Column width={16}>
+                <Card.Group>
+                  {events.map((event, idx) => {
+                    return <EventItem key={idx} event={event} />
+                  })}
+                </Card.Group>
+              </Grid.Column>
+            </Fragment>
+          )}
+        </Grid>
+      </Container>
     )
   }
 }
