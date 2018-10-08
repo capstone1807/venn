@@ -4,7 +4,7 @@ import {Provider} from 'react-redux'
 import {Router} from 'react-router-dom'
 import history from './history'
 import store from './store'
-import Sidebar from './components/Navbar/Sidebar'
+import Sidebar from './components/Sidebar/Sidebar'
 
 ReactDOM.render(
   <Provider store={store}>
