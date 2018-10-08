@@ -1,11 +1,11 @@
 import React from 'react'
 import {Menu} from 'semantic-ui-react'
+import styles from '../Utils/Global.css'
 
 const EventFilterMenuItem = ({name, activeItem, handleFilterClick}) => {
   return (
     <Menu.Item
       name={name}
-      color="orange"
       active={activeItem === name}
       onClick={handleFilterClick}
     />
@@ -14,8 +14,8 @@ const EventFilterMenuItem = ({name, activeItem, handleFilterClick}) => {
 
 export const EventFilter = ({activeItem, handleFilterClick}) => {
   return (
-    <Menu text size="large">
-      <Menu.Item header>Filter By</Menu.Item>
+    <Menu size="large" pointing secondary>
+      <Menu.Item header>FILTER BY: </Menu.Item>
       <EventFilterMenuItem
         name="allEvents"
         activeItem={activeItem}
