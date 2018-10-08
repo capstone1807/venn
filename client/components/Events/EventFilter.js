@@ -1,6 +1,5 @@
 import React from 'react'
 import {Menu} from 'semantic-ui-react'
-import styles from '../Utils/Global.css'
 
 const EventFilterMenuItem = ({name, activeItem, handleFilterClick}) => {
   return (
