@@ -2,7 +2,7 @@ import React, {Fragment} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import history from '../../history'
-import {fetchEvent, fetchRestaurants, updateEventRestaurants} from '../../store'
+import {fetchEvent, fetchRestaurants, updateEventRestaurants, updateRespondedStatus} from '../../store'
 import {PlacesAutoComplete, ErrorMessage} from '../index'
 import {Form, Header, Select, Container, Button} from 'semantic-ui-react'
 
@@ -10,7 +10,6 @@ export class GuestRestaurantChoice extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      errorVisible: true,
       restaurants: [],
       importance: 0
     }
@@ -35,12 +34,13 @@ export class GuestRestaurantChoice extends React.Component {
         this.state.restaurants,
         this.state.importance
       )
+      await this.props.updatedStatus(this.props.currentEvent.id)
       // push only if successful
       history.push('/events')
     }
   }
 
-  handleClickDeal = () => {
+  handleClickMust = () => {
     this.setState({importance: 2.25})
   }
 
@@ -81,8 +81,8 @@ export class GuestRestaurantChoice extends React.Component {
           {/* importance rating button group */}
           <Container>
             <Button.Group>
-              <Button type="button" onClick={this.handleClickDeal}>
-                Dealbreaker
+              <Button type="button" onClick={this.handleClickMust}>
+                It's a must
               </Button>
               <Button type="button" onClick={this.handleClickLike}>
                 I'd like it
@@ -116,9 +116,10 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getEvent: () => dispatch(fetchEvent(Number(ownProps.match.params.id))),
+  getRestaurants: () => dispatch(fetchRestaurants()),
   scoreRestaurants: (eventId, restaurantKeys, importance) =>
     dispatch(updateEventRestaurants(eventId, restaurantKeys, importance)),
-  getRestaurants: () => dispatch(fetchRestaurants())
+  updatedStatus: (eventId) => dispatch(updateRespondedStatus(eventId))
 })
 
 export default withRouter(
