@@ -27,7 +27,10 @@ export const EventItem = ({evt}) => {
         <Button
           color="vk"
           animated
-          onClick={() => history.push(`/events/${evt.id}/choices/restaurants`)}
+          onClick={e => {
+            e.preventDefault()
+            history.push(`/events/${evt.id}/choices/restaurants`)
+          }}
         >
           <Button.Content visible>Choose</Button.Content>
           <Button.Content hidden>
