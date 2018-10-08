@@ -19,7 +19,7 @@ class SidebarMenu extends Component {
 
     return (
       <div>
-        <Button onClick={this.handleButtonClick}><Icon name='bars'/></Button>
+        <Icon name='bars' onClick={this.handleButtonClick}/>
 
         <Sidebar.Pushable as={Segment}>
           <Sidebar
