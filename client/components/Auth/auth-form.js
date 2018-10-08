@@ -2,58 +2,86 @@ import React, {Fragment} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../../store'
+import {Link} from 'react-router-dom'
+import { Button, Form, Grid, Header, Image, Message, Segment, Icon, Divider } from 'semantic-ui-react'
+
 
 /**
  * COMPONENT
  */
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
+  const otherName = (name === 'signup') ? 'Log In' : 'Sign Up'
   const isSignup = name === 'signup'
+  console.log('NAME =>', name)
+  console.log('DISPLAY NAME =>', displayName)
+
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
-        {isSignup && (
-          <Fragment>
-            <div>
-              <label htmlFor="username">
-                <small>Username</small>
-              </label>
-              <input name="username" type="text" />
-            </div>
-            <div>
-              <label htmlFor="firstName">
-                <small>First Name</small>
-              </label>
-              <input name="firstName" type="text" />
-            </div>
-            <div>
-              <label htmlFor="lastName">
-                <small>Last Name</small>
-              </label>
-              <input name="lastName" type="text" />
-            </div>
-          </Fragment>
-        )}
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
-    </div>
+<div className='login-form'>
+    {/*
+      Heads up! The styles below are necessary for the correct render of this example.
+      You can do same with CSS, the main idea is that all the elements up to the `Grid`
+      below must have a height of 100%.
+    */}
+    <style>{`
+      body > div,
+      body > div > div,
+      body > div > div > div.login-form {
+        height: 100%;
+      }
+    `}</style>
+    <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+      <Grid.Column style={{ maxWidth: 450 }}>
+        {/* HEADER */}
+
+        <Header as='h2' textAlign='center'>
+          {displayName}
+        </Header>
+        <Form size='large' onSubmit={handleSubmit} name={name}>
+          <Segment stacked>
+          {isSignup && (
+            <Fragment>
+            <Form.Input fluid icon='user' iconPosition='left' placeholder='First Name' name="firstName" type="text"/>
+            <Form.Input fluid icon='user' iconPosition='left' placeholder='Last Name' name="lastName" type="text"/>
+            <Form.Input fluid icon='user' iconPosition='left' placeholder='Create a Username' name="username" type="text"/>
+            </Fragment>
+            )}
+            <Form.Input fluid icon='user' iconPosition='left' placeholder='Email' name="email" type="text"/>
+            <Form.Input
+              fluid
+              icon='lock'
+              iconPosition='left'
+              placeholder='Password'
+              name="password"
+              type='password'
+            />
+            <br/>
+            <Button color='vk' fluid size='large'>
+            {displayName}
+            </Button>
+            <br/>
+            <Button as={Link} to="/auth/google" color='google plus' fluid size='large'>
+            <Icon name='google'/>
+            {displayName} with Google</Button>
+          </Segment>
+          {error && error.response && <div> {error.response.data} </div>}
+        </Form>
+        {isSignup? (
+        <Message>
+          <Header as='h4'>Already have an account?
+          <br/><br/>
+        <Link to='login'><Button color='vk' content='Log In'/></Link>
+        </Header>
+        </Message>) : (
+        <Message>
+          <Header as='h4'>First time?<br/><br/>
+        <Link to='signup'><Button color='vk' content="Sign Up"/></Link>
+        </Header>
+        </Message>)}
+      </Grid.Column>
+    </Grid>
+  </div>
   )
 }
 
