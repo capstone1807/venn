@@ -1,17 +1,17 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {withRouter, Route, Switch} from 'react-router-dom'
+import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
   Login,
   Signup,
-  UserHome,
   Friends,
   CreateEvent,
   GuestRestaurantChoice,
   RestaurantsList,
   EventsList,
-  EventDetail
+  EventDetail,
+  NoData
 } from './components'
 import {me} from './store'
 
@@ -34,13 +34,28 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
+            <Route
+              exact
+              path="/home"
+              render={() => <Redirect to="/events" />}
+            />
+            <Route exact path="/" render={() => <Redirect to="/events" />} />
+
             <Route path="/friends" component={Friends} />
             <Route exact path="/restaurants" component={RestaurantsList} />
             <Route exact path="/events" component={EventsList} />
             <Route exact path="/events/new" component={CreateEvent} />
-            <Route exact path="/events/:id" component={EventDetail}/>
-            <Route exact path="/events/:id/choices/restaurants" component={GuestRestaurantChoice} />
+            <Route exact path="/events/:id" component={EventDetail} />
+            <Route
+              exact
+              path="/events/:id/choices/restaurants"
+              component={GuestRestaurantChoice}
+            />
+            <Route
+              render={() => (
+                <NoData iconName="exclamation" message="Page Not Found" />
+              )}
+            />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
