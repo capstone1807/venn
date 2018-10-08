@@ -15,7 +15,7 @@ const getEvents = events => ({type: GET_EVENTS, events})
  * ACTION CREATORS
  */
 
-const createEvent = () => ({
+const createEvent = (event) => ({
   type: CREATE_EVENT,
   event
 })

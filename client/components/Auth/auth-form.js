@@ -11,11 +11,7 @@ import { Button, Form, Grid, Header, Image, Message, Segment, Icon, Divider } fr
  */
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
-  const otherName = (name === 'signup') ? 'Log In' : 'Sign Up'
   const isSignup = name === 'signup'
-  console.log('NAME =>', name)
-  console.log('DISPLAY NAME =>', displayName)
-
 
   return (
 <div className='login-form'>

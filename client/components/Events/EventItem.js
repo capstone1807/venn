@@ -4,28 +4,28 @@ import {Link} from 'react-router-dom'
 import history from '../../history'
 import styles from '../Utils/Global.css'
 
-export const EventItem = ({event}) => {
+export const EventItem = ({evt}) => {
+  console.log('EVENT =>', evt)
   return (
-    <Card as={Link} to={`/events/${event.id}`}>
+    <Card as={Link} to={`/events/${evt.id}`}>
       <Card.Content>
-        <Card.Header>{event.name}</Card.Header>
-        {console.log(event.description.length)}
+        <Card.Header>{evt.name}</Card.Header>
         <Card.Meta>
-          {event.description.length > 0 ? event.description : '-'}
+          {evt.description && evt.description.length > 0 ? evt.description : '-'}
         </Card.Meta>
         <Card.Description>Choose your restaurant preferences</Card.Description>
-        {event.event_user.hasResponded && (
+        {evt.event_user.hasResponded && (
           <Card.Description style={styles.greenText}>
             You did it! <Icon name="checkmark" color="green" />
           </Card.Description>
         )}
       </Card.Content>
 
-      {!event.event_user.hasResponded && (
+      {!evt.event_user.hasResponded && (
         <Button
           animated
           onClick={() =>
-            history.push(`/events/${event.id}/choices/restaurants`)
+            history.push(`/events/${evt.id}/choices/restaurants`)
           }
         >
           <Button.Content visible>Choose</Button.Content>

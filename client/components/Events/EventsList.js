@@ -38,7 +38,10 @@ class EventList extends Component {
       }
     })
 
+    console.log('EVENTS =>', events)
+
     const hasEvents = this.props.events.length > 0
+
 
     return (
       <Container>
@@ -75,7 +78,7 @@ class EventList extends Component {
               <Grid.Column width={16}>
                 <Card.Group>
                   {events.map((event, idx) => {
-                    return <EventItem key={idx} event={event} />
+                    return <EventItem key={idx} evt={event} />
                   })}
                 </Card.Group>
               </Grid.Column>

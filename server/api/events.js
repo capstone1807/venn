@@ -28,7 +28,12 @@ router.post('/', async (req, res, next) => {
         userId: req.user.id
       }
     })
-    res.json(newEvent).status(201)
+    let updatedEvent = creator.getEvent({
+      where: {
+        eventId: newEvent.id
+      }
+    })
+    res.json(updatedEvent).status(201)
   } catch (err) {
     next(err)
   }
