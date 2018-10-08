@@ -26,16 +26,13 @@ export const EventItem = ({evt}) => {
       {!evt.event_user.hasResponded && (
         <Button
           color="vk"
-          animated
           onClick={e => {
             e.preventDefault()
             history.push(`/events/${evt.id}/choices/restaurants`)
           }}
         >
-          <Button.Content visible>Choose</Button.Content>
-          <Button.Content hidden>
-            <Icon name="options" />
-          </Button.Content>
+          <Icon name="options" />
+          Choose
         </Button>
       )}
     </Card>
