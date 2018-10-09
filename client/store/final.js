@@ -11,6 +11,7 @@ const GET_FINAL_RESTAURANT = 'GET_FINAL_RESTAURANT'
  * INITIAL STATE
  */
 
+// OB/JL: could get bundled into `currentEvent`
 const defaultValue = {
   restaurant: {}
 }

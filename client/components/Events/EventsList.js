@@ -25,6 +25,7 @@ class EventList extends Component {
 
   render() {
     const {activeItem} = this.state
+    // OB/JL: could refactor as a selector function (could also do server calls)
     const events = this.props.events.filter(event => {
       switch (this.state.activeItem) {
         case 'myEvents':

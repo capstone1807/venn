@@ -11,6 +11,7 @@ import currentEvent from './current-event'
 import eventRestaurants from './event-restaurants'
 import final from './final'
 
+// OB/JL: I like how your state is flat; can have data in similar format to database and then use selectors to squish data into shapes that the components need
 const reducer = combineReducers({
   user,
   users,

@@ -3,6 +3,22 @@ const {User, Event, EventUser, Restaurant, EventRestaurant} = require('../db/mod
 module.exports = router
 
 router.post('/', async (req, res, next) => {
+  // OB/JL: looks like a good opportunity for model methods
+  // OB/JL: also, this could maybe become one `.create` that looks like:
+  // await Event.create({
+  //   name: req.body.eventName,
+  //   description: req.body.description,
+  //   isPrivate: req.body.isPrivate,
+  //   creatorId: req.user.id,
+  //   event_users: [{
+  //     userId: 5,
+  //     isAdmin: false
+  //   }, /* ... */]
+  // }, {
+  //   include: [{model: EventUser, as: 'event_users'}]
+  // });
+  // as long as we specify a direct association between Event and EventUser
+  // e.g. Event.hasMany(EventUser, {as: 'event_users'}) (over in db/models/index.js)
   try {
     const newEvent = await Event.create({
       name: req.body.eventName,
@@ -49,8 +65,11 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+// OB/JL: could make sense to have an `/api/event_users` route or maybe `/api/attendance` route
+// OB/JL: this route is specific for a particular user action, could be more generic to any query / data the frontend might send
 router.put('/:id/pending', async (req, res, next) => {
   try {
+    // OB/JL: could use destructuring binding here
     let updatedEvent = await EventUser.update({
       hasResponded: true
     }, {
@@ -67,7 +86,9 @@ router.put('/:id/pending', async (req, res, next) => {
   }
 })
 
+// OB/JL: this route could be `POST /api/events?isFinal=true` or maybe `POST /api/events/final` or `POST /api/final-events`, also `PUT /api/events/:someId and in the body {isFinal: true}`
 router.put('/:id/scheduled', async (req, res, next) => {
+  // OB/JL: this logic could be its own method somewhere
   try {
     let updatedEvent = await Event.update({
       isPending: false
@@ -105,6 +126,7 @@ router.post('/:id/restaurants', (req, res, next) => {
     const eventId = req.params.id
     const restaurants = req.body.restaurantKeys
     const importance = req.body.importance
+    // OB/JL: async functions and `forEach` are not friends, async issue below (race conditions and lack of error handling), instead use `.map` to construct an array of promises then `Promise.all` to convert an array of promises into ONE promise for an array of those resolved values, then `await` that aggregate promise, or you could use something like Bluebird and do `Bluebird.map`
     restaurants.forEach(async key => {
       let restaurant = await Restaurant.findOne({
         where: {
