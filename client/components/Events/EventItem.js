@@ -11,7 +11,9 @@ export const EventItem = ({evt}) => {
       <Card.Content>
         <Card.Header>{evt.name}</Card.Header>
         <Card.Meta>
-          {evt.description && evt.description.length > 0 ? evt.description : '-'}
+          {evt.description && evt.description.length > 0
+            ? evt.description
+            : '-'}
         </Card.Meta>
         <Card.Description>Choose your restaurant preferences</Card.Description>
         {evt.event_user.hasResponded && (
@@ -23,10 +25,9 @@ export const EventItem = ({evt}) => {
 
       {!evt.event_user.hasResponded && (
         <Button
+          color="vk"
           animated
-          onClick={() =>
-            history.push(`/events/${evt.id}/choices/restaurants`)
-          }
+          onClick={() => history.push(`/events/${evt.id}/choices/restaurants`)}
         >
           <Button.Content visible>Choose</Button.Content>
           <Button.Content hidden>

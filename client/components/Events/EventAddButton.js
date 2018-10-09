@@ -4,7 +4,11 @@ import {Button, Icon} from 'semantic-ui-react'
 
 const EventAddButton = props => {
   return (
-    <Button color="orange" animated onClick={() => history.push('/events/new')}>
+    <Button
+      color="google plus"
+      animated
+      onClick={() => history.push('/events/new')}
+    >
       <Button.Content visible>Add Event</Button.Content>
       <Button.Content hidden>
         <Icon name="plus" />
