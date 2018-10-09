@@ -22,8 +22,6 @@ class SidebarMenu extends Component {
 
     return (
       <div>
-        <Icon name="bars" onClick={this.handleButtonClick} />
-
         <Sidebar.Pushable>
           <Sidebar
             as={Menu}
@@ -34,37 +32,27 @@ class SidebarMenu extends Component {
             visible={visible}
             width="thin"
           >
-            <Menu.Item>
-              <Link to="/events">
+            <Menu.Item as={Link} to="/events">
                 <Icon name="calendar alternate" /> Events
-              </Link>
             </Menu.Item>
-            <Menu.Item>
-              <Link to="/friends">
+            <Menu.Item as={Link} to="/friends">
                 <Icon name="users" /> Friends
-              </Link>
             </Menu.Item>
-            <Menu.Item>
-              <Link to="/restaurants">
+            <Menu.Item as={Link} to="/restaurants">
                 <Icon name="food" /> Restaurants
-              </Link>
             </Menu.Item>
             {isLoggedIn ? (
-              <Menu.Item>
-                <Link to="/login" onClick={handleClick}>
-                  <Icon name="log out" /> Log Out
-                </Link>
+              <Menu.Item as={Link} to="/login" onClick={handleClick}>
+                  <Icon name="sign-out" /> Log Out
               </Menu.Item>
             ) : (
-              <Menu.Item>
-                <Link to="/login" onClick={handleClick}>
-                  <Icon name="log out" /> Log In
-                </Link>
+              <Menu.Item as={Link} to="/login" onClick={handleClick}>
+                  <Icon name="sign-in" /> Log In
               </Menu.Item>
             )}
           </Sidebar>
           <Sidebar.Pusher dimmed={visible}>
-            <Header />
+            <Header handleButtonClick={this.handleButtonClick}/>
             <App />
             <Footer />
           </Sidebar.Pusher>
