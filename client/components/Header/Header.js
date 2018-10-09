@@ -17,7 +17,7 @@ const Header = props => {
         <Grid.Column>
           <Image
             style={styles.marginTopLeft}
-            src="assets/venn-logo.png"
+            src="/assets/venn-logo.png"
             width="60"
           />
         </Grid.Column>

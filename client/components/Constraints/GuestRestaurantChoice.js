@@ -61,7 +61,11 @@ export class GuestRestaurantChoice extends React.Component {
     const {restaurants} = this.props
     const {currentEvent} = this.props
     const restaurantItems = restaurants.map(item => {
-      return {text: item.title, value: item.placeId}
+      return {
+        text: item.title,
+        description: item.description,
+        value: item.placeId
+      }
     })
     return (
       <Fragment>
