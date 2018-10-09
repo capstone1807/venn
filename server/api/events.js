@@ -77,6 +77,22 @@ router.put('/:id/scheduled', async (req, res, next) => {
       },
       returning: true
     })
+    // FINAL RESTAURANT IS UPDATED WHEN AN EVENT MOVES TO 'SCHEDULED'
+    const restaurantScore = await EventRestaurant.findAll({
+      attributes: ['score', 'restaurantId'],
+      where: {
+        eventId: req.params.id
+      }
+    })
+    const finalId = EventRestaurant.getFinal(restaurantScore)
+    await EventRestaurant.update({
+      isFinal: true
+    }, {
+      where: {
+        restaurantId: finalId,
+        eventId: req.params.id
+      }
+    })
     updatedEvent = updatedEvent[1][0]
     res.status(201).json(updatedEvent)
   } catch (err) {
@@ -119,15 +135,14 @@ router.post('/:id/restaurants', (req, res, next) => {
 
 router.get('/:id/final-restaurant', async (req, res, next) => {
   try{
-    const restaurantScore = await EventRestaurant.findAll({
-      attributes: ['score', 'restaurantId'],
+    const finalEventRestaurant = await EventRestaurant.findOne({
       where: {
-        eventId: req.params.id
+        eventId: req.params.id,
+        isFinal: true
       }
     })
-    const id = EventRestaurant.getFinal(restaurantScore)
-    const final = await Restaurant.findById(id)
-    res.json(final)
+    const finalRestaurant = await Restaurant.findById(finalEventRestaurant.restaurantId)
+    res.json(finalRestaurant)
   } catch(err){
     next(err)
   }

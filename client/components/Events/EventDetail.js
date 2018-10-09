@@ -50,7 +50,7 @@ class EventDetail extends React.Component {
                 <GridColumn width={8}>
                   <Header>Details</Header>
                   <p>(description) {currentEvent.description}</p>
-                  {currentEvent.isPending
+                  {!currentEvent.isPast
                     ? <p>Who's going to be there? ({guests.length})</p>
                     : <p>Who went? ({guests.length})</p>}
                   <Card.Group>
