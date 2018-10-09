@@ -2,7 +2,7 @@ import debounce from 'lodash.debounce'
 import React, {Component, Fragment} from 'react'
 import {saveRestaurant} from '../../store'
 import {connect} from 'react-redux'
-import {Search, Button} from 'semantic-ui-react'
+import {Search, Button, Icon} from 'semantic-ui-react'
 
 const autocompleteService = new google.maps.places.AutocompleteService()
 
@@ -76,12 +76,7 @@ class PlacesAutoComplete extends Component {
           results={results}
           value={value}
         />
-        <Button
-          onClick={this.handleSubmit}
-          content="Add restaurant!"
-          color="teal"
-          size="medium"
-        />
+        <Button onClick={this.handleSubmit} color="google plus" size="medium"><Icon name="plus" />Add Restaurant</Button>
       </Fragment>
     )
   }

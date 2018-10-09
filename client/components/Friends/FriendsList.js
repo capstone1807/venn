@@ -119,11 +119,11 @@ export class FriendsList extends React.Component {
           />
           <Divider hidden />
           <Form onSubmit={this.handleSubmit}>
-            <Form.Button content="Add friend!" color="teal" size="medium" />
+            <Button color="google plus" size="medium"><Icon name="plus" />Add Friend</Button>
           </Form>
         </Segment>
         <Container>
-          <Button onClick={this.handleSort}>
+          <Button color='vk' onClick={this.handleSort}>
             <Icon name={this.state.icon} />
           </Button>
           <Card.Group>
