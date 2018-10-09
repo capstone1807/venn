@@ -1,15 +1,27 @@
 import React from 'react'
 import {Image, Icon, Grid} from 'semantic-ui-react'
+import styles from '../Utils/Global.css'
 
 const Header = props => {
   return (
-    <Grid container>
-      <Grid.Column>
-        <Icon name="bars" size="big" onClick={props.handleButtonClick} />
-      </Grid.Column>
-      <Grid.Column>
-        <Image src="assets/venn-logo.png" />
-      </Grid.Column>
+    <Grid>
+      <Grid.Row>
+        <Grid.Column>
+          <Icon
+            name="bars"
+            style={styles.marginTopLeft}
+            size="big"
+            onClick={props.handleButtonClick}
+          />
+        </Grid.Column>
+        <Grid.Column>
+          <Image
+            style={styles.marginTopLeft}
+            src="assets/venn-logo.png"
+            width="60"
+          />
+        </Grid.Column>
+      </Grid.Row>
     </Grid>
   )
 }
