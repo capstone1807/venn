@@ -3,95 +3,108 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../../store'
 import {Link} from 'react-router-dom'
-import { Button, Form, Grid, Header, Image, Message, Segment, Icon, Divider } from 'semantic-ui-react'
-
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Image,
+  Message,
+  Segment,
+  Icon
+} from 'semantic-ui-react'
+import styles from '../Utils/Global.css'
 
 /**
  * COMPONENT
  */
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+  const {name, displayName, handleSubmit, action, error} = props
   const isSignup = name === 'signup'
 
   return (
-<div className='login-form'>
-    {/*
-      Heads up! The styles below are necessary for the correct render of this example.
-      You can do same with CSS, the main idea is that all the elements up to the `Grid`
-      below must have a height of 100%.
-    */}
-    <style>{`
-      body > div,
-      body > div > div,
-      body > div > div > div.login-form {
-        height: 100%;
-      }
-    `}</style>
-    <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
-      <Grid.Column style={{ maxWidth: 450 }}>
+    <Grid textAlign="center" style={{height: '100%'}} verticalAlign="middle">
+      <Grid.Column style={{maxWidth: 450}}>
         {/* HEADER */}
 
-        <Header as='h2' textAlign='center'>
+        <Header as="h2" textAlign="center">
+          <Image src="../assets/venn-logo.png" />
           {displayName}
         </Header>
-        <Form size='large' onSubmit={handleSubmit} name={name}>
+        <Form size="large" onSubmit={handleSubmit} name={name}>
           <Segment stacked>
-          {isSignup && (
-            <Fragment>
-            <Form.Input fluid icon='user' iconPosition='left' placeholder='First Name' name="firstName" type="text"/>
-            <Form.Input fluid icon='user' iconPosition='left' placeholder='Last Name' name="lastName" type="text"/>
-            <Form.Input fluid icon='user' iconPosition='left' placeholder='Create a Username' name="username" type="text"/>
-            </Fragment>
+            {isSignup && (
+              <Fragment>
+                <Form.Input
+                  icon="user"
+                  iconPosition="left"
+                  placeholder="First Name"
+                  name="firstName"
+                  type="text"
+                />
+                <Form.Input
+                  icon="user"
+                  iconPosition="left"
+                  placeholder="Last Name"
+                  name="lastName"
+                  type="text"
+                />
+                <Form.Input
+                  icon="user"
+                  iconPosition="left"
+                  placeholder="Create a Username"
+                  name="username"
+                  type="text"
+                />
+              </Fragment>
             )}
-            <Form.Input fluid icon='user' iconPosition='left' placeholder='Email' name="email" type="text"/>
             <Form.Input
-              fluid
-              icon='lock'
-              iconPosition='left'
-              placeholder='Password'
-              name="password"
-              type='password'
+              icon="at"
+              iconPosition="left"
+              placeholder="Email"
+              name="email"
+              type="text"
             />
-            <br/>
-            <Button color='vk' fluid size='large'>
-            {displayName}
+            <Form.Input
+              icon="lock"
+              iconPosition="left"
+              placeholder="Password"
+              name="password"
+              type="password"
+            />
+            <Button fluid color="vk" size="large" style={styles.mBottom}>
+              {displayName}
             </Button>
-            <br/>
-            <Button as={Link} to="/auth/google" color='google plus' fluid size='large'>
-            <Icon name='google'/>
-            {displayName} with Google</Button>
+            <Button fluid as={Link} to="/auth/google" color="google plus">
+              <Icon name="google" />
+              {displayName} with Google
+            </Button>
           </Segment>
           {error && error.response && <div> {error.response.data} </div>}
         </Form>
-        {isSignup? (
+
         <Message>
-          <Header as='h4'>Already have an account?
-          <br/><br/>
-        <Link to='login'><Button color='vk' content='Log In'/></Link>
-        </Header>
-        </Message>) : (
-        <Message>
-          <Header as='h4'>First time?<br/><br/>
-        <Link to='signup'><Button color='vk' content="Sign Up"/></Link>
-        </Header>
-        </Message>)}
+          <Header as="h4">
+            {action.message}
+            <br />
+            <br />
+            <Button as={Link} to={action.to} color="vk" content={action.name} />
+          </Header>
+        </Message>
       </Grid.Column>
     </Grid>
-  </div>
   )
 }
 
-/**
- * CONTAINER
- *   Note that we have two different sets of 'mapStateToProps' functions -
- *   one for Login, and one for Signup. However, they share the same 'mapDispatchToProps'
- *   function, and share the same Component. This is a good example of how we
- *   can stay DRY with interfaces that are very similar to each other!
- */
 const mapLogin = state => {
   return {
     name: 'login',
     displayName: 'Login',
+    action: {
+      name: 'Sign Up',
+      message: 'First time?',
+      to: 'signup'
+    },
     error: state.user.error
   }
 }
@@ -100,6 +113,11 @@ const mapSignup = state => {
   return {
     name: 'signup',
     displayName: 'Sign Up',
+    action: {
+      name: 'Login',
+      message: 'Already have an account?',
+      to: 'login'
+    },
     error: state.user.error
   }
 }
@@ -140,6 +158,7 @@ export const Signup = connect(mapSignup, mapDispatchSignup)(AuthForm)
 AuthForm.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
+  action: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.object
 }
