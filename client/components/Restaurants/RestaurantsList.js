@@ -51,8 +51,8 @@ class RestaurantsList extends Component {
           <NoData iconName="food" message="You have no restaurants saved" />
         )}
         <PlacesAutoComplete />
-        <Button onClick={this.handleSort}>
-            <Icon name={this.state.icon} />
+        <Button color='vk' onClick={this.handleSort}>
+            <Icon name={this.state.icon}/>
           </Button>
         {restaurants && (
           <Container>
