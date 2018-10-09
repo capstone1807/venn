@@ -18,6 +18,9 @@ export default {
   pBottom2: {
     paddingBottom: '2em'
   },
+  mBottom: {
+    marginBottom: '1em'
+  },
   greenText: {
     color: colors.green
   }
