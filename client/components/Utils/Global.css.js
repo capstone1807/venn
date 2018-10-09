@@ -23,5 +23,9 @@ export default {
   },
   greenText: {
     color: colors.green
+  },
+  eventContent: {
+    background: colors.grey,
+    marginTop: '3em'
   }
 }
