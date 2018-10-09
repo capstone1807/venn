@@ -1,6 +1,8 @@
 import React from 'react'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
+import formatDate from '../../../UtilFuncs/formatDate'
+import formatTime from '../../../UtilFuncs/formatTime'
 import {
   Header,
   Grid,
@@ -35,6 +37,8 @@ class EventDetail extends React.Component {
     const {currentEvent, guests, finalRestaurant} = this.props
     const creator =
       guests.length && guests.find(guest => guest.event_user.isAdmin)
+    const prettyDate = currentEvent.date && formatDate(currentEvent.date)
+    const prettyTime = currentEvent.time && formatTime(currentEvent.time)
 
     return (
       <Grid>
@@ -42,23 +46,10 @@ class EventDetail extends React.Component {
           <Container>
             {this.getStatus(currentEvent)}
             <Header as="h1">{currentEvent.name}</Header>
+            <Header>{prettyDate}</Header>
             <div>
               <span style={styles.mSmall}> Created By:</span>
               {`${creator.firstName} ${creator.lastName} (${creator.email})`}
-            </div>
-            <div>
-              <span style={styles.mSmall}>
-                {currentEvent.isPrivate ? 'Private Event' : 'Open Event'}
-              </span>
-              <Popup
-                trigger={<Icon name="question circle" color="grey" />}
-                content={
-                  currentEvent.isPrivate
-                    ? 'Sorry the guest list is closed!'
-                    : 'You can invite friends!'
-                }
-                on={['hover', 'click']}
-              />
             </div>
           </Container>
         </Grid.Column>
@@ -89,37 +80,52 @@ class EventDetail extends React.Component {
                   ))}
                 </Card.Group>
               </GridColumn>
-              <GridColumn width={8}>
-                <Card>
-                  <Grid style={styles.padding}>
-                    <Grid.Row>
-                      <Grid.Column width={2}>
-                        <Icon name="clock outline" color="grey" />
-                      </Grid.Column>
-                      <Grid.Column width={14}>
-                        <p>Monday, February 21, 2018</p>
-                        <p>Brunch</p>
-                      </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row>
-                      <Grid.Column width={2}>
-                        <Icon name="map marker alternate" color="grey" />
-                      </Grid.Column>
-                      <Grid.Column width={14}>
-                        <p>
-                          {!currentEvent.isPending && finalRestaurant.id
-                            ? finalRestaurant.title
-                            : 'Check back when everyone has responded!'}
-                        </p>
-                      </Grid.Column>
-                    </Grid.Row>
-                  </Grid>
-                  <Divider />
-                  <div>Map with pin</div>
-                </Card>
-              </GridColumn>
             </Grid>
           </Container>
+        </Grid.Column>
+        <Grid.Column width={8}>
+          <Card fluid>
+            <Card.Content>
+              <Card.Content style={styles.mBottom}>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column width={2}>
+                      <Icon name="clock" color="grey" />
+                    </Grid.Column>
+                    <Grid.Column width={14}>
+                      <p>{prettyTime}</p>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column width={2}>
+                      <Icon name="calendar alternate outline" color="grey" />
+                    </Grid.Column>
+                    <Grid.Column width={14}>
+                      <p>{prettyDate}</p>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Card.Content>
+              <Card.Content style={styles.mBottom}>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column width={2}>
+                      <Icon name="pin" color="grey" />
+                    </Grid.Column>
+                    <Grid.Column width={14}>
+                      <p>
+                        {!currentEvent.isPending && finalRestaurant.id
+                          ? finalRestaurant.title
+                          : 'Check back when everyone has responded!'}
+                      </p>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Card.Content>
+              <Divider />
+              <div>Map with pin</div>
+            </Card.Content>
+          </Card>
         </Grid.Column>
       </Grid>
     )
