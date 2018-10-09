@@ -44,10 +44,7 @@ class EventList extends Component {
       }
     })
 
-    console.log('EVENTS =>', events)
-
     const hasEvents = this.props.events.length > 0
-
 
     return (
       <Container>

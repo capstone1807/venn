@@ -6,6 +6,7 @@ import axios from 'axios'
 
 const GET_EVENT = 'GET_EVENT'
 const SET_STATUS_TO_RESPONDED = 'SET_STATUS_TO_RESPONDED'
+const SET_STATUS_TO_SCHEDULED = 'SET_STATUS_TO_SCHEDULED'
 
 
 /**
@@ -25,6 +26,11 @@ const getEvent = (currentEvent) => ({
 
 const setStatusToResponded = (event) => ({
   type: SET_STATUS_TO_RESPONDED,
+  event
+})
+
+const setStatusToScheduled = (event) => ({
+  type: SET_STATUS_TO_SCHEDULED,
   event
 })
 
@@ -50,6 +56,15 @@ export const updateRespondedStatus = (eventId) => async dispatch => {
   }
 }
 
+export const lockInEvent = (eventId) => async dispatch => {
+  try {
+    const event = await axios.put(`/api/events/${eventId}/scheduled`)
+    dispatch(setStatusToScheduled(event))
+  } catch (err){
+    console.log(err)
+  }
+}
+
 /**
  * REDUCER
  */
@@ -59,6 +74,8 @@ export default function (state = defaultEvent, action) {
     case GET_EVENT:
       return action.currentEvent
     case SET_STATUS_TO_RESPONDED:
+      return action.event
+    case SET_STATUS_TO_SCHEDULED:
       return action.event
     default:
       return state
