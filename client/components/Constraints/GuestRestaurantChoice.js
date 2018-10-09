@@ -103,7 +103,7 @@ export class GuestRestaurantChoice extends React.Component {
             <Form.Button type="button" onClick={() => history.goBack()}>
               Cancel
             </Form.Button>
-            <Form.Button color="orange">Submit Choices</Form.Button>
+            <Form.Button color="vk">Submit Choices</Form.Button>
           </Container>
         </Form>
       </Fragment>

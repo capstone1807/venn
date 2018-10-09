@@ -7,6 +7,7 @@ import {
   removeFriend
 } from '../../store'
 import NoData from '../Utils/NoData'
+import LoaderPage from '../Utils/Loader'
 import {
   Divider,
   Select,
@@ -25,7 +26,8 @@ export class FriendsList extends React.Component {
     this.state = {
       selectedUser: '',
       isReversed: false,
-      icon: 'sort alphabet up'
+      icon: 'sort alphabet up',
+      isLoading: true
     }
   }
 
@@ -38,7 +40,8 @@ export class FriendsList extends React.Component {
     let comparison = 0;
     (A > B) ? comparison = 1 : comparison = -1;
     return comparison;
-  });
+    });
+    this.setState({isLoading: false})
   }
 
   handleChange = (event, data) => {
@@ -70,7 +73,6 @@ export class FriendsList extends React.Component {
 
   render() {
     const {users, friends} = this.props
-    console.log(friends)
     const friendUsernames = friends.map(friend => friend.username)
     const notFriends = users.filter(
       user => !friendUsernames.includes(user.username)
@@ -87,6 +89,8 @@ export class FriendsList extends React.Component {
       })
     return (
       <Container textAlign="center">
+      {this.state.isLoading ? (<LoaderPage/>) : (
+        <Container>
         <Segment vertical style={{width: 500}}>
           <Header as="h2">Your Friends</Header>
           <Divider hidden />
@@ -115,11 +119,11 @@ export class FriendsList extends React.Component {
           />
           <Divider hidden />
           <Form onSubmit={this.handleSubmit}>
-            <Form.Button content="Add friend!" color="teal" size="medium" />
+            <Button color="google plus" size="medium"><Icon name="plus" />Add Friend</Button>
           </Form>
         </Segment>
         <Container>
-          <Button onClick={this.handleSort}>
+          <Button color='vk' onClick={this.handleSort}>
             <Icon name={this.state.icon} />
           </Button>
           <Card.Group>
@@ -144,7 +148,9 @@ export class FriendsList extends React.Component {
           </Card.Group>
         </Container>
         <Divider hidden />
-      </Container>
+       </Container>
+       )}
+       </Container>
     )
   }
 }

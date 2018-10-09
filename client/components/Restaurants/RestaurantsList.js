@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {fetchRestaurants, removeRestaurant} from '../../store'
 import NoData from '../Utils/NoData'
 import PlacesAutoComplete from './PlacesAutoComplete'
+import LoaderPage from '../Utils/Loader'
 import {Container, Header, Card, Button, Icon} from 'semantic-ui-react'
 
 class RestaurantsList extends Component {
@@ -10,7 +11,8 @@ class RestaurantsList extends Component {
     super(props)
     this.state = {
       isReversed: false,
-      icon: 'sort alphabet up'
+      icon: 'sort alphabet up',
+      isLoading: true
     }
   }
 
@@ -23,6 +25,8 @@ class RestaurantsList extends Component {
     (A > B) ? comparison = 1 : comparison = -1;
     return comparison;
   });
+  this.setState({isLoading: false})
+
   }
 
   handleClick = async (event, data) => {
@@ -43,16 +47,17 @@ class RestaurantsList extends Component {
 
   render() {
     const {restaurants} = this.props
-    console.log(restaurants)
     return (
+      <Container>
+      {this.state.isLoading ? (<LoaderPage/>) : (
       <Fragment>
         <Header>Favorite Restaurants</Header>
         {!restaurants.length && (
           <NoData iconName="food" message="You have no restaurants saved" />
         )}
         <PlacesAutoComplete />
-        <Button onClick={this.handleSort}>
-            <Icon name={this.state.icon} />
+        <Button color='vk' onClick={this.handleSort}>
+            <Icon name={this.state.icon}/>
           </Button>
         {restaurants && (
           <Container>
@@ -79,6 +84,8 @@ class RestaurantsList extends Component {
           </Container>
         )}
       </Fragment>
+      )}
+      </Container>
     )
   }
 }
