@@ -7,14 +7,20 @@ import {EventItem} from './EventItem'
 import {EventFilter} from './EventFilter'
 import EventAddButton from './EventAddButton'
 import style from '../Utils/Global.css'
+import LoaderPage from '../Utils/Loader'
+
 
 class EventList extends Component {
-  state = {activeItem: 'allEvents'}
+  state = {
+    activeItem: 'allEvents',
+    isLoading: true
+  }
 
   handleFilterClick = (e, {name}) => this.setState({activeItem: name})
 
   async componentDidMount() {
     await this.props.getEvents()
+    this.setState({isLoading: false})
   }
 
   render() {
@@ -45,6 +51,7 @@ class EventList extends Component {
 
     return (
       <Container>
+      {this.state.isLoading ? (<LoaderPage/>) : (
         <Grid>
           <Grid.Column width={16}>
             <Header as="h1" content="Events" style={style.h1} />
@@ -85,6 +92,7 @@ class EventList extends Component {
             </Fragment>
           )}
         </Grid>
+        )}
       </Container>
     )
   }
