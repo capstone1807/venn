@@ -8,7 +8,8 @@ import {
   Card,
   Icon,
   GridColumn,
-  Divider
+  Divider,
+  Popup
 } from 'semantic-ui-react'
 import {
   fetchEvent,
@@ -35,24 +36,41 @@ class EventDetail extends React.Component {
     }
   }
 
+  getStatus = event => {
+    if (event.isPending) return 'Pending Event'
+    return event.isPast ? 'Past Event' : 'Scheduled Event'
+  }
+
   render() {
     const {currentEvent, guests, finalRestaurant} = this.props
     const creator =
-      guests.length && guests.filter(guest => guest.event_user.isAdmin)[0]
+      guests.length && guests.find(guest => guest.event_user.isAdmin)
+
     guests.length && this.checkScheduledStatus()
+
     return (
       <Grid>
         <Grid.Column width={16}>
           <Container>
-            {currentEvent.isPast ? 'Past Event' : 'Upcoming Event'}
-            <div as="h3">Event Name: {currentEvent.name}</div>
+            {this.getStatus(currentEvent)}
+            <Header as="h1">{currentEvent.name}</Header>
             <div>
-              Created By:
+              <span style={styles.mSmall}> Created By:</span>
               {`${creator.firstName} ${creator.lastName} (${creator.email})`}
             </div>
             <div>
-              {currentEvent.isPrivate ? 'Private Event' : 'Open Event'}
-              <Icon name="question circle" color="grey" />
+              <span style={styles.mSmall}>
+                {currentEvent.isPrivate ? 'Private Event' : 'Open Event'}
+              </span>
+              <Popup
+                trigger={<Icon name="question circle" color="grey" />}
+                content={
+                  currentEvent.isPrivate
+                    ? 'Sorry the guest list is closed!'
+                    : 'You can invite friends!'
+                }
+                on={['hover', 'click']}
+              />
             </div>
           </Container>
         </Grid.Column>
@@ -61,7 +79,7 @@ class EventDetail extends React.Component {
             <Grid>
               <GridColumn width={8}>
                 <Header>Details</Header>
-                <p>(description) {currentEvent.description}</p>
+                <p>{currentEvent.description}</p>
                 {!currentEvent.isPast ? (
                   <p>Who's going to be there? ({guests.length})</p>
                 ) : (
@@ -77,10 +95,6 @@ class EventDetail extends React.Component {
                         <Card.Header
                           textAlign="center"
                           content={`${item.firstName} ${item.lastName}`}
-                        />
-                        <Card.Description
-                          textAlign="center"
-                          content={item.username}
                         />
                       </Card.Content>
                     </Card>

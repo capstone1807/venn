@@ -19,6 +19,10 @@ export default {
   padding: {
     padding: '1em'
   },
+
+  mSmall: {
+    marginRight: '.5em'
+  },
   marginTopLeft: {
     margin: '16px 0 0 16px'
   },
@@ -33,6 +37,6 @@ export default {
   },
   eventContent: {
     background: colors.grey,
-    marginTop: '3em'
+    marginTop: '2em'
   }
 }
