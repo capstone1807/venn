@@ -34,7 +34,7 @@ class EventDetail extends React.Component {
         <Grid>
           <Grid.Column width={16}>
             <Container>
-              <Header>Date: June 12 in rounded box</Header>
+              <Header>{currentEvent.date}</Header>
               {currentEvent.isPast ? 'Past Event' : 'Upcoming Event'}
               <div as="h3">Event Name: {currentEvent.name}</div>
               <div>Created By: {`${creator.firstName} ${creator.lastName} (${creator.email})`}</div>
@@ -83,11 +83,15 @@ class EventDetail extends React.Component {
                               <Icon name="clock" color="grey" />
                             </Grid.Column>
                             <Grid.Column width={14}>
-                              <p>Monday, February 21, 2018</p>
-                              <p>
-                                Brunch
-                                <Icon name="calendar alternate outline" />
-                              </p>
+                              <p>{currentEvent.time}</p>
+                            </Grid.Column>
+                          </Grid.Row>
+                          <Grid.Row>
+                            <Grid.Column width={2}>
+                              <Icon name="calendar alternate outline" color="grey" />
+                            </Grid.Column>
+                            <Grid.Column width={14}>
+                              <p>{currentEvent.date}</p>
                             </Grid.Column>
                           </Grid.Row>
                         </Grid>
