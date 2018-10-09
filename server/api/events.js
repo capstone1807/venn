@@ -30,7 +30,7 @@ router.post('/', async (req, res, next) => {
     })
     let updatedEvent = await creator.getEvents({
       where: {
-        eventId: newEvent.id
+        id: newEvent.id
       }
     })
     updatedEvent = updatedEvent[0]
