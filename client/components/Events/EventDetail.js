@@ -1,6 +1,8 @@
 import React, {Fragment} from 'react'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
+import formatDate from '../../../UtilFuncs/formatDate'
+import formatTime from '../../../UtilFuncs/formatTime'
 import {
   Header,
   Grid,
@@ -29,12 +31,14 @@ class EventDetail extends React.Component {
     const {currentEvent, guests, finalRestaurant} = this.props
     const creator = guests.length && guests.filter(guest => guest.event_user.isAdmin)[0]
     guests.length && this.checkScheduledStatus()
+    const prettyDate = currentEvent.date && formatDate(currentEvent.date)
+    const prettyTime = currentEvent.time && formatTime(currentEvent.time)
     return (
       <Fragment>
         <Grid>
           <Grid.Column width={16}>
             <Container>
-              <Header>{currentEvent.date}</Header>
+              <Header>{prettyDate}</Header>
               {currentEvent.isPast ? 'Past Event' : 'Upcoming Event'}
               <div as="h3">Event Name: {currentEvent.name}</div>
               <div>Created By: {`${creator.firstName} ${creator.lastName} (${creator.email})`}</div>
@@ -83,7 +87,7 @@ class EventDetail extends React.Component {
                               <Icon name="clock" color="grey" />
                             </Grid.Column>
                             <Grid.Column width={14}>
-                              <p>{currentEvent.time}</p>
+                              <p>{prettyTime}</p>
                             </Grid.Column>
                           </Grid.Row>
                           <Grid.Row>
@@ -91,7 +95,7 @@ class EventDetail extends React.Component {
                               <Icon name="calendar alternate outline" color="grey" />
                             </Grid.Column>
                             <Grid.Column width={14}>
-                              <p>{currentEvent.date}</p>
+                              <p>{prettyDate}</p>
                             </Grid.Column>
                           </Grid.Row>
                         </Grid>
