@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import history from '../../history'
 import {fetchFriends, postEvent} from '../../store'
+import Calendar from './Calendar'
 import {
   Form,
   TextArea,
@@ -72,11 +73,16 @@ export class CreateEvent extends React.Component {
       <Form verticalalign="middle" onSubmit={this.handleSubmit}>
         <Container style={{width: 500}}>
           <Form.Field>
-            <label>Name Your Event</label>
+            <label>Name your event</label>
             <input
               placeholder="Event Name"
               onChange={this.handleChangeEventName}
             />
+          </Form.Field>
+
+          <Form.Field>
+            <label>Choose a date & time</label>
+            <Calendar/>
           </Form.Field>
 
           <Form.Field>
@@ -87,8 +93,8 @@ export class CreateEvent extends React.Component {
               onChange={this.handleChangeDescription}
             />
           </Form.Field>
-        </Container>
-        <Container style={{width: 538}}>
+          <Form.Field>
+        <label>Select guests</label>
           <Select
             placeholder="choose friends"
             fluid
@@ -98,14 +104,13 @@ export class CreateEvent extends React.Component {
             options={friends}
             onChange={this.handleChangeGuests}
           />
-        </Container>
+          </Form.Field>
+          </Container>
         <Divider horizontal hidden />
-        <h3>Friends can invite friends</h3>
-        <Radio toggle onChange={this.toggle} />
         <Form.Button type="button" onClick={() => history.goBack()}>
           Cancel
         </Form.Button>
-        <Form.Button color="orange">Next</Form.Button>
+        <Form.Button color="vk">Next</Form.Button>
       </Form>
     )
   }

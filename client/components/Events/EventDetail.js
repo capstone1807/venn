@@ -53,6 +53,7 @@ class EventDetail extends React.Component {
                   {!currentEvent.isPast
                     ? <p>Who's going to be there? ({guests.length})</p>
                     : <p>Who went? ({guests.length})</p>}
+                    <Container style={{overflow: 'auto', maxHeight: 200 }}>
                   <Card.Group>
                     {guests.map(
                       (item, idx) => (
@@ -74,6 +75,7 @@ class EventDetail extends React.Component {
                       )
                     )}
                   </Card.Group>
+                  </Container >
                 </GridColumn>
                 <GridColumn width={8}>
                   <Card fluid>
