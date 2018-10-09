@@ -9,7 +9,6 @@ import EventAddButton from './EventAddButton'
 import style from '../Utils/Global.css'
 import LoaderPage from '../Utils/Loader'
 
-
 class EventList extends Component {
   state = {
     activeItem: 'allEvents',
@@ -48,47 +47,49 @@ class EventList extends Component {
 
     return (
       <Container>
-      {this.state.isLoading ? (<LoaderPage/>) : (
-        <Grid>
-          <Grid.Column width={16}>
-            <Header as="h1" content="Events" style={style.h1} />
-          </Grid.Column>
-          <Grid.Column width={16}>
-            <EventFilter
-              activeItem={activeItem}
-              handleFilterClick={this.handleFilterClick}
-            />
-          </Grid.Column>
+        {this.state.isLoading ? (
+          <LoaderPage />
+        ) : (
+          <Grid>
+            <Grid.Column width={16}>
+              <Header as="h1" content="Events" style={style.h1} />
+            </Grid.Column>
+            <Grid.Column width={16}>
+              <EventFilter
+                activeItem={activeItem}
+                handleFilterClick={this.handleFilterClick}
+              />
+            </Grid.Column>
 
-          {!hasEvents && (
-            <Fragment>
-              <Grid.Column width={16} textAlign="center">
-                <NoData
-                  iconName="calendar outline"
-                  message="You have no events"
-                />
-              </Grid.Column>
-              <Grid.Column width={16} textAlign="center">
-                <EventAddButton />
-              </Grid.Column>
-            </Fragment>
-          )}
+            {!hasEvents && (
+              <Fragment>
+                <Grid.Column width={16} textAlign="center">
+                  <NoData
+                    iconName="calendar outline"
+                    message="You have no events"
+                  />
+                </Grid.Column>
+                <Grid.Column width={16} textAlign="center">
+                  <EventAddButton />
+                </Grid.Column>
+              </Fragment>
+            )}
 
-          {hasEvents && (
-            <Fragment>
-              <Grid.Column width={16}>
-                <EventAddButton />
-              </Grid.Column>
-              <Grid.Column width={16}>
-                <Card.Group>
-                  {events.map((event, idx) => {
-                    return <EventItem key={idx} evt={event} />
-                  })}
-                </Card.Group>
-              </Grid.Column>
-            </Fragment>
-          )}
-        </Grid>
+            {hasEvents && (
+              <Fragment>
+                <Grid.Column width={16}>
+                  <EventAddButton />
+                </Grid.Column>
+                <Grid.Column width={16}>
+                  <Card.Group>
+                    {events.map((event, idx) => {
+                      return <EventItem key={idx} evt={event} />
+                    })}
+                  </Card.Group>
+                </Grid.Column>
+              </Fragment>
+            )}
+          </Grid>
         )}
       </Container>
     )

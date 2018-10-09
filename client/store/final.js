@@ -6,7 +6,6 @@ import axios from 'axios'
 
 const GET_FINAL_RESTAURANT = 'GET_FINAL_RESTAURANT'
 
-
 /**
  * INITIAL STATE
  */
@@ -19,7 +18,7 @@ const defaultValue = {
  * ACTION CREATORS
  */
 
-const getEvent = (restaurant) => ({
+const getEvent = restaurant => ({
   type: GET_FINAL_RESTAURANT,
   restaurant
 })
@@ -30,9 +29,11 @@ const getEvent = (restaurant) => ({
 
 export const fetchFinalRestaurant = id => async dispatch => {
   try {
-    const {data: restaurant} = await axios.get(`/api/events/${id}/final-restaurant`)
+    const {data: restaurant} = await axios.get(
+      `/api/events/${id}/final-restaurant`
+    )
     dispatch(getEvent(restaurant))
-  } catch (err){
+  } catch (err) {
     console.log(err)
   }
 }
@@ -41,7 +42,7 @@ export const fetchFinalRestaurant = id => async dispatch => {
  * REDUCER
  */
 
-export default function (state = defaultValue, action) {
+export default function(state = defaultValue, action) {
   switch (action.type) {
     case GET_FINAL_RESTAURANT:
       return {...state, restaurant: action.restaurant}
