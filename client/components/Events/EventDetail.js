@@ -51,7 +51,10 @@ class EventDetail extends React.Component {
               <Header>{prettyDate}</Header>
               {currentEvent.isPast ? 'Past Event' : 'Upcoming Event'}
               <div as="h3">Event Name: {currentEvent.name}</div>
-              <div>Created By: {`${creator.firstName} ${creator.lastName} (${creator.email})`}</div>
+              <div>
+                Created By:{' '}
+                {`${creator.firstName} ${creator.lastName} (${creator.email})`}
+              </div>
             </Container>
           </Grid.Column>
           <Grid.Column width={16} style={styles.eventContent}>
@@ -84,7 +87,6 @@ class EventDetail extends React.Component {
                       </Card>
                     ))}
                   </Card.Group>
-                  </Container >
                 </GridColumn>
                 <GridColumn width={8}>
                   <Card fluid>
@@ -101,7 +103,10 @@ class EventDetail extends React.Component {
                           </Grid.Row>
                           <Grid.Row>
                             <Grid.Column width={2}>
-                              <Icon name="calendar alternate outline" color="grey" />
+                              <Icon
+                                name="calendar alternate outline"
+                                color="grey"
+                              />
                             </Grid.Column>
                             <Grid.Column width={14}>
                               <p>{prettyDate}</p>
