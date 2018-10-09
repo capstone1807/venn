@@ -1,5 +1,11 @@
 const router = require('express').Router()
-const {User, Event, EventUser, Restaurant, EventRestaurant} = require('../db/models')
+const {
+  User,
+  Event,
+  EventUser,
+  Restaurant,
+  EventRestaurant
+} = require('../db/models')
 module.exports = router
 
 router.post('/', async (req, res, next) => {
@@ -10,7 +16,7 @@ router.post('/', async (req, res, next) => {
       date: req.body.date,
       time: req.body.time,
       creatorId: req.user.id
-    });
+    })
     req.body.guests.forEach(async guest => {
       const guestObject = await User.findOne({
         where: {
@@ -21,14 +27,17 @@ router.post('/', async (req, res, next) => {
     })
     const creator = await User.findById(req.user.id)
     await newEvent.addUser(creator)
-    await EventUser.update({
-      isAdmin: true
-    },{
-      where: {
-        eventId: newEvent.id,
-        userId: req.user.id
+    await EventUser.update(
+      {
+        isAdmin: true
+      },
+      {
+        where: {
+          eventId: newEvent.id,
+          userId: req.user.id
+        }
       }
-    })
+    )
     let updatedEvent = await creator.getEvents({
       where: {
         id: newEvent.id
@@ -42,25 +51,28 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/:id', async (req, res, next) => {
-  try{
+  try {
     const foundEvent = await Event.findById(req.params.id)
     res.json(foundEvent)
-  } catch(err){
+  } catch (err) {
     next(err)
   }
 })
 
 router.put('/:id/pending', async (req, res, next) => {
   try {
-    let updatedEvent = await EventUser.update({
-      hasResponded: true
-    }, {
-      where:{
-        userId: req.user.id,
-        eventId: req.params.id
+    let updatedEvent = await EventUser.update(
+      {
+        hasResponded: true
       },
-      returning: true
-    })
+      {
+        where: {
+          userId: req.user.id,
+          eventId: req.params.id
+        },
+        returning: true
+      }
+    )
     updatedEvent = updatedEvent[1][0]
     res.status(201).json(updatedEvent)
   } catch (err) {
@@ -70,14 +82,17 @@ router.put('/:id/pending', async (req, res, next) => {
 
 router.put('/:id/scheduled', async (req, res, next) => {
   try {
-    let updatedEvent = await Event.update({
-      isPending: false
-    }, {
-      where:{
-        id: req.params.id
+    let updatedEvent = await Event.update(
+      {
+        isPending: false
       },
-      returning: true
-    })
+      {
+        where: {
+          id: req.params.id
+        },
+        returning: true
+      }
+    )
     // FINAL RESTAURANT IS UPDATED WHEN AN EVENT MOVES TO 'SCHEDULED'
     const restaurantScore = await EventRestaurant.findAll({
       attributes: ['score', 'restaurantId'],
@@ -86,14 +101,17 @@ router.put('/:id/scheduled', async (req, res, next) => {
       }
     })
     const finalId = EventRestaurant.getFinal(restaurantScore)
-    await EventRestaurant.update({
-      isFinal: true
-    }, {
-      where: {
-        restaurantId: finalId,
-        eventId: req.params.id
+    await EventRestaurant.update(
+      {
+        isFinal: true
+      },
+      {
+        where: {
+          restaurantId: finalId,
+          eventId: req.params.id
+        }
       }
-    })
+    )
     updatedEvent = updatedEvent[1][0]
     res.status(201).json(updatedEvent)
   } catch (err) {
@@ -115,11 +133,13 @@ router.post('/:id/restaurants', (req, res, next) => {
       let foundExisting = await EventRestaurant.findOne({
         where: {
           eventId,
-          restaurantId: restaurant.id,
+          restaurantId: restaurant.id
         }
       })
-      if(foundExisting){
-        await foundExisting.update({score: foundExisting.updateScore(importance)})
+      if (foundExisting) {
+        await foundExisting.update({
+          score: foundExisting.updateScore(importance)
+        })
       } else {
         await EventRestaurant.create({
           eventId,
@@ -129,32 +149,34 @@ router.post('/:id/restaurants', (req, res, next) => {
       }
     })
     res.status(201).send('Updated restaurants')
-  } catch (err){
+  } catch (err) {
     next(err)
   }
 })
 
 router.get('/:id/final-restaurant', async (req, res, next) => {
-  try{
+  try {
     const finalEventRestaurant = await EventRestaurant.findOne({
       where: {
         eventId: req.params.id,
         isFinal: true
       }
     })
-    const finalRestaurant = await Restaurant.findById(finalEventRestaurant.restaurantId)
+    const finalRestaurant = await Restaurant.findById(
+      finalEventRestaurant.restaurantId
+    )
     res.json(finalRestaurant)
-  } catch(err){
+  } catch (err) {
     next(err)
   }
 })
 
 router.get('/:id/guests', async (req, res, next) => {
-  try{
+  try {
     const foundEvent = await Event.findById(req.params.id)
     const guests = await foundEvent.getUsers()
     res.json(guests)
-  } catch(err){
+  } catch (err) {
     next(err)
   }
 })

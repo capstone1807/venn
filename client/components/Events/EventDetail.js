@@ -11,7 +11,12 @@ import {
   Icon,
   GridColumn
 } from 'semantic-ui-react'
-import {fetchEvent, lockInEvent, fetchGuests, fetchFinalRestaurant} from '../../store'
+import {
+  fetchEvent,
+  lockInEvent,
+  fetchGuests,
+  fetchFinalRestaurant
+} from '../../store'
 import styles from '../Utils/Global.css'
 
 class EventDetail extends React.Component {
@@ -21,15 +26,20 @@ class EventDetail extends React.Component {
     await this.props.getFinalRestaurant()
   }
 
-  async checkScheduledStatus(){
-    if(this.props.currentEvent.isPending && this.props.guests.filter(guest => !guest.event_user.hasResponded).length === 0){
+  async checkScheduledStatus() {
+    if (
+      this.props.currentEvent.isPending &&
+      this.props.guests.filter(guest => !guest.event_user.hasResponded)
+        .length === 0
+    ) {
       await this.props.scheduleEvent()
     }
   }
 
   render() {
     const {currentEvent, guests, finalRestaurant} = this.props
-    const creator = guests.length && guests.filter(guest => guest.event_user.isAdmin)[0]
+    const creator =
+      guests.length && guests.filter(guest => guest.event_user.isAdmin)[0]
     guests.length && this.checkScheduledStatus()
     const prettyDate = currentEvent.date && formatDate(currentEvent.date)
     const prettyTime = currentEvent.time && formatTime(currentEvent.time)
@@ -50,30 +60,29 @@ class EventDetail extends React.Component {
                 <GridColumn width={8}>
                   <Header>Details</Header>
                   <p>(description) {currentEvent.description}</p>
-                  {!currentEvent.isPast
-                    ? <p>Who's going to be there? ({guests.length})</p>
-                    : <p>Who went? ({guests.length})</p>}
-                    <Container style={{overflow: 'auto', maxHeight: 200 }}>
+                  {!currentEvent.isPast ? (
+                    <p>Who's going to be there? ({guests.length})</p>
+                  ) : (
+                    <p>Who went? ({guests.length})</p>
+                  )}
                   <Card.Group>
-                    {guests.map(
-                      (item, idx) => (
-                        <Card key={idx} width={4}>
-                          <Card.Content textAlign="center">
-                            <Icon name="user circle" color="grey" size="huge" />
-                            <br />
-                            <br />
-                            <Card.Header
-                              textAlign="center"
-                              content={`${item.firstName} ${item.lastName}`}
-                            />
-                            <Card.Description
-                              textAlign="center"
-                              content={item.username}
-                            />
-                          </Card.Content>
-                        </Card>
-                      )
-                    )}
+                    {guests.map((item, idx) => (
+                      <Card key={idx} width={4}>
+                        <Card.Content textAlign="center">
+                          <Icon name="user circle" color="grey" size="huge" />
+                          <br />
+                          <br />
+                          <Card.Header
+                            textAlign="center"
+                            content={`${item.firstName} ${item.lastName}`}
+                          />
+                          <Card.Description
+                            textAlign="center"
+                            content={item.username}
+                          />
+                        </Card.Content>
+                      </Card>
+                    ))}
                   </Card.Group>
                   </Container >
                 </GridColumn>
@@ -107,7 +116,11 @@ class EventDetail extends React.Component {
                               <Icon name="pin" color="grey" />
                             </Grid.Column>
                             <Grid.Column width={14}>
-                              <p>{(!currentEvent.isPending && finalRestaurant.id) ? finalRestaurant.title : 'Check back when everyone has responded!'}</p>
+                              <p>
+                                {!currentEvent.isPending && finalRestaurant.id
+                                  ? finalRestaurant.title
+                                  : 'Check back when everyone has responded!'}
+                              </p>
                             </Grid.Column>
                           </Grid.Row>
                         </Grid>

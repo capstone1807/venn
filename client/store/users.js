@@ -29,7 +29,7 @@ const getGuests = guests => ({
  * THUNK CREATORS
  */
 
- //// change this all to 'not friends'
+//// change this all to 'not friends'
 export const fetchUsersFromDB = () => async dispatch => {
   try {
     const {data: users} = await axios.get(`/api/me/notfriends`)
@@ -39,7 +39,7 @@ export const fetchUsersFromDB = () => async dispatch => {
   }
 }
 
-export const fetchGuests = (id) => async dispatch => {
+export const fetchGuests = id => async dispatch => {
   try {
     const {data: guests} = await axios.get(`/api/events/${id}/guests`)
     dispatch(getGuests(guests))

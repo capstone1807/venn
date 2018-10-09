@@ -2,7 +2,12 @@ import React, {Fragment} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import history from '../../history'
-import {fetchEvent, fetchRestaurants, updateEventRestaurants, updateRespondedStatus} from '../../store'
+import {
+  fetchEvent,
+  fetchRestaurants,
+  updateEventRestaurants,
+  updateRespondedStatus
+} from '../../store'
 import {PlacesAutoComplete, ErrorMessage} from '../index'
 import {Form, Header, Select, Container, Button} from 'semantic-ui-react'
 
@@ -28,7 +33,7 @@ export class GuestRestaurantChoice extends React.Component {
 
   handleSubmit = async event => {
     event.preventDefault()
-    if(this.state.restaurants.length <= 3){
+    if (this.state.restaurants.length <= 3) {
       await this.props.scoreRestaurants(
         this.props.currentEvent.id,
         this.state.restaurants,
@@ -65,7 +70,12 @@ export class GuestRestaurantChoice extends React.Component {
         {/* choose restaurant */}
         <h3>Choose restaurant:</h3>
         {/* search select from favorites */}
-        {(this.state.restaurants.length > 3) && <ErrorMessage headerMessage="Oops! You can only suggest 3 restaurants" message="Please remove a restaurant before submitting" />}
+        {this.state.restaurants.length > 3 && (
+          <ErrorMessage
+            headerMessage="Oops! You can only suggest 3 restaurants"
+            message="Please remove a restaurant before submitting"
+          />
+        )}
         <Form verticalalign="middle" onSubmit={this.handleSubmit}>
           <Container style={{width: 538}}>
             <Select
@@ -76,11 +86,11 @@ export class GuestRestaurantChoice extends React.Component {
               selection
               options={restaurantItems}
               onChange={this.handleChangeRestaurants}
-              />
+            />
           </Container>
           {/* importance rating button group */}
           <Container>
-          <h3>Importance:</h3>
+            <h3>Importance:</h3>
             <Button.Group>
               <Button type="button" onClick={this.handleClickMust}>
                 It's a must
@@ -97,7 +107,7 @@ export class GuestRestaurantChoice extends React.Component {
           <h3>Need more favorites?</h3>
           {/* google places api search reusable component */}
           <Container style={{width: 538}}>
-            <PlacesAutoComplete/>
+            <PlacesAutoComplete />
           </Container>
           <Container>
             <Form.Button type="button" onClick={() => history.goBack()}>
@@ -120,7 +130,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getRestaurants: () => dispatch(fetchRestaurants()),
   scoreRestaurants: (eventId, restaurantKeys, importance) =>
     dispatch(updateEventRestaurants(eventId, restaurantKeys, importance)),
-  updateStatus: (eventId) => dispatch(updateRespondedStatus(eventId))
+  updateStatus: eventId => dispatch(updateRespondedStatus(eventId))
 })
 
 export default withRouter(
