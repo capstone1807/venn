@@ -80,6 +80,7 @@ export class GuestRestaurantChoice extends React.Component {
           </Container>
           {/* importance rating button group */}
           <Container>
+          <h3>Importance:</h3>
             <Button.Group>
               <Button type="button" onClick={this.handleClickMust}>
                 It's a must
