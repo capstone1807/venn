@@ -15,6 +15,10 @@ export default {
   pTop2: {
     paddingTop: '2em'
   },
+
+  marginTopLeft: {
+    margin: '16px 0 0 16px'
+  },
   pBottom2: {
     paddingBottom: '2em'
   },
