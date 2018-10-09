@@ -51,7 +51,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.put('/:id/pending', async (req, res, next) => {
   try {
-    const updatedEvent = await EventUser.update({
+    let updatedEvent = await EventUser.update({
       hasResponded: true
     }, {
       where:{
@@ -60,6 +60,24 @@ router.put('/:id/pending', async (req, res, next) => {
       },
       returning: true
     })
+    updatedEvent = updatedEvent[1][0]
+    res.status(201).json(updatedEvent)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/:id/scheduled', async (req, res, next) => {
+  try {
+    let updatedEvent = await Event.update({
+      isPending: false
+    }, {
+      where:{
+        id: req.params.id
+      },
+      returning: true
+    })
+    updatedEvent = updatedEvent[1][0]
     res.status(201).json(updatedEvent)
   } catch (err) {
     next(err)
@@ -95,6 +113,16 @@ router.post('/:id/restaurants', (req, res, next) => {
     })
     res.status(201).send('Updated restaurants')
   } catch (err){
+    next(err)
+  }
+})
+
+router.get('/:id/guests', async (req, res, next) => {
+  try{
+    const foundEvent = await Event.findById(req.params.id)
+    const guests = await foundEvent.getUsers()
+    res.json(guests)
+  } catch(err){
     next(err)
   }
 })

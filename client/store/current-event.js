@@ -6,6 +6,7 @@ import axios from 'axios'
 
 const GET_EVENT = 'GET_EVENT'
 const SET_STATUS_TO_RESPONDED = 'SET_STATUS_TO_RESPONDED'
+const SET_STATUS_TO_SCHEDULED = 'SET_STATUS_TO_SCHEDULED'
 
 
 /**
@@ -28,6 +29,11 @@ const setStatusToResponded = (event) => ({
   event
 })
 
+const setStatusToScheduled = (event) => ({
+  type: SET_STATUS_TO_SCHEDULED,
+  event
+})
+
 /**
  * THUNK CREATORS
  */
@@ -45,6 +51,15 @@ export const updateRespondedStatus = (eventId) => async dispatch => {
   try {
     const event = await axios.put(`/api/events/${eventId}/pending`)
     dispatch(setStatusToResponded(event))
+  } catch (err){
+    console.log(err)
+  }
+}
+
+export const lockInEvent = (eventId) => async dispatch => {
+  try {
+    const event = await axios.put(`/api/events/${eventId}/scheduled`)
+    dispatch(setStatusToScheduled(event))
   } catch (err){
     console.log(err)
   }

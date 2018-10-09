@@ -34,7 +34,7 @@ export class GuestRestaurantChoice extends React.Component {
         this.state.restaurants,
         this.state.importance
       )
-      await this.props.updatedStatus(this.props.currentEvent.id)
+      await this.props.updateStatus(this.props.currentEvent.id)
       // push only if successful
       history.push('/events')
     }
@@ -120,7 +120,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getRestaurants: () => dispatch(fetchRestaurants()),
   scoreRestaurants: (eventId, restaurantKeys, importance) =>
     dispatch(updateEventRestaurants(eventId, restaurantKeys, importance)),
-  updatedStatus: (eventId) => dispatch(updateRespondedStatus(eventId))
+  updateStatus: (eventId) => dispatch(updateRespondedStatus(eventId))
 })
 
 export default withRouter(
