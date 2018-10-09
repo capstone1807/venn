@@ -1,5 +1,8 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+const Event = require('./event')
+
+console.log('Event line 4', Event)
 
 const EventRestaurant = db.define('event_restaurant', {
   score: {
@@ -33,5 +36,58 @@ EventRestaurant.getFinal = function(restaurantScoresArr) {
   return finalRestaurants[Math.floor(Math.random() * finalRestaurants.length)]
     .restaurantId
 }
+
+const checkForFinalRestaurant = async eventRestaurant => {
+  console.log('checkForFinalRestaurant')
+
+  const currentEvent = await Event.findById(eventRestaurant.eventId)
+  const guests = await currentEvent.getUsers()
+
+  console.log(
+    'guest responded',
+    guests.filter(guest => {
+      console.log(guest.event_user)
+      return !guest.event_user.hasResponded
+    }).length === 0
+  )
+
+  // if all guests have responded
+  if (guests.filter(guest => !guest.event_user.hasResponded).length === 0) {
+    console.log('all guests responded')
+
+    // -> schedule / close event
+    currentEvent.update({isPending: false})
+    console.log('update final restaurant on current event', currentEvent)
+    // -> calculate final restuarant
+    const eventRests = await EventRestaurant.findAll({
+      attributes: ['score', 'restaurantId'],
+      where: {eventId: currentEvent.id}
+    })
+
+    console.log('restaurants of this event', eventRests)
+    const finalRestId = EventRestaurant.getFinal(eventRests)
+    console.log('final restaurant id', finalRestId)
+
+    // -> set isFinal to true on this restaurant
+    const finalEventRest = eventRests.find(
+      er => er.restaurantId === finalRestId
+    )
+
+    console.log('final restaurant', finalEventRest)
+    finalEventRest.update({isFinal: true})
+    console.log('finalEventRest update', finalEventRest)
+  }
+}
+
+EventRestaurant.afterUpdate(eventRestaurant => {
+  console.log('After Update')
+
+  checkForFinalRestaurant(eventRestaurant)
+})
+
+EventRestaurant.afterCreate(eventRestaurant => {
+  console.log('After Create')
+  checkForFinalRestaurant(eventRestaurant)
+})
 
 module.exports = EventRestaurant

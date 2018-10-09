@@ -26,16 +26,6 @@ class EventDetail extends React.Component {
     await this.props.getFinalRestaurant()
   }
 
-  async checkScheduledStatus() {
-    if (
-      this.props.currentEvent.isPending &&
-      this.props.guests.filter(guest => !guest.event_user.hasResponded)
-        .length === 0
-    ) {
-      await this.props.scheduleEvent()
-    }
-  }
-
   getStatus = event => {
     if (event.isPending) return 'Pending Event'
     return event.isPast ? 'Past Event' : 'Scheduled Event'
@@ -45,8 +35,6 @@ class EventDetail extends React.Component {
     const {currentEvent, guests, finalRestaurant} = this.props
     const creator =
       guests.length && guests.find(guest => guest.event_user.isAdmin)
-
-    guests.length && this.checkScheduledStatus()
 
     return (
       <Grid>
