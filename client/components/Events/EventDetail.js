@@ -23,24 +23,14 @@ class EventDetail extends React.Component {
   async componentDidMount() {
     await this.props.getEvent()
     await this.props.getGuests()
-    await this.props.getFinalRestaurant()
-  }
-
-  async checkScheduledStatus() {
-    if (
-      this.props.currentEvent.isPending &&
-      this.props.guests.filter(guest => !guest.event_user.hasResponded)
-        .length === 0
-    ) {
-      await this.props.scheduleEvent()
-    }
+    !this.props.currentEvent.isPending &&
+      (await this.props.getFinalRestaurant())
   }
 
   render() {
     const {currentEvent, guests, finalRestaurant} = this.props
     const creator =
       guests.length && guests.filter(guest => guest.event_user.isAdmin)[0]
-    guests.length && this.checkScheduledStatus()
     const prettyDate = currentEvent.date && formatDate(currentEvent.date)
     const prettyTime = currentEvent.time && formatTime(currentEvent.time)
     return (
