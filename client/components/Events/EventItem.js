@@ -3,14 +3,16 @@ import {Card, Button, Icon} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import history from '../../history'
 import styles from '../Utils/Global.css'
+import formatDate from '../../../UtilFuncs/formatDate'
 
 export const EventItem = ({evt}) => {
+  const prettyDate = evt.date && formatDate(evt.date)
   return (
     <Card as={Link} to={`/events/${evt.id}`}>
       <Card.Content>
         <Card.Header>{evt.name}</Card.Header>
         <Card.Meta>
-          {evt.date}
+          {prettyDate}
         </Card.Meta>
         {evt.event_user.hasResponded ? (
           <Card.Description style={styles.greenText}>
