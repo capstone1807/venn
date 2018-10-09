@@ -18,7 +18,14 @@ export default {
   pBottom2: {
     paddingBottom: '2em'
   },
+  mBottom: {
+    marginBottom: '1em'
+  },
   greenText: {
     color: colors.green
+  },
+  eventContent: {
+    background: colors.grey,
+    marginTop: '3em'
   }
 }

@@ -1,14 +1,12 @@
 import React from 'react'
-import history from '../../history'
+import {Link} from 'react-router-dom'
 import {Button, Icon} from 'semantic-ui-react'
 
 const EventAddButton = props => {
   return (
-    <Button color="orange" animated onClick={() => history.push('/events/new')}>
-      <Button.Content visible>Add Event</Button.Content>
-      <Button.Content hidden>
-        <Icon name="plus" />
-      </Button.Content>
+    <Button color="google plus" as={Link} to="/events/new">
+      <Icon name="plus" />
+      Add Event
     </Button>
   )
 }
