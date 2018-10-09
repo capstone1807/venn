@@ -9,23 +9,24 @@ import {
   Icon,
   GridColumn
 } from 'semantic-ui-react'
-import {fetchEvent, lockInEvent, fetchGuests} from '../../store'
+import {fetchEvent, lockInEvent, fetchGuests, fetchFinalRestaurant} from '../../store'
 import styles from '../Utils/Global.css'
 
 class EventDetail extends React.Component {
   async componentDidMount() {
     await this.props.getEvent()
     await this.props.getGuests()
+    await this.props.getFinalRestaurant()
   }
 
   async checkScheduledStatus(){
-    if(this.props.guests.filter(guest => !guest.event_user.hasResponded).length === 0){
+    if(this.props.currentEvent.isPending && this.props.guests.filter(guest => !guest.event_user.hasResponded).length === 0){
       await this.props.scheduleEvent()
     }
   }
 
   render() {
-    const {currentEvent, guests} = this.props
+    const {currentEvent, guests, finalRestaurant} = this.props
     const creator = guests.length && guests.filter(guest => guest.event_user.isAdmin)[0]
     guests.length && this.checkScheduledStatus()
     return (
@@ -100,7 +101,7 @@ class EventDetail extends React.Component {
                               <Icon name="pin" color="grey" />
                             </Grid.Column>
                             <Grid.Column width={14}>
-                              <p>Restaurant</p>
+                              <p>{(!currentEvent.isPending && finalRestaurant.id) ? finalRestaurant.title : 'Check back when everyone has responded!'}</p>
                             </Grid.Column>
                           </Grid.Row>
                         </Grid>
@@ -123,12 +124,14 @@ const getId = props => Number(props.match.params.id)
 
 const mapStateToProps = state => ({
   currentEvent: state.currentEvent,
-  guests: state.users
+  guests: state.users,
+  finalRestaurant: state.final.restaurant
 })
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getEvent: () => dispatch(fetchEvent(getId(ownProps))),
   getGuests: () => dispatch(fetchGuests(getId(ownProps))),
-  scheduleEvent: () => dispatch(lockInEvent(getId(ownProps)))
+  scheduleEvent: () => dispatch(lockInEvent(getId(ownProps))),
+  getFinalRestaurant: () => dispatch(fetchFinalRestaurant(getId(ownProps)))
 })
 
 export default withRouter(

@@ -5,7 +5,6 @@ import history from '../../history'
 import styles from '../Utils/Global.css'
 
 export const EventItem = ({evt}) => {
-  console.log('EVENT =>', evt)
   return (
     <Card as={Link} to={`/events/${evt.id}`}>
       <Card.Content>

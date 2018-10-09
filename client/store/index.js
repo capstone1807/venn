@@ -9,6 +9,7 @@ import restaurants from './restaurants'
 import events from './events'
 import currentEvent from './current-event'
 import eventRestaurants from './event-restaurants'
+import final from './final'
 
 const reducer = combineReducers({
   user,
@@ -17,7 +18,8 @@ const reducer = combineReducers({
   events,
   currentEvent,
   restaurants,
-  eventRestaurants
+  eventRestaurants,
+  final
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -32,3 +34,4 @@ export * from './events'
 export * from './current-event'
 export * from './restaurants'
 export * from './event-restaurants'
+export * from './final'

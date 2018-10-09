@@ -75,6 +75,8 @@ export default function (state = defaultEvent, action) {
       return action.currentEvent
     case SET_STATUS_TO_RESPONDED:
       return action.event
+    case SET_STATUS_TO_SCHEDULED:
+      return action.event
     default:
       return state
   }

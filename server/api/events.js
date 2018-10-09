@@ -117,6 +117,22 @@ router.post('/:id/restaurants', (req, res, next) => {
   }
 })
 
+router.get('/:id/final-restaurant', async (req, res, next) => {
+  try{
+    const restaurantScore = await EventRestaurant.findAll({
+      attributes: ['score', 'restaurantId'],
+      where: {
+        eventId: req.params.id
+      }
+    })
+    const id = EventRestaurant.getFinal(restaurantScore)
+    const final = await Restaurant.findById(id)
+    res.json(final)
+  } catch(err){
+    next(err)
+  }
+})
+
 router.get('/:id/guests', async (req, res, next) => {
   try{
     const foundEvent = await Event.findById(req.params.id)
