@@ -38,10 +38,6 @@ class EventDetail extends React.Component {
               {currentEvent.isPast ? 'Past Event' : 'Upcoming Event'}
               <div as="h3">Event Name: {currentEvent.name}</div>
               <div>Created By: {`${creator.firstName} ${creator.lastName} (${creator.email})`}</div>
-              <div>
-                {currentEvent.isPrivate ? 'Private Event' : 'Open Event'}
-                <Icon name="question circle" color="grey" />
-              </div>
             </Container>
           </Grid.Column>
           <Grid.Column width={16} style={styles.eventContent}>
