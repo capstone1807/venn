@@ -20,6 +20,7 @@ class EventDetail extends React.Component {
   }
 
   async checkScheduledStatus(){
+    // OB/JL: makes sense for this to be backend, maybe a hook, or maybe a method?
     if(this.props.currentEvent.isPending && this.props.guests.filter(guest => !guest.event_user.hasResponded).length === 0){
       await this.props.scheduleEvent()
     }
@@ -27,7 +28,9 @@ class EventDetail extends React.Component {
 
   render() {
     const {currentEvent, guests, finalRestaurant} = this.props
+    // OB/JL: looks like a selector to me (could be defined outside of this component), also could use `.find`
     const creator = guests.length && guests.filter(guest => guest.event_user.isAdmin)[0]
+    // OB/JL: could make sense as a different lifecycle method, probably `componentDidUpdate`
     guests.length && this.checkScheduledStatus()
     return (
       <Fragment>

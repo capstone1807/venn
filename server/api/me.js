@@ -15,6 +15,7 @@ router.get('/events', async (req, res, next) => {
   }
 })
 
+// OB/JL: everything below could be in the above route and use the query string e.g. /api/events?status=pending or something
 router.get('/events/pending', async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
@@ -126,6 +127,7 @@ router.get('/restaurants', async (req, res, next) => {
 router.put('/restaurants', async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
+    // OB/JL: here you could query and add lat / long to the create
     const restaurant = await Restaurant.create(req.body)
     await user.addRestaurant(restaurant)
     res.status(201).send(restaurant)
