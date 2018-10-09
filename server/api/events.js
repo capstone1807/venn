@@ -69,7 +69,8 @@ router.put('/:id/pending', async (req, res, next) => {
           userId: req.user.id,
           eventId: req.params.id
         },
-        returning: true
+        returning: true,
+        individualHooks: true
       }
     )
     updatedEvent = updatedEvent[1][0]
