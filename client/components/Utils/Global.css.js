@@ -16,6 +16,9 @@ export default {
     paddingTop: '2em'
   },
 
+  padding: {
+    padding: '1em'
+  },
   marginTopLeft: {
     margin: '16px 0 0 16px'
   },
