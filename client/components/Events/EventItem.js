@@ -10,18 +10,16 @@ export const EventItem = ({evt}) => {
       <Card.Content>
         <Card.Header>{evt.name}</Card.Header>
         <Card.Meta>
-          {evt.description && evt.description.length > 0
-            ? evt.description
-            : '-'}
+          {evt.date}
         </Card.Meta>
-        <Card.Description>Choose your restaurant preferences</Card.Description>
-        {evt.event_user.hasResponded && (
+        {evt.event_user.hasResponded ? (
           <Card.Description style={styles.greenText}>
             You did it! <Icon name="checkmark" color="green" />
           </Card.Description>
-        )}
+        ) :
+        <Card.Meta>Choose your restaurant preferences</Card.Meta>
+        }
       </Card.Content>
-
       {!evt.event_user.hasResponded && (
         <Button
           color="vk"
