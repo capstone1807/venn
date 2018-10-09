@@ -1,6 +1,8 @@
 import React, {Fragment} from 'react'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
+import formatDate from '../../../UtilFuncs/formatDate'
+import formatTime from '../../../UtilFuncs/formatTime'
 import {
   Header,
   Grid,
@@ -39,22 +41,17 @@ class EventDetail extends React.Component {
     const creator =
       guests.length && guests.filter(guest => guest.event_user.isAdmin)[0]
     guests.length && this.checkScheduledStatus()
+    const prettyDate = currentEvent.date && formatDate(currentEvent.date)
+    const prettyTime = currentEvent.time && formatTime(currentEvent.time)
     return (
       <Fragment>
         <Grid>
           <Grid.Column width={16}>
             <Container>
-              <Header>Date: June 12 in rounded box</Header>
+              <Header>{prettyDate}</Header>
               {currentEvent.isPast ? 'Past Event' : 'Upcoming Event'}
               <div as="h3">Event Name: {currentEvent.name}</div>
-              <div>
-                Created By:{' '}
-                {`${creator.firstName} ${creator.lastName} (${creator.email})`}
-              </div>
-              <div>
-                {currentEvent.isPrivate ? 'Private Event' : 'Open Event'}
-                <Icon name="question circle" color="grey" />
-              </div>
+              <div>Created By: {`${creator.firstName} ${creator.lastName} (${creator.email})`}</div>
             </Container>
           </Grid.Column>
           <Grid.Column width={16} style={styles.eventContent}>
@@ -87,6 +84,7 @@ class EventDetail extends React.Component {
                       </Card>
                     ))}
                   </Card.Group>
+                  </Container >
                 </GridColumn>
                 <GridColumn width={8}>
                   <Card fluid>
@@ -98,11 +96,15 @@ class EventDetail extends React.Component {
                               <Icon name="clock" color="grey" />
                             </Grid.Column>
                             <Grid.Column width={14}>
-                              <p>Monday, February 21, 2018</p>
-                              <p>
-                                Brunch
-                                <Icon name="calendar alternate outline" />
-                              </p>
+                              <p>{prettyTime}</p>
+                            </Grid.Column>
+                          </Grid.Row>
+                          <Grid.Row>
+                            <Grid.Column width={2}>
+                              <Icon name="calendar alternate outline" color="grey" />
+                            </Grid.Column>
+                            <Grid.Column width={14}>
+                              <p>{prettyDate}</p>
                             </Grid.Column>
                           </Grid.Row>
                         </Grid>
