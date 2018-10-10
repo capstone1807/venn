@@ -42,6 +42,9 @@ export default {
   mBottom: {
     marginBottom: '1em'
   },
+  mLeft: {
+    marginLeft: '1em'
+  },
   mTopNone: {
     marginTop: '0'
   },
