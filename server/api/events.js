@@ -27,14 +27,17 @@ router.post('/', async (req, res, next) => {
     })
     const creator = await User.findById(req.user.id)
     await newEvent.addUser(creator)
-    await EventUser.update({
-      isAdmin: true
-    }, {
-      where: {
-        eventId: newEvent.id,
-        userId: req.user.id
+    await EventUser.update(
+      {
+        isAdmin: true
+      },
+      {
+        where: {
+          eventId: newEvent.id,
+          userId: req.user.id
+        }
       }
-    })
+    )
     let updatedEvent = await creator.getEvents({
       where: {
         id: newEvent.id
@@ -58,16 +61,19 @@ router.get('/:id', async (req, res, next) => {
 
 router.put('/:id/pending', async (req, res, next) => {
   try {
-    let updatedEvent = await EventUser.update({
-      hasResponded: true
-    }, {
-      where: {
-        userId: req.user.id,
-        eventId: req.params.id
+    let updatedEvent = await EventUser.update(
+      {
+        hasResponded: true
       },
-      returning: true,
-      individualHooks: true
-    })
+      {
+        where: {
+          userId: req.user.id,
+          eventId: req.params.id
+        },
+        returning: true,
+        individualHooks: true
+      }
+    )
     updatedEvent = updatedEvent[1][0]
     res.status(201).json(updatedEvent)
   } catch (err) {
@@ -77,14 +83,17 @@ router.put('/:id/pending', async (req, res, next) => {
 
 router.put('/:id/scheduled', async (req, res, next) => {
   try {
-    let updatedEvent = await Event.update({
-      isPending: false
-    }, {
-      where: {
-        id: req.params.id
+    let updatedEvent = await Event.update(
+      {
+        isPending: false
       },
-      returning: true
-    })
+      {
+        where: {
+          id: req.params.id
+        },
+        returning: true
+      }
+    )
     // FINAL RESTAURANT IS UPDATED WHEN AN EVENT MOVES TO 'SCHEDULED'
     const restaurantScore = await EventRestaurant.findAll({
       attributes: ['score', 'restaurantId'],
@@ -93,14 +102,17 @@ router.put('/:id/scheduled', async (req, res, next) => {
       }
     })
     const finalId = EventRestaurant.getFinal(restaurantScore)
-    await EventRestaurant.update({
-      isFinal: true
-    }, {
-      where: {
-        restaurantId: finalId,
-        eventId: req.params.id
+    await EventRestaurant.update(
+      {
+        isFinal: true
+      },
+      {
+        where: {
+          restaurantId: finalId,
+          eventId: req.params.id
+        }
       }
-    })
+    )
     updatedEvent = updatedEvent[1][0]
     res.status(201).json(updatedEvent)
   } catch (err) {

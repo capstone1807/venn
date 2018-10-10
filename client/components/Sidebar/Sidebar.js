@@ -69,7 +69,7 @@ class SidebarMenu extends Component {
               </Menu.Item>
             )}
           </Sidebar>
-          <Sidebar.Pusher dimmed={visible} style={{height: '100vh'}}>
+          <Sidebar.Pusher dimmed={visible}>
             <Header handleButtonClick={this.handleButtonClick} />
             <App />
             <Footer />
