@@ -18,7 +18,11 @@ export const EventItem = ({evt}) => {
       <Card.Content>
         <Card.Header>{evt.name}</Card.Header>
         <Card.Meta>{prettyDate}</Card.Meta>
-        {pending && <Card.Meta style={styles.greenText}>Choose your restaurant preferences</Card.Meta>}
+        {pending && (
+          <Card.Meta style={styles.mSmallTop}>
+            Choose your restaurant preferences
+          </Card.Meta>
+        )}
         {responded && (
           <Card.Description style={styles.greenText}>
             You did it! <Icon name="checkmark" color="green" />
@@ -40,5 +44,4 @@ export const EventItem = ({evt}) => {
     </Card>
   )
 }
-
 export default EventItem
