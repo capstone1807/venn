@@ -21,7 +21,7 @@ export default {
   padding: {
     padding: '1em'
   },
-  mSmallTop:{
+  mSmallTop: {
     marginTop: '.5em'
   },
   paddingAllButBottom: {
@@ -79,5 +79,8 @@ export default {
   },
   inline: {
     display: 'inline-block'
+  },
+  placeSearch: {
+    flexGrow: '1'
   }
 }

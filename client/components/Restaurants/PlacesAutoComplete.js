@@ -1,8 +1,9 @@
 import debounce from 'lodash.debounce'
-import React, {Component, Fragment} from 'react'
+import React, {Component} from 'react'
 import {saveRestaurant} from '../../store'
 import {connect} from 'react-redux'
-import {Search, Button, Icon} from 'semantic-ui-react'
+import {Search, Button, Icon, Container, Form} from 'semantic-ui-react'
+import styles from '../Utils/Global.css'
 
 const autocompleteService = new google.maps.places.AutocompleteService()
 
@@ -21,7 +22,7 @@ class PlacesAutoComplete extends Component {
     this.setState({value: result.title, selectedPlace: result})
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault()
     this.props.addRestaurant(this.state.selectedPlace)
   }
@@ -63,21 +64,28 @@ class PlacesAutoComplete extends Component {
   render() {
     const {isLoading, value, results} = this.state
     return (
-      <Fragment>
-        <Search
-          placeholder="Search for restaurants by name to add more"
-          fluid
-          input={{fluid: true}}
-          loading={isLoading}
-          onResultSelect={this.handleResultSelect}
-          onSearchChange={debounce(this.handleSearchChange, 500, {
-            leading: true
-          })}
-          results={results}
-          value={value}
-        />
-        <Button onClick={this.handleSubmit} color="google plus" size="medium"><Icon name="plus" />Add Restaurant</Button>
-      </Fragment>
+      <Container>
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group inline>
+            <Search
+              style={styles.placeSearch}
+              placeholder="Add restaurant by name"
+              input={{fluid: true}}
+              loading={isLoading}
+              fluid
+              onResultSelect={this.handleResultSelect}
+              onSearchChange={debounce(this.handleSearchChange, 500, {
+                leading: true
+              })}
+              results={results}
+              value={value}
+            />
+            <Button icon color="google plus" size="medium" style={styles.mLeft}>
+              <Icon name="plus" />
+            </Button>
+          </Form.Group>
+        </Form>
+      </Container>
     )
   }
 }
