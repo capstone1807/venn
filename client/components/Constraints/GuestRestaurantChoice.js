@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import history from '../../history'
@@ -9,7 +9,16 @@ import {
   updateRespondedStatus
 } from '../../store'
 import {PlacesAutoComplete, ErrorMessage} from '../index'
-import {Form, Header, Select, Container, Button} from 'semantic-ui-react'
+import {
+  Form,
+  Header,
+  Select,
+  Container,
+  Button,
+  Modal,
+  Radio,
+  Divider
+} from 'semantic-ui-react'
 
 export class GuestRestaurantChoice extends React.Component {
   constructor(props) {
@@ -19,6 +28,7 @@ export class GuestRestaurantChoice extends React.Component {
       importance: 0
     }
   }
+
   async componentDidMount() {
     await this.props.getEvent()
     await this.props.getRestaurants()
@@ -45,16 +55,21 @@ export class GuestRestaurantChoice extends React.Component {
     }
   }
 
-  handleClickMust = () => {
-    this.setState({importance: 2.25})
-  }
-
-  handleClickLike = () => {
-    this.setState({importance: 1.5})
-  }
-
-  handleClickWhat = () => {
-    this.setState({importance: 1})
+  handleClickImportance = (e, {value}) => {
+    let importance
+    switch (value) {
+      case 'must':
+        importance = 2.25
+        break
+      case 'like':
+        importance = 1.5
+        break
+      case 'whatever':
+      default:
+        importance = 1
+        break
+    }
+    this.setState({importance})
   }
 
   render() {
@@ -68,22 +83,13 @@ export class GuestRestaurantChoice extends React.Component {
       }
     })
     return (
-      <Fragment>
-        {/* event name */}
-        <Header>{currentEvent && currentEvent.name}</Header>
-        {/* choose restaurant */}
-        <h3>Choose restaurant:</h3>
-        {/* search select from favorites */}
-        {this.state.restaurants.length > 3 && (
-          <ErrorMessage
-            headerMessage="Oops! You can only suggest 3 restaurants"
-            message="Please remove a restaurant before submitting"
-          />
-        )}
-        <Form verticalalign="middle" onSubmit={this.handleSubmit}>
-          <Container style={{width: 538}}>
+      <Container style={{width: 500}}>
+        <Form onSubmit={this.handleSubmit} verticalalign="middle">
+          <Header>{currentEvent && currentEvent.name}</Header>
+          <Form.Field>
+            <label>Choose Restaurant</label>
             <Select
-              placeholder="choose from your favorites"
+              placeholder="Choose from your favorites"
               fluid
               search
               multiple
@@ -91,36 +97,61 @@ export class GuestRestaurantChoice extends React.Component {
               options={restaurantItems}
               onChange={this.handleChangeRestaurants}
             />
-          </Container>
-          {/* importance rating button group */}
-          <Container>
-            <h3>Importance:</h3>
-            <Button.Group>
-              <Button type="button" onClick={this.handleClickMust}>
-                It's a must
-              </Button>
-              <Button type="button" onClick={this.handleClickLike}>
-                I'd like it
-              </Button>
-              <Button type="button" onClick={this.handleClickWhat}>
-                Whatever
-              </Button>
-            </Button.Group>
-          </Container>
-          {/* cancel and next buttons */}
-          <h3>Need more favorites?</h3>
-          {/* google places api search reusable component */}
-          <Container style={{width: 538}}>
-            <PlacesAutoComplete />
-          </Container>
-          <Container>
-            <Form.Button type="button" onClick={() => history.goBack()}>
+          </Form.Field>
+          {this.state.restaurants.length > 3 && (
+            <ErrorMessage
+              headerMessage="Oops! You can only suggest 3 restaurants"
+              message="Please remove a restaurant before submitting"
+            />
+          )}
+
+          <Form.Field>
+            <label>Need more favorites?</label>
+
+            <Modal trigger={<Button type="button" content="Find some more!" />}>
+              <Modal.Header>Find Restaurants</Modal.Header>
+              <Modal.Content>
+                <PlacesAutoComplete />
+              </Modal.Content>
+            </Modal>
+          </Form.Field>
+          <Form.Field>
+            <label>Importance</label>
+            <Form.Group fluid>
+              <Form.Field>
+                <Radio
+                  label={"It's a must"}
+                  name="importance"
+                  value="must"
+                  onChange={this.handleClickImportance}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Radio
+                  label={"I'd like it"}
+                  name="importance"
+                  value="like"
+                  onChange={this.handleClickImportance}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Radio
+                  label="Whatever"
+                  name="importance"
+                  value="whatever"
+                  onChange={this.handleClickImportance}
+                />
+              </Form.Field>
+            </Form.Group>
+          </Form.Field>
+          <Container floated="right">
+            <Button type="button" onClick={() => history.goBack()}>
               Cancel
-            </Form.Button>
-            <Form.Button color="vk">Submit Choices</Form.Button>
+            </Button>
+            <Button color="vk">Submit Choices</Button>
           </Container>
         </Form>
-      </Fragment>
+      </Container>
     )
   }
 }
