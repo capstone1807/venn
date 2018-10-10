@@ -132,7 +132,7 @@ export class CreateEvent extends React.Component {
           <Divider horizontal hidden />
         </Form>
         <AddFriendsModal />
-        <Button floated="right" color="vk" onClick={this.handleSubmit}>Next</Button>
+        <Button floated="right" color="vk" onClick={this.handleSubmit}>Create Event</Button>
         <Button floated="right" onClick={() => history.goBack()}>
             Cancel
         </Button>
