@@ -40,9 +40,11 @@ const setStatusToScheduled = (event) => ({
 
 export const fetchEvent = id => async dispatch => {
   try {
-    const {data: foundEvent} = await axios.get(`/api/events/${id}`)
+    const {
+      data: foundEvent
+    } = await axios.get(`/api/events/${id}`)
     dispatch(getEvent(foundEvent))
-  } catch (err){
+  } catch (err) {
     console.log(err)
   }
 }
@@ -51,7 +53,7 @@ export const updateRespondedStatus = (eventId) => async dispatch => {
   try {
     const event = await axios.put(`/api/events/${eventId}/pending`)
     dispatch(setStatusToResponded(event))
-  } catch (err){
+  } catch (err) {
     console.log(err)
   }
 }
@@ -60,7 +62,7 @@ export const lockInEvent = (eventId) => async dispatch => {
   try {
     const event = await axios.put(`/api/events/${eventId}/scheduled`)
     dispatch(setStatusToScheduled(event))
-  } catch (err){
+  } catch (err) {
     console.log(err)
   }
 }
