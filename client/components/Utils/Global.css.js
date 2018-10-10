@@ -15,6 +15,9 @@ export default {
   font2: {
     fontSize: '2em'
   },
+  pTopTiny: {
+    paddingTop: '.1em'
+  },
   pTop2: {
     paddingTop: '2em'
   },
