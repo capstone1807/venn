@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-const EventRestaurant = require('./event-restaurant')
 
 const EventUser = db.define('event_user', {
   isAdmin: {
@@ -26,7 +25,7 @@ EventUser.prototype.setAdmin = function() {
 }
 
 EventUser.afterUpdate(eventUser => {
-  EventRestaurant.checkForFinalRestaurant(eventUser)
+  db.model('event_restaurant').checkForFinalRestaurant(eventUser)
 })
 
 module.exports = EventUser

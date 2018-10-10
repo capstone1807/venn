@@ -1,9 +1,5 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-const EventUser = require('./event-user')
-const EventRestaurant = require('./event-restaurant')
-const User = require('./user')
-const Restaurant = require('./restaurants')
 
 const Event = db.define('event', {
   name: {
@@ -43,25 +39,25 @@ const Event = db.define('event', {
 })
 
 Event.prototype.getCreator = async function() {
-  const {userId} = await EventUser.findOne({
+  const {userId} = await db.model('event_user').findOne({
     where: {
       eventId: this.id,
       isAdmin: true
     }
   })
-  const creator = await User.findById(userId)
+  const creator = await db.model('user').findById(userId)
   return creator
 }
 
 Event.prototype.getFinalRestaurant = async function() {
   if (this.isPending === false) {
-    const {restaurantId} = await EventRestaurant.findOne({
+    const {restaurantId} = await db.model('event_restaurant').findOne({
       where: {
         eventId: this.id,
         isFinal: true
       }
     })
-    const finalRestaurant = await Restaurant.findById(restaurantId)
+    const finalRestaurant = await db.model('restaurant').findById(restaurantId)
     return finalRestaurant
   }
 }
