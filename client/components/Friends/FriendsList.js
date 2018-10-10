@@ -1,17 +1,14 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {
-  fetchUsersFromDB,
   fetchFriends,
-  addFriend,
   removeFriend
 } from '../../store'
 import NoData from '../Utils/NoData'
 import LoaderPage from '../Utils/Loader'
+import AddFriends from './AddFriends'
 import {
   Divider,
-  Select,
-  Form,
   Container,
   Header,
   Segment,
@@ -24,7 +21,6 @@ export class FriendsList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedUser: '',
       isReversed: false,
       icon: 'sort alphabet up',
       isLoading: true
@@ -32,7 +28,6 @@ export class FriendsList extends React.Component {
   }
 
   async componentDidMount() {
-    await this.props.getUsers()
     await this.props.getFriends()
     this.props.friends.sort((a, b) => {
       const A = a.firstName.toUpperCase();
@@ -42,10 +37,6 @@ export class FriendsList extends React.Component {
     return comparison;
     });
     this.setState({isLoading: false})
-  }
-
-  handleChange = (event, data) => {
-    this.setState({selectedUser: data.value})
   }
 
   handleClick = async (event, data) => {
@@ -64,29 +55,8 @@ export class FriendsList extends React.Component {
     }
   }
 
-  handleSubmit = async event => {
-    event.preventDefault()
-    const username = this.state.selectedUser
-    const id = this.props.users.find(user => user.username === username).id
-    await this.props.addToFriends(id)
-  }
-
   render() {
-    const {users, friends} = this.props
-    const friendUsernames = friends.map(friend => friend.username)
-    const notFriends = users.filter(
-      user => !friendUsernames.includes(user.username)
-    )
-    const userOptions =
-      notFriends &&
-      notFriends.map(function(user) {
-        return {
-          key: user.username,
-          value: user.username,
-          text:
-            user.firstName + ' ' + user.lastName + ' (' + user.username + ')'
-        }
-      })
+    const {friends} = this.props
     return (
       <Container textAlign="center">
       {this.state.isLoading ? (<LoaderPage/>) : (
@@ -100,27 +70,8 @@ export class FriendsList extends React.Component {
               message="You have no friends saved"
             />
           )}
-          <Select
-            onChange={this.handleChange}
-            placeholder="Search Name"
-            search
-            options={
-              userOptions
-                ? userOptions
-                : [
-                    {
-                      key: 999,
-                      text: 'add your friends'
-                    }
-                  ]
-            }
-            value={this.state.value}
-            fluid
-          />
           <Divider hidden />
-          <Form onSubmit={this.handleSubmit}>
-            <Button color="google plus" size="medium"><Icon name="plus" />Add Friend</Button>
-          </Form>
+          <AddFriends />
         </Segment>
         <Container>
           <Button color='vk' onClick={this.handleSort}>
@@ -156,13 +107,10 @@ export class FriendsList extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  users: state.users,
   friends: state.friends
 })
 
 const mapDispatchToProps = dispatch => ({
-  getUsers: () => dispatch(fetchUsersFromDB()),
-  addToFriends: id => dispatch(addFriend(id)),
   getFriends: () => dispatch(fetchFriends()),
   deleteFriend: id => dispatch(removeFriend(id))
 })

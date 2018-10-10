@@ -12,10 +12,19 @@ const Event = db.define('event', {
   description: {
     type: Sequelize.TEXT,
   },
-  isPrivate: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false,
+  date: {
+    type: Sequelize.STRING,
     allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  time: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   isPending: {
     type: Sequelize.BOOLEAN,

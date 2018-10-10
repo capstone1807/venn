@@ -13,7 +13,8 @@ router.post('/', async (req, res, next) => {
     const newEvent = await Event.create({
       name: req.body.eventName,
       description: req.body.description,
-      isPrivate: req.body.isPrivate,
+      date: req.body.date,
+      time: req.body.time,
       creatorId: req.user.id
     })
     req.body.guests.forEach(async guest => {

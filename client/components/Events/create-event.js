@@ -2,13 +2,15 @@ import React from 'react'
 import {connect} from 'react-redux'
 import history from '../../history'
 import {fetchFriends, postEvent} from '../../store'
+import AddFriends from '../Friends/AddFriends'
+import {DateInput, TimeInput} from 'semantic-ui-calendar-react'
 import {
   Form,
   TextArea,
   Select,
-  Radio,
   Container,
-  Divider
+  Divider,
+  Segment
 } from 'semantic-ui-react'
 
 export class CreateEvent extends React.Component {
@@ -18,7 +20,8 @@ export class CreateEvent extends React.Component {
       eventName: '',
       description: '',
       guests: [],
-      isPrivate: false
+      date: '',
+      time: ''
     }
   }
   async componentDidMount() {
@@ -46,16 +49,22 @@ export class CreateEvent extends React.Component {
     })
   }
 
-  toggle = () => {
-    this.setState(state => {
-      return {isPrivate: !state.isPrivate}
-    })
+  handleChangeDateOrTime = (event, {name, value}) => {
+    event.persist()
+    this.setState({[name]: value})
   }
 
   handleSubmit = async event => {
     event.preventDefault()
     await this.props.createEvent(this.state)
     history.push('/events')
+  }
+
+  handleAddFriend = async event => {
+    event.preventDefault()
+    const username = this.state.selectedUser
+    const id = this.props.users.find(user => user.username === username).id
+    await this.props.addToFriends(id)
   }
 
   render() {
@@ -69,14 +78,34 @@ export class CreateEvent extends React.Component {
         }
       })
     return (
-      <Form verticalalign="middle" onSubmit={this.handleSubmit}>
-        <Container style={{width: 500}}>
+      <Container style={{width: 500}}>
+        <Form verticalalign="middle" >
           <Form.Field>
-            <label>Name Your Event</label>
+            <label>Name your event</label>
             <input
-              placeholder="Event Name"
+              placeholder="Event name"
               onChange={this.handleChangeEventName}
             />
+          </Form.Field>
+
+          <Form.Field>
+            <label>Choose a date & time</label>
+            <Segment>
+              <DateInput
+                name="date"
+                placeholder="Date"
+                value={this.state.date}
+                iconPosition="left"
+                onChange={this.handleChangeDateOrTime}
+              />
+              <TimeInput
+                name="time"
+                placeholder="Time"
+                value={this.state.time}
+                iconPosition="left"
+                onChange={this.handleChangeDateOrTime}
+              />
+            </Segment>
           </Form.Field>
 
           <Form.Field>
@@ -87,26 +116,29 @@ export class CreateEvent extends React.Component {
               onChange={this.handleChangeDescription}
             />
           </Form.Field>
-        </Container>
-        <Container style={{width: 538}}>
-          <Select
-            placeholder="choose friends"
-            fluid
-            search
-            multiple
-            selection
-            options={friends}
-            onChange={this.handleChangeGuests}
-          />
-        </Container>
-        <Divider horizontal hidden />
-        <h3>Friends can invite friends</h3>
-        <Radio toggle onChange={this.toggle} />
-        <Form.Button type="button" onClick={() => history.goBack()}>
-          Cancel
-        </Form.Button>
-        <Form.Button color="orange">Next</Form.Button>
-      </Form>
+          <Form.Field>
+            <label>Choose guests from your friends list</label>
+            <Select
+              placeholder="Choose friends"
+              fluid
+              search
+              multiple
+              selection
+              options={friends}
+              onChange={this.handleChangeGuests}
+            />
+          </Form.Field>
+          <Divider horizontal hidden />
+        </Form>
+
+        <AddFriends />
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Button type="button" onClick={() => history.goBack()}>
+            Cancel
+          </Form.Button>
+          <Form.Button color="vk">Next</Form.Button>
+        </Form>
+      </Container>
     )
   }
 }

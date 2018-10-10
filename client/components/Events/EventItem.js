@@ -3,25 +3,25 @@ import {Card, Button, Icon} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import history from '../../history'
 import styles from '../Utils/Global.css'
+import formatDate from '../../../UtilFuncs/formatDate'
 
 export const EventItem = ({evt}) => {
+  const prettyDate = evt.date && formatDate(evt.date)
   return (
     <Card as={Link} to={`/events/${evt.id}`}>
       <Card.Content>
         <Card.Header>{evt.name}</Card.Header>
         <Card.Meta>
-          {evt.description && evt.description.length > 0
-            ? evt.description
-            : '-'}
+          {prettyDate}
         </Card.Meta>
-        <Card.Description>Choose your restaurant preferences</Card.Description>
-        {evt.event_user.hasResponded && (
+        {evt.event_user.hasResponded ? (
           <Card.Description style={styles.greenText}>
             You did it! <Icon name="checkmark" color="green" />
           </Card.Description>
-        )}
+        ) :
+        <Card.Meta>Choose your restaurant preferences</Card.Meta>
+        }
       </Card.Content>
-
       {!evt.event_user.hasResponded && (
         <Button
           color="vk"

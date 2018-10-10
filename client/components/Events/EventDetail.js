@@ -1,6 +1,8 @@
 import React from 'react'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
+import formatDate from '../../../UtilFuncs/formatDate'
+import formatTime from '../../../UtilFuncs/formatTime'
 import {
   Header,
   Grid,
@@ -35,11 +37,14 @@ class EventDetail extends React.Component {
     const {currentEvent, guests, finalRestaurant} = this.props
     const creator =
       guests.length && guests.find(guest => guest.event_user.isAdmin)
+    const prettyDate = currentEvent.date && formatDate(currentEvent.date)
+    const prettyTime = currentEvent.time && formatTime(currentEvent.time)
 
     return (
       <Grid>
         <Grid.Column width={16}>
           <Container>
+            <Header>{currentEvent.date}</Header>
             {this.getStatus(currentEvent)}
             <Header as="h1">{currentEvent.name}</Header>
             <div>
@@ -97,8 +102,8 @@ class EventDetail extends React.Component {
                         <Icon name="clock outline" color="grey" />
                       </Grid.Column>
                       <Grid.Column width={14}>
-                        <p>Monday, February 21, 2018</p>
-                        <p>Brunch</p>
+                        <p>{prettyDate}</p>
+                        <p>{prettyTime}</p>
                       </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
