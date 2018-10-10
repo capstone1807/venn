@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import formatDate from '../../../UtilFuncs/formatDate'
@@ -10,11 +10,11 @@ import {
   Card,
   Icon,
   GridColumn,
-  Divider,
-  Popup
+  Divider
 } from 'semantic-ui-react'
 import {fetchEvent, fetchGuests, fetchFinalRestaurant} from '../../store'
 import styles from '../Utils/Global.css'
+import EventDate from './EventDate'
 
 class EventDetail extends React.Component {
   async componentDidMount() {
@@ -41,12 +41,24 @@ class EventDetail extends React.Component {
       <Grid>
         <Grid.Column width={16}>
           <Container>
-            <Header>{currentEvent.date}</Header>
-            {this.getStatus(currentEvent)}
-            <Header as="h1">{currentEvent.name}</Header>
+            <EventDate date={currentEvent.date} />
             <div>
-              <span style={styles.mSmall}> Created By:</span>
-              {`${creator.firstName} ${creator.lastName} (${creator.email})`}
+              <span style={styles.mediumGreyText}>
+                {this.getStatus(currentEvent)}
+              </span>
+
+              <Header
+                as="h1"
+                style={{...styles.mTopNone, ...styles.mBottomNone}}
+              >
+                {currentEvent.name}
+              </Header>
+              <div>
+                <span style={{...styles.mRightSmall, ...styles.mediumGreyText}}>
+                  Created By
+                </span>
+                {`${creator.firstName} ${creator.lastName} (${creator.email})`}
+              </div>
             </div>
           </Container>
         </Grid.Column>
@@ -54,12 +66,14 @@ class EventDetail extends React.Component {
           <Container>
             <Grid>
               <GridColumn width={8}>
-                <Header>Details</Header>
+                <Header as="h2">Details</Header>
                 <p>{currentEvent.description}</p>
                 {!currentEvent.isPast ? (
-                  <p>Who's going to be there? ({guests.length})</p>
+                  <Header as="h2">
+                    Who's going to be there? ({guests.length})
+                  </Header>
                 ) : (
-                  <p>Who went? ({guests.length})</p>
+                  <Header as="h2">Who went? ({guests.length})</Header>
                 )}
                 <Card.Group>
                   {guests.map((item, idx) => (
@@ -78,27 +92,45 @@ class EventDetail extends React.Component {
                 </Card.Group>
               </GridColumn>
               <GridColumn width={8}>
-                <Card>
-                  <Grid style={styles.padding}>
+                <Card fluid>
+                  <Grid style={styles.paddingAllButBottom}>
                     <Grid.Row>
                       <Grid.Column width={2}>
-                        <Icon name="clock outline" color="grey" />
+                        <Icon size="large" name="clock" color="grey" />
                       </Grid.Column>
                       <Grid.Column width={14}>
-                        <p>{prettyDate}</p>
-                        <p>{prettyTime}</p>
+                        <h4 style={styles.mBottomNone}>{prettyDate}</h4>
+                        <h4 style={styles.mTopNone}>{prettyTime}</h4>
                       </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
                       <Grid.Column width={2}>
-                        <Icon name="map marker alternate" color="grey" />
+                        <Icon
+                          size="large"
+                          name="map marker alternate"
+                          color="grey"
+                        />
                       </Grid.Column>
                       <Grid.Column width={14}>
-                        <p>
-                          {!currentEvent.isPending && finalRestaurant.id
-                            ? finalRestaurant.title
-                            : 'Check back when everyone has responded!'}
-                        </p>
+                        {!currentEvent.isPending && finalRestaurant.id ? (
+                          <Fragment>
+                            <h4 style={styles.mBottomNone}>
+                              {finalRestaurant.title}
+                            </h4>
+                            <h4
+                              style={{
+                                ...styles.mediumGreyText,
+                                ...styles.mTopNone
+                              }}
+                            >
+                              {finalRestaurant.description}
+                            </h4>
+                          </Fragment>
+                        ) : (
+                          <h4 style={styles.mediumGreyText}>
+                            Check back when everyone has responded!
+                          </h4>
+                        )}
                       </Grid.Column>
                     </Grid.Row>
                   </Grid>
