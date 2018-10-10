@@ -21,6 +21,9 @@ export default {
   padding: {
     padding: '1em'
   },
+  mSmallTop: {
+    marginTop: '.5em'
+  },
   paddingAllButBottom: {
     padding: '1em 1em 0 1em'
   },
