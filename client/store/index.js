@@ -4,6 +4,7 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import users from './users'
+import guests from './guests'
 import friends from './friends'
 import restaurants from './restaurants'
 import events from './events'
@@ -14,6 +15,7 @@ import final from './final'
 const reducer = combineReducers({
   user,
   users,
+  guests,
   friends,
   events,
   currentEvent,
@@ -29,6 +31,7 @@ const store = createStore(reducer, middleware)
 export default store
 export * from './user'
 export * from './users'
+export * from './guests'
 export * from './friends'
 export * from './events'
 export * from './current-event'

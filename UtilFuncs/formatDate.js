@@ -1,5 +1,4 @@
-const formatDate = (date) => {
-  const months = {
+const months = {
   '01': 'January',
   '02': 'February',
   '03': 'March',
@@ -13,8 +12,15 @@ const formatDate = (date) => {
   '11': 'November',
   '12': 'December'
 }
+
+const formatDate = date => {
   let numArr = date.split('-')
-  return months[numArr[1]] + ' ' + numArr[0] + ' ' + numArr[2];
+  return months[numArr[1]] + ' ' + numArr[0] + ' ' + numArr[2]
+}
+
+export const getMonthFromDate = date => {
+  let numArr = date.split('-')
+  return months[numArr[1]].substring(0, 3).toUpperCase()
 }
 
 export default formatDate

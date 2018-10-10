@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, Event, Restaurant, EventUser} = require('../db/models')
+const {User, EventRestaurant, Restaurant, EventUser} = require('../db/models')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
@@ -9,7 +9,14 @@ router.get('/events', async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
     const events = await user.getEvents()
-    res.json(events)
+    let verboseEvents = events.map(async event => {
+      let jsonEvent = event.dataValues
+      jsonEvent.creator = await event.getCreator()
+      jsonEvent.finalRestaurant = await event.getFinalRestaurant()
+      return event
+    })
+    verboseEvents = await Promise.all(verboseEvents)
+    res.json(verboseEvents)
   } catch (err) {
     next(err)
   }

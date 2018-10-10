@@ -5,7 +5,6 @@ import axios from 'axios'
  */
 
 const GET_USERS = 'GET_USERS'
-const GET_GUESTS = 'GET_GUESTS'
 
 /**
  * INITIAL STATE
@@ -18,11 +17,6 @@ const defaultUsers = []
 const getUsers = users => ({
   type: GET_USERS,
   users
-})
-
-const getGuests = guests => ({
-  type: GET_GUESTS,
-  guests
 })
 
 /**
@@ -39,15 +33,6 @@ export const fetchUsersFromDB = () => async dispatch => {
   }
 }
 
-export const fetchGuests = id => async dispatch => {
-  try {
-    const {data: guests} = await axios.get(`/api/events/${id}/guests`)
-    dispatch(getGuests(guests))
-  } catch (err) {
-    console.error(err)
-  }
-}
-
 /**
  * REDUCER
  */
@@ -55,8 +40,6 @@ export default function(state = defaultUsers, action) {
   switch (action.type) {
     case GET_USERS:
       return action.users
-    case GET_GUESTS:
-      return action.guests
     default:
       return state
   }

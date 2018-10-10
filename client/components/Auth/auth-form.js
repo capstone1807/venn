@@ -28,7 +28,7 @@ const AuthForm = props => {
         {/* HEADER */}
 
         <Header as="h2" textAlign="center">
-          <Image src="../assets/venn-logo.png" />
+          <Image src="/assets/venn-logo.png" />
           {displayName}
         </Header>
         <Form size="large" onSubmit={handleSubmit} name={name}>

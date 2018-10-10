@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+const Event = require('./event')
 
 const EventRestaurant = db.define('event_restaurant', {
   score: {
@@ -29,9 +30,44 @@ EventRestaurant.getFinal = function(restaurantScoresArr) {
   const finalRestaurants = restaurantScoresArr.filter(
     rest => parseFloat(rest.score) === highscore
   )
-  // return floor of random * filteredarray length (if there is only one item, should return that item )
   return finalRestaurants[Math.floor(Math.random() * finalRestaurants.length)]
     .restaurantId
+}
+
+EventRestaurant.checkForFinalRestaurant = async eventUser => {
+  console.log('**1**')
+  const currentEvent = await Event.findById(eventUser.eventId)
+  const guests = await currentEvent.getUsers()
+
+  console.log('**2**')
+  if (!guests.some(guest => !guest.event_user.hasResponded)) {
+    currentEvent.update({
+      isPending: false
+    })
+    console.log('**3**')
+
+    const restaurantScores = await EventRestaurant.findAll({
+      attributes: ['score', 'restaurantId'],
+      where: {
+        eventId: currentEvent.id
+      }
+    })
+
+    console.log('**4**')
+    const finalRestId = await EventRestaurant.getFinal(restaurantScores)
+    console.log('**5**')
+    await EventRestaurant.update(
+      {
+        isFinal: true
+      },
+      {
+        where: {
+          restaurantId: finalRestId,
+          eventId: eventUser.eventId
+        }
+      }
+    )
+  }
 }
 
 module.exports = EventRestaurant
