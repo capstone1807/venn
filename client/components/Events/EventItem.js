@@ -1,5 +1,5 @@
 import React from 'react'
-import {Card, Button, Icon, Divider} from 'semantic-ui-react'
+import {Card, Button, Icon} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import history from '../../history'
 import styles from '../Utils/Global.css'

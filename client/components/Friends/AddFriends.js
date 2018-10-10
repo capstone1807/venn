@@ -48,7 +48,6 @@ export class AddFriends extends React.Component {
         }
       })
     return (
-      <div>
       <Form onSubmit={this.handleSubmit}>
         <Form.Field>
         <label>Search for people to add to your friends list</label>
@@ -74,7 +73,6 @@ export class AddFriends extends React.Component {
           <Button icon="plus" color="google plus" size="medium" style={styles.mLeft} onSubmit={this.handleSubmit}/>
           </Form.Group>
         </Form>
-      </div>
     )
   }
 }
