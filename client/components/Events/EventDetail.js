@@ -13,19 +13,16 @@ import {
   Divider,
   Popup
 } from 'semantic-ui-react'
-import {
-  fetchEvent,
-  lockInEvent,
-  fetchGuests,
-  fetchFinalRestaurant
-} from '../../store'
+import {fetchEvent, fetchGuests, fetchFinalRestaurant} from '../../store'
 import styles from '../Utils/Global.css'
 
 class EventDetail extends React.Component {
   async componentDidMount() {
     await this.props.getEvent()
     await this.props.getGuests()
-    await this.props.getFinalRestaurant()
+    this.props.currentEvent &&
+      !this.props.currentEvent.isPending &&
+      (await this.props.getFinalRestaurant())
   }
 
   getStatus = event => {
@@ -50,20 +47,6 @@ class EventDetail extends React.Component {
             <div>
               <span style={styles.mSmall}> Created By:</span>
               {`${creator.firstName} ${creator.lastName} (${creator.email})`}
-            </div>
-            <div>
-              <span style={styles.mSmall}>
-                {currentEvent.isPrivate ? 'Private Event' : 'Open Event'}
-              </span>
-              <Popup
-                trigger={<Icon name="question circle" color="grey" />}
-                content={
-                  currentEvent.isPrivate
-                    ? 'Sorry the guest list is closed!'
-                    : 'You can invite friends!'
-                }
-                on={['hover', 'click']}
-              />
             </div>
           </Container>
         </Grid.Column>
@@ -135,13 +118,12 @@ const getId = props => Number(props.match.params.id)
 
 const mapStateToProps = state => ({
   currentEvent: state.currentEvent,
-  guests: state.users,
+  guests: state.guests,
   finalRestaurant: state.final.restaurant
 })
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getEvent: () => dispatch(fetchEvent(getId(ownProps))),
   getGuests: () => dispatch(fetchGuests(getId(ownProps))),
-  scheduleEvent: () => dispatch(lockInEvent(getId(ownProps))),
   getFinalRestaurant: () => dispatch(fetchFinalRestaurant(getId(ownProps)))
 })
 
