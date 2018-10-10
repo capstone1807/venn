@@ -2,14 +2,19 @@ import React, {Component, Fragment} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
-import {logout} from '../../store'
+import {logout, fetchEvents} from '../../store'
 import App from '../../app'
-import {Icon, Menu, Sidebar} from 'semantic-ui-react'
+import {Icon, Menu, Sidebar, Label, Container} from 'semantic-ui-react'
 import {Header, Footer} from '../../components'
 import history from '../../history'
+import styles from '../Utils/Global.css'
 
 class SidebarMenu extends Component {
   state = {visible: false}
+
+  async componentDidMount() {
+    await this.props.getEvents()
+  }
 
   handleButtonClick = () =>
     this.setState(prevState => ({visible: !prevState.visible}))
@@ -28,7 +33,10 @@ class SidebarMenu extends Component {
 
   render() {
     const {visible} = this.state
-    const {isLoggedIn, firstName} = this.props
+    const {isLoggedIn, firstName, events} = this.props
+    const needsResponse = this.props.events.filter(
+      event => !event.event_user.hasResponded
+    ).length
 
     return (
       <div>
@@ -48,7 +56,12 @@ class SidebarMenu extends Component {
                   <p>Welcome, {firstName}</p>
                 </Menu.Item>
                 <Menu.Item onClick={() => this.handleLinks('/events')}>
-                  <Icon name="calendar alternate" /> Events
+                  {events.length &&
+                    needsResponse > 0 && (
+                      <Label color="red">{needsResponse}</Label>
+                    )}
+                  <Icon name="calendar alternate" />
+                  <p style={styles.pTopTiny}>Events</p>
                 </Menu.Item>
                 <Menu.Item onClick={() => this.handleLinks('/friends')}>
                   <Icon name="users" /> Friends
@@ -83,12 +96,14 @@ class SidebarMenu extends Component {
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
-    firstName: state.user.firstName
+    firstName: state.user.firstName,
+    events: state.events
   }
 }
 
 const mapDispatch = dispatch => ({
-  logout: () => dispatch(logout())
+  logout: () => dispatch(logout()),
+  getEvents: () => dispatch(fetchEvents())
 })
 
 export default withRouter(connect(mapState, mapDispatch)(SidebarMenu))
