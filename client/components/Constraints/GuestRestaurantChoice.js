@@ -117,7 +117,7 @@ export class GuestRestaurantChoice extends React.Component {
           </Form.Field>
           <Form.Field>
             <label>Importance</label>
-            <Form.Group fluid>
+            <Form.Group>
               <Form.Field>
                 <Radio
                   label={"It's a must"}
