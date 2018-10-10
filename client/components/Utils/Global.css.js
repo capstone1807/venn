@@ -15,13 +15,14 @@ export default {
   pTop2: {
     paddingTop: '2em'
   },
-
   padding: {
     padding: '1em'
   },
-
   mSmall: {
     marginRight: '.5em'
+  },
+  mSmallTop:{
+    marginTop: '.5em'
   },
   marginTopLeft: {
     margin: '16px 0 0 16px'
