@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import history from '../../history'
 import {fetchFriends, postEvent} from '../../store'
-import AddFriends from '../Friends/AddFriends'
+import AddFriendsModal from '../Friends/AddFriends'
 import {DateInput, TimeInput} from 'semantic-ui-calendar-react'
 import {
   Form,
@@ -131,7 +131,7 @@ export class CreateEvent extends React.Component {
           <Divider horizontal hidden />
         </Form>
 
-        <AddFriends />
+        <AddFriendsModal />
         <Form onSubmit={this.handleSubmit}>
           <Form.Button type="button" onClick={() => history.goBack()}>
             Cancel

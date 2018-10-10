@@ -4,7 +4,7 @@ import {
   fetchUsersFromDB,
   addFriend,
 } from '../../store'
-import {Form, Button, Icon, Select} from 'semantic-ui-react'
+import {Form, Icon, Select} from 'semantic-ui-react'
 
 export class AddFriends extends React.Component {
   constructor(props) {
