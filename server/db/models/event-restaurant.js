@@ -19,6 +19,8 @@ EventRestaurant.prototype.updateScore = function(importance) {
 }
 
 EventRestaurant.getFinal = function(restaurantScoresArr) {
+  // restaurantScoresArr is an array of objects which each contain a restaurantId and a score
+  // filter array for highest scored restaurants
   const highscore = Math.max.apply(
     Math,
     restaurantScoresArr.map(function(obj) {
@@ -33,17 +35,27 @@ EventRestaurant.getFinal = function(restaurantScoresArr) {
 }
 
 EventRestaurant.checkForFinalRestaurant = async eventUser => {
+  console.log('**1**')
   const currentEvent = await Event.findById(eventUser.eventId)
   const guests = await currentEvent.getUsers()
 
-  if (guests.filter(guest => !guest.event_user.hasResponded).length === 0) {
-    currentEvent.update({isPending: false})
+  console.log('**2**')
+  if (!guests.some(guest => !guest.event_user.hasResponded)) {
+    currentEvent.update({
+      isPending: false
+    })
+    console.log('**3**')
+
     const restaurantScores = await EventRestaurant.findAll({
       attributes: ['score', 'restaurantId'],
-      where: {eventId: currentEvent.id}
+      where: {
+        eventId: currentEvent.id
+      }
     })
 
-    const finalRestId = EventRestaurant.getFinal(restaurantScores)
+    console.log('**4**')
+    const finalRestId = await EventRestaurant.getFinal(restaurantScores)
+    console.log('**5**')
     await EventRestaurant.update(
       {
         isFinal: true
@@ -51,7 +63,7 @@ EventRestaurant.checkForFinalRestaurant = async eventUser => {
       {
         where: {
           restaurantId: finalRestId,
-          eventId: currentEvent.id
+          eventId: eventUser.eventId
         }
       }
     )
