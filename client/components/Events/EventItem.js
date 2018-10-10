@@ -9,7 +9,6 @@ export const EventItem = ({evt}) => {
   const prettyDate = evt.date && formatDate(evt.date)
   const needsResponse = !evt.event_user.hasResponded
   const responded = evt.event_user.hasResponded && evt.isPending
-  const pending = evt.isPending
   const scheduled = evt.event_user.hasResponded && !evt.isPending && !evt.isPast
   const past = evt.isPast
 
@@ -17,16 +16,18 @@ export const EventItem = ({evt}) => {
     <Card as={Link} to={`/events/${evt.id}`}>
       <Card.Content>
         <Card.Header>{evt.name}</Card.Header>
+        <Card.Meta>
+          Created by{' '}
+          <strong>
+            {evt.creator.firstName} {evt.creator.lastName}
+          </strong>
+        </Card.Meta>
         <Card.Meta>{prettyDate}</Card.Meta>
-        {pending && (
+        {(scheduled || past) && <h3>{evt.finalRestaurant.title}</h3>}
+        {needsResponse && (
           <Card.Meta style={styles.mSmallTop}>
             Choose your restaurant preferences
           </Card.Meta>
-        )}
-        {responded && (
-          <Card.Description style={styles.greenText}>
-            You did it! <Icon name="checkmark" color="green" />
-          </Card.Description>
         )}
       </Card.Content>
       {needsResponse && (
@@ -39,6 +40,12 @@ export const EventItem = ({evt}) => {
         >
           <Icon name="options" />
           Choose
+        </Button>
+      )}
+      {responded && (
+        <Button color="vk" type="button" disabled>
+          <Icon name="checkmark" color="green" />
+          Your choices have been received
         </Button>
       )}
     </Card>
