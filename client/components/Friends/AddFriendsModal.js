@@ -5,14 +5,13 @@ import {
   addFriend,
 } from '../../store'
 import {
-  Container,
+  Message,
   Button,
   Form,
-  Segment,
   Modal,
-  Icon,
   Select
 } from 'semantic-ui-react'
+import styles from '../Utils/Global.css'
 
 export class AddFriendsModal extends React.Component {
   constructor(props) {
@@ -30,13 +29,16 @@ export class AddFriendsModal extends React.Component {
 
   handleChange = (e, {value}) => this.setState({selectedUser: value})
 
-  handleSubmit = async () => {
+  handleAdd = async () => {
     event.preventDefault()
     const username = this.state.selectedUser
     const id = this.props.users.find(user => user.username === username).id
     await this.props.addToFriends(id)
-    this.setState({submitted: true})
 
+  }
+
+  handleSubmit = () => {
+    this.setState({submitted: true})
   }
 
   handleOpen = () => {
@@ -49,6 +51,8 @@ export class AddFriendsModal extends React.Component {
 
   render() {
     const {users, friends} = this.props
+    console.log('FRIENDS =>', friends)
+
     const {submitted} = this.state
     const friendUsernames = friends.map(friend => friend.username)
     const notFriends = users.filter(
@@ -65,28 +69,29 @@ export class AddFriendsModal extends React.Component {
         }
       })
     return (
-      <Form>
-        <Segment textAlign="center" vertical>
-          <Form.Field>
-            <label>Search for people to add to your friends list</label>
-          </Form.Field>
-
           <Modal
+            closeIcon
             trigger={
-              <Button onClick={this.handleOpen} color="vk">
-                Find 'em!
-              </Button>
+              <Form>
+                <Form.Field inline>
+              <Button onClick={this.handleOpen} color="vk" size="tiny" icon="search"/>
+            <label>Search for people to add to your friends list</label>
+            </Form.Field>
+            </Form>
+
             }
             open={this.state.modalOpen}
             onClose={this.handleClose}
           >
-            <Modal.Header>Search by name or username:</Modal.Header>
+            <Modal.Header>Find Friends</Modal.Header>
             <Modal.Content>
               <Form onSubmit={this.handleSubmit}>
+                <Form.Input>
               <Select
             onChange={this.handleChange}
-            placeholder="Search Name"
+            placeholder="search by name or username"
             search
+            fluid
             options={
               userOptions
                 ? userOptions
@@ -98,33 +103,28 @@ export class AddFriendsModal extends React.Component {
                   ]
             }
             value={this.state.value}
-            fluid
           />
-                <Modal.Actions>
-                  {!submitted ? (
-                    <Form.Button
+          <Form.Button
                       color="google plus"
                       size="medium"
-                      onSubmit={this.handleSubmit}
-                    >
-                      <Icon name="plus" />Add Friend
-                    </Form.Button>
-                  ) : (
-                    <Container as="h4">
-                      <Segment>[Name] will now appear in your friends list!</Segment>
-                      <Form.Button
-                        color="vk"
-                        onClick={this.handleClose}
-                        content="Thanks!"
-                      />
-                    </Container>
-                  )}
+                      onClick={this.handleAdd}
+                      icon="plus"
+                      style = {styles.mLeft}
+                    />
+
+          </Form.Input>
+                <Modal.Actions>
+                  {submitted &&
+                  <Message positive>
+    <Message.Header>Success!</Message.Header>
+      You've added this person to your friends list. You can add as many friends as you'd like.
+  </Message>
+
+                   }
                 </Modal.Actions>
               </Form>
             </Modal.Content>
           </Modal>
-        </Segment>
-      </Form>
     )
   }
 }

@@ -25,6 +25,11 @@ export default {
   mBottom: {
     marginBottom: '1em'
   },
+
+  mLeft: {
+    marginLeft: '1em'
+  },
+
   greenText: {
     color: colors.green
   },
