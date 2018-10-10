@@ -34,4 +34,28 @@ EventRestaurant.getFinal = function(restaurantScoresArr) {
     .restaurantId
 }
 
+EventRestaurant.checkForFinalRestaurant = async eventUser => {
+  const currentEvent = await Event.findById(eventUser.eventId)
+  const guests = await currentEvent.getUsers()
+   if (guests.filter(guest => !guest.event_user.hasResponded).length === 0) {
+    currentEvent.update({isPending: false})
+    const restaurantScores = await EventRestaurant.findAll({
+      attributes: ['score', 'restaurantId'],
+      where: {eventId: currentEvent.id}
+    })
+     const finalRestId = EventRestaurant.getFinal(restaurantScores)
+    await EventRestaurant.update(
+      {
+        isFinal: true
+      },
+      {
+        where: {
+          restaurantId: finalRestId,
+          eventId: currentEvent.id
+        }
+      }
+    )
+  }
+}
+
 module.exports = EventRestaurant
