@@ -18,15 +18,12 @@ export default {
   pTop2: {
     paddingTop: '2em'
   },
-
   padding: {
     padding: '1em'
   },
-
   paddingAllButBottom: {
     padding: '1em 1em 0 1em'
   },
-
   mRightSmall: {
     marginRight: '.5em'
   },
@@ -79,5 +76,8 @@ export default {
   },
   inline: {
     display: 'inline-block'
+  },
+  placeSearch: {
+    flexGrow: '1'
   }
 }
