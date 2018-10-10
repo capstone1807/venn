@@ -2,10 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import history from '../../history'
 import {fetchFriends, postEvent} from '../../store'
-import {
-  DateInput,
-  TimeInput,
-} from 'semantic-ui-calendar-react';
+import AddFriends from '../Friends/AddFriends'
+import {DateInput, TimeInput} from 'semantic-ui-calendar-react'
 import {
   Form,
   TextArea,
@@ -53,14 +51,20 @@ export class CreateEvent extends React.Component {
 
   handleChangeDateOrTime = (event, {name, value}) => {
     event.persist()
-    this.setState({ [name]: value });
-
+    this.setState({[name]: value})
   }
 
   handleSubmit = async event => {
     event.preventDefault()
     await this.props.createEvent(this.state)
     history.push('/events')
+  }
+
+  handleAddFriend = async event => {
+    event.preventDefault()
+    const username = this.state.selectedUser
+    const id = this.props.users.find(user => user.username === username).id
+    await this.props.addToFriends(id)
   }
 
   render() {
@@ -73,10 +77,9 @@ export class CreateEvent extends React.Component {
           text: friend.firstName + ' ' + friend.lastName
         }
       })
-      console.log('STATE =>', this.state)
     return (
-      <Form verticalalign="middle" onSubmit={this.handleSubmit}>
-        <Container style={{width: 500}}>
+      <Container style={{width: 500}}>
+        <Form verticalalign="middle" >
           <Form.Field>
             <label>Name your event</label>
             <input
@@ -88,19 +91,21 @@ export class CreateEvent extends React.Component {
           <Form.Field>
             <label>Choose a date & time</label>
             <Segment>
-        <DateInput
-          name="date"
-          placeholder="Date"
-          value={this.state.date}
-          iconPosition="left"
-          onChange={this.handleChangeDateOrTime} />
-        <TimeInput
-          name="time"
-          placeholder="Time"
-          value={this.state.time}
-          iconPosition="left"
-          onChange={this.handleChangeDateOrTime} />
-      </Segment>
+              <DateInput
+                name="date"
+                placeholder="Date"
+                value={this.state.date}
+                iconPosition="left"
+                onChange={this.handleChangeDateOrTime}
+              />
+              <TimeInput
+                name="time"
+                placeholder="Time"
+                value={this.state.time}
+                iconPosition="left"
+                onChange={this.handleChangeDateOrTime}
+              />
+            </Segment>
           </Form.Field>
 
           <Form.Field>
@@ -112,24 +117,28 @@ export class CreateEvent extends React.Component {
             />
           </Form.Field>
           <Form.Field>
-        <label>Choose friends to invite</label>
-          <Select
-            placeholder="Choose friends"
-            fluid
-            search
-            multiple
-            selection
-            options={friends}
-            onChange={this.handleChangeGuests}
-          />
+            <label>Choose guests from your friends list</label>
+            <Select
+              placeholder="Choose friends"
+              fluid
+              search
+              multiple
+              selection
+              options={friends}
+              onChange={this.handleChangeGuests}
+            />
           </Form.Field>
-        <Divider horizontal hidden />
-        <Form.Button type="button" onClick={() => history.goBack()}>
-          Cancel
-        </Form.Button>
-        <Form.Button color="vk">Next</Form.Button>
-        </Container>
-      </Form>
+          <Divider horizontal hidden />
+        </Form>
+
+        <AddFriends />
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Button type="button" onClick={() => history.goBack()}>
+            Cancel
+          </Form.Button>
+          <Form.Button color="vk">Next</Form.Button>
+        </Form>
+      </Container>
     )
   }
 }
