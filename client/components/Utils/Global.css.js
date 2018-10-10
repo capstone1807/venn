@@ -12,6 +12,9 @@ export default {
   h1: {
     marginTop: '2em'
   },
+  font2: {
+    fontSize: '2em'
+  },
   pTop2: {
     paddingTop: '2em'
   },
@@ -20,8 +23,15 @@ export default {
     padding: '1em'
   },
 
-  mSmall: {
+  paddingAllButBottom: {
+    padding: '1em 1em 0 1em'
+  },
+
+  mRightSmall: {
     marginRight: '.5em'
+  },
+  mBottomTiny: {
+    marginBottom: '.25em'
   },
   marginTopLeft: {
     margin: '16px 0 0 16px'
@@ -32,11 +42,42 @@ export default {
   mBottom: {
     marginBottom: '1em'
   },
+  mTopNone: {
+    marginTop: '0'
+  },
+  mBottomNone: {
+    marginBottom: '0'
+  },
+  mTop: {
+    marginTop: '1em'
+  },
   greenText: {
     color: colors.green
   },
+  blueGrayText: {
+    color: colors.blueGray
+  },
+  greyText: {
+    color: colors.grey
+  },
+  mediumGreyText: {
+    color: colors.mediumGrey
+  },
+  blueText: {
+    color: colors.blue
+  },
+  redText: {
+    color: colors.red
+  },
   eventContent: {
     background: colors.grey,
-    marginTop: '2em'
+    marginTop: '1em',
+    paddingTop: '3em'
+  },
+  centerText: {
+    alignText: 'center'
+  },
+  inline: {
+    display: 'inline-block'
   }
 }
