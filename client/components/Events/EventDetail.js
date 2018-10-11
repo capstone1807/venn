@@ -2,7 +2,7 @@ import React, {Fragment} from 'react'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import moment from 'moment'
-
+import Map from './Map'
 import {
   Header,
   Grid,
@@ -183,8 +183,14 @@ class EventDetail extends React.Component {
                       </Grid.Row>
                     </Grid>
                     <Divider />
-                    {finalRestaurant ? <Map latitude={finalRestaurant.latitude} longitude={finalRestaurant.longitude}/> :
-                  <Map />}
+                    {finalRestaurant ? (
+                      <Map
+                        latitude={finalRestaurant.latitude}
+                        longitude={finalRestaurant.longitude}
+                      />
+                    ) : (
+                      <Map />
+                    )}
                   </Card>
                   {userId === creator.id &&
                     currentEvent.isPending && (
@@ -200,18 +206,17 @@ class EventDetail extends React.Component {
                           </Button>
                         </Container>
                       </Grid.Column>
-              </GridColumn>
-            </Grid>
-          </Container>
-        </Grid.Column>finalRestaurant
-      </Grid>
+                    )}
+                </GridColumn>
+              </Grid>
+            </Container>
+          </Grid.Column>
+        </Grid>
       </Fragment>
     )
   }
 }
-
 const getId = props => Number(props.match.params.id)
-
 const mapStateToProps = state => ({
   currentEvent: state.currentEvent,
   guests: state.guests,
@@ -226,7 +231,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   addToFriends: id => dispatch(addFriend(id)),
   closeEvent: id => dispatch(lockInEvent(id))
 })
-
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(EventDetail)
 )
