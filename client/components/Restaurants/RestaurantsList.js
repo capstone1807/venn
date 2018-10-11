@@ -19,13 +19,6 @@ class RestaurantsList extends Component {
 
   async componentDidMount() {
     await this.props.getRestaurants()
-    this.props.restaurants.sort((a, b) => {
-      const A = a.title.toUpperCase()
-      const B = b.title.toUpperCase()
-      let comparison = 0
-      A > B ? (comparison = 1) : (comparison = -1)
-      return comparison
-    })
     this.setState({isLoading: false})
   }
 
@@ -47,6 +40,13 @@ class RestaurantsList extends Component {
 
   render() {
     const {restaurants} = this.props
+    restaurants.length && restaurants.sort((a, b) => {
+      const A = a.title.toUpperCase()
+      const B = b.title.toUpperCase()
+      let comparison = 0
+      A > B ? (comparison = 1) : (comparison = -1)
+      return comparison
+    })
     return (
       <Container>
         {this.state.isLoading ? (
