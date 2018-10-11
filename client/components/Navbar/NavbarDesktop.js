@@ -7,7 +7,6 @@ const NavbarDesktop = ({
   firstName,
   isLoggedIn,
   handleLogout,
-  events,
   needsResponse
 }) => (
   <Menu>
@@ -18,8 +17,7 @@ const NavbarDesktop = ({
     {isLoggedIn && (
       <Fragment>
         <Menu.Item onClick={() => history.push('/events')}>
-          {events.length &&
-            needsResponse > 0 && <Label color="red">{needsResponse}</Label>}
+          {(needsResponse > 0) && <Label color="red">{needsResponse}</Label>}
           <Icon name="calendar alternate" />
           <p style={styles.pTopTiny}>Events</p>
         </Menu.Item>

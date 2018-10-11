@@ -23,9 +23,7 @@ const NavbarItemsMobile = ({
               <p>Welcome {firstName}</p>
             </Menu.Item>
             <Menu.Item onClick={() => history.push('/events')}>
-              {events &&
-                events.length &&
-                needsResponse > 0 && <Label color="red">{needsResponse}</Label>}
+              {(needsResponse > 0) && <Label color="red">{needsResponse}</Label>}
               <Icon name="calendar alternate" />
               <p style={styles.pTopTiny}>Events</p>
             </Menu.Item>
