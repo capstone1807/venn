@@ -5,16 +5,11 @@ export default {
     height: '75px',
     margin: '50px'
   },
-  footer: {
-    background: colors.blueGray,
-    height: '64px',
-    position: 'absolute',
-    right: '0',
-    bottom: '0',
-    left: '0'
+  menu: {
+    borderRadius: '0'
   },
-  content: {
-    marginBottom: '64px'
+  footer: {
+    background: colors.blueGray
   },
   h1: {
     marginTop: '2em'
@@ -31,11 +26,18 @@ export default {
   padding: {
     padding: '1em'
   },
+  margin: {
+    margin: '1em'
+  },
   mSmallTop: {
     marginTop: '.5em'
   },
   paddingAllButBottom: {
     padding: '1em 1em 0 1em'
+  },
+
+  mRight: {
+    marginRight: '1em'
   },
   mRightSmall: {
     marginRight: '.5em'
@@ -46,11 +48,17 @@ export default {
   marginTopLeft: {
     margin: '16px 0 0 16px'
   },
+  marginLeftRight: {
+    margin: '0 16px 0 16px'
+  },
   pBottom2: {
     paddingBottom: '2em'
   },
   mBottom: {
     marginBottom: '1em'
+  },
+  mBottom2: {
+    marginBottom: '2em'
   },
   mLeft: {
     marginLeft: '1em'
@@ -63,6 +71,9 @@ export default {
   },
   mTop: {
     marginTop: '1em'
+  },
+  mTop2: {
+    marginTop: '2em'
   },
   greenText: {
     color: colors.green

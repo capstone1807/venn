@@ -7,7 +7,13 @@ const EventDate = ({date}) => {
   const prettyMonth = date && getMonthFromDate(date)
   const day = date && date.substring(0, 2)
   return (
-    <Message style={{...styles.inline, ...styles.centerText}}>
+    <Message
+      style={{
+        ...styles.inline,
+        ...styles.centerText,
+        ...styles.mRight
+      }}
+    >
       <Message.Header
         style={{...styles.redText, ...styles.font2, ...styles.mBottomTiny}}
       >
