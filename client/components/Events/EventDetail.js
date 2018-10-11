@@ -10,19 +10,40 @@ import {
   Card,
   Icon,
   GridColumn,
-  Divider
+  Divider,
+  Button,
+  Segment
 } from 'semantic-ui-react'
-import {fetchEvent, fetchGuests, fetchFinalRestaurant} from '../../store'
+import {
+  fetchEvent,
+  fetchGuests,
+  fetchFinalRestaurant,
+  fetchFriends,
+  addFriend,
+  lockInEvent
+} from '../../store'
 import styles from '../Utils/Global.css'
 import EventDate from './EventDate'
 
 class EventDetail extends React.Component {
+
   async componentDidMount() {
     await this.props.getEvent()
     await this.props.getGuests()
+    await this.props.getFriends()
     this.props.currentEvent &&
       !this.props.currentEvent.isPending &&
       (await this.props.getFinalRestaurant())
+  }
+
+  handleSubmit = async event => {
+    event.preventDefault()
+    const id = event.target.value
+    await this.props.addToFriends(id)
+  }
+
+  handleCloseEvent = async () => {
+    await this.props.closeEvent(this.props.currentEvent.id)
   }
 
   getStatus = event => {
@@ -31,7 +52,8 @@ class EventDetail extends React.Component {
   }
 
   render() {
-    const {currentEvent, guests, finalRestaurant} = this.props
+    const {currentEvent, guests, finalRestaurant, friends} = this.props
+    const userId = friends.length && friends[0].friendship.userId
     const creator =
       guests.length && guests.find(guest => guest.event_user.isAdmin)
     const prettyDate = currentEvent.date && formatDate(currentEvent.date)
@@ -87,6 +109,39 @@ class EventDetail extends React.Component {
                           content={`${item.firstName} ${item.lastName}`}
                         />
                       </Card.Content>
+                      {friends.length &&
+                      friends.find(f => f.username === item.username) ? (
+                        <Button color="vk" disabled>
+                          <Icon
+                            name="heart"
+                            style={{color: 'white'}}
+                            size="small"
+                          />
+                          Already In Friends
+                        </Button>
+                      ) : userId === item.id ? (
+                        <Button color="google plus" disabled>
+                          <Icon
+                            name="heart"
+                            style={{color: 'white'}}
+                            size="small"
+                          />
+                          Me
+                        </Button>
+                      ) : (
+                        <Button
+                          color="vk"
+                          onClick={this.handleSubmit}
+                          value={item.id}
+                        >
+                          <Icon
+                            name="heart outline"
+                            style={{color: 'white'}}
+                            size="small"
+                          />
+                          Add to Friends
+                        </Button>
+                      )}
                     </Card>
                   ))}
                 </Card.Group>
@@ -137,6 +192,18 @@ class EventDetail extends React.Component {
                   <Divider />
                   <div>Map with pin</div>
                 </Card>
+                {userId === creator.id && currentEvent.isPending && <Grid.Column width={8}>
+                  <Container>
+                    <Button
+                      type="button"
+                      floated="right"
+                      color="google plus"
+                      onClick={this.handleCloseEvent}
+                    >
+                      Show me the plan!
+                    </Button>
+                  </Container>
+                </Grid.Column>}
               </GridColumn>
             </Grid>
           </Container>
@@ -151,12 +218,16 @@ const getId = props => Number(props.match.params.id)
 const mapStateToProps = state => ({
   currentEvent: state.currentEvent,
   guests: state.guests,
-  finalRestaurant: state.final.restaurant
+  finalRestaurant: state.final.restaurant,
+  friends: state.friends
 })
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getEvent: () => dispatch(fetchEvent(getId(ownProps))),
   getGuests: () => dispatch(fetchGuests(getId(ownProps))),
-  getFinalRestaurant: () => dispatch(fetchFinalRestaurant(getId(ownProps)))
+  getFinalRestaurant: () => dispatch(fetchFinalRestaurant(getId(ownProps))),
+  getFriends: () => dispatch(fetchFriends()),
+  addToFriends: id => dispatch(addFriend(id)),
+  closeEvent: id => dispatch(lockInEvent(id))
 })
 
 export default withRouter(

@@ -22,9 +22,9 @@ class PlacesAutoComplete extends Component {
     this.setState({value: result.title, selectedPlace: result})
   }
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault()
-    this.props.addRestaurant(this.state.selectedPlace)
+    await this.props.addRestaurant(this.state.selectedPlace)
   }
 
   handleSearchChange = (e, {value}) => {
@@ -80,9 +80,7 @@ class PlacesAutoComplete extends Component {
               results={results}
               value={value}
             />
-            <Button icon color="google plus" size="medium" style={styles.mLeft}>
-              <Icon name="plus" />
-            </Button>
+            <Button icon="plus" color="google plus" size="medium" style={styles.mLeft}/>
           </Form.Group>
         </Form>
       </Container>

@@ -5,20 +5,14 @@ import axios from 'axios'
  */
 const GET_EVENTS = 'GET_EVENTS'
 const CREATE_EVENT = 'CREATE_EVENT'
+const CLOSE_EVENT = 'CLOSE_EVENT'
 
 /**
  * ACTION CREATORS
  */
 const getEvents = events => ({type: GET_EVENTS, events})
-
-/**
- * ACTION CREATORS
- */
-
-const createEvent = (event) => ({
-  type: CREATE_EVENT,
-  event
-})
+const createEvent = event => ({type: CREATE_EVENT, event})
+const closeEvent = event => ({type: CLOSE_EVENT, event})
 
 /**
  * THUNK CREATORS
@@ -41,6 +35,15 @@ export const postEvent = newEvent => async dispatch => {
   }
 }
 
+export const lockInEvent = (eventId) => async dispatch => {
+  try{
+    const {data: event} = await axios.put(`/api/events/${eventId}/close`)
+    dispatch(closeEvent(event))
+  } catch(err) {
+    console.error(err)
+  }
+}
+
 /**
  * REDUCER
  */
@@ -48,10 +51,10 @@ export default function(state = [], action) {
   switch (action.type) {
     case CREATE_EVENT:
       return [...state, action.event]
-
+    case CLOSE_EVENT:
+      return state
     case GET_EVENTS:
       return action.events
-
     default:
       return state
   }

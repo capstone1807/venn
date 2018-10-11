@@ -4,13 +4,15 @@ import {
   fetchUsersFromDB,
   addFriend,
 } from '../../store'
-import {Form, Icon, Select} from 'semantic-ui-react'
+import styles from '../Utils/Global.css'
+import {Form, Button, Select} from
+'semantic-ui-react'
 
 export class AddFriends extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedUser: '',
+      selectedUser: ''
     }
   }
 
@@ -18,18 +20,19 @@ export class AddFriends extends React.Component {
     await this.props.getUsers()
   }
 
-    handleChange = (event, data) => {
-      this.setState({selectedUser: data.value})
-    }
+  handleChange = (event, data) => {
+    this.setState({selectedUser: data.value})
+  }
 
   handleSubmit = async event => {
     event.preventDefault()
     const username = this.state.selectedUser
     const id = this.props.users.find(user => user.username === username).id
     await this.props.addToFriends(id)
+    this.setState({selectedUser : ''})
   }
 
-  render(){
+  render() {
     const {users, friends} = this.props
     const friendUsernames = friends.map(friend => friend.username)
     const notFriends = users.filter(
@@ -46,13 +49,14 @@ export class AddFriends extends React.Component {
         }
       })
     return (
-      <div>
       <Form onSubmit={this.handleSubmit}>
         <Form.Field>
         <label>Search for people to add to your friends list</label>
+        </Form.Field>
+        <Form.Group inline >
       <Select
             onChange={this.handleChange}
-            placeholder="Search Name"
+            placeholder="search by name or username"
             search
             options={
               userOptions
@@ -67,13 +71,9 @@ export class AddFriends extends React.Component {
             value={this.state.value}
             fluid
           />
-
-          <Form.Button color="google plus" size="medium" onSubmit={this.handleSubmit}>
-            <Icon name="plus" />Add Friend
-          </Form.Button>
-          </Form.Field>
+          <Button icon="plus" color="google plus" size="medium" style={styles.mLeft} onSubmit={this.handleSubmit}/>
+          </Form.Group>
         </Form>
-      </div>
     )
   }
 }
@@ -85,7 +85,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getUsers: () => dispatch(fetchUsersFromDB()),
-  addToFriends: id => dispatch(addFriend(id)),
+  addToFriends: id => dispatch(addFriend(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddFriends)

@@ -113,7 +113,7 @@ export class CreateEvent extends React.Component {
             <label>Description</label>
             <TextArea
               autoHeight
-              placeholder="Anything else you want your guests to know?"
+              placeholder="Suggest an area of town. Tell your guests a little something about the occasion."
               onChange={this.handleChangeDescription}
             />
           </Form.Field>
@@ -132,7 +132,7 @@ export class CreateEvent extends React.Component {
           <Divider horizontal hidden />
         </Form>
         <AddFriendsModal />
-        <Button floated="right" color="vk" onClick={this.handleSubmit}>Next</Button>
+        <Button floated="right" color="vk" onClick={this.handleSubmit}>Create Event</Button>
         <Button floated="right" onClick={() => history.goBack()}>
             Cancel
         </Button>

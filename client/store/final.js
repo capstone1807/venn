@@ -27,6 +27,7 @@ const getEvent = restaurant => ({
  * THUNK CREATORS
  */
 
+
 export const fetchFinalRestaurant = id => async dispatch => {
   try {
     const {data: restaurant} = await axios.get(

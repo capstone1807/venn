@@ -82,6 +82,9 @@ export default {
   redText: {
     color: colors.red
   },
+  flex: {
+    display: 'flex'
+  },
   eventContent: {
     background: colors.grey,
     marginTop: '1em',
