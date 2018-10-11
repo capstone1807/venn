@@ -2,7 +2,7 @@ import debounce from 'lodash.debounce'
 import React, {Component} from 'react'
 import {saveRestaurant} from '../../store'
 import {connect} from 'react-redux'
-import {Search, Button, Icon, Container, Form} from 'semantic-ui-react'
+import {Search, Button, Icon, Container, Form, Message} from 'semantic-ui-react'
 import styles from '../Utils/Global.css'
 
 const autocompleteService = new google.maps.places.AutocompleteService()
@@ -14,7 +14,8 @@ class PlacesAutoComplete extends Component {
       isLoading: false,
       results: [],
       value: '',
-      selectedPlace: {}
+      selectedPlace: {},
+      submitted: false
     }
   }
 
@@ -25,6 +26,7 @@ class PlacesAutoComplete extends Component {
   handleSubmit = async event => {
     event.preventDefault()
     await this.props.addRestaurant(this.state.selectedPlace)
+    this.setState({submitted: true})
   }
 
   handleSearchChange = (e, {value}) => {
@@ -82,6 +84,13 @@ class PlacesAutoComplete extends Component {
             />
             <Button icon="plus" color="google plus" size="medium" style={styles.mLeft}/>
           </Form.Group>
+              {this.state.submitted && (
+                <Message positive>
+                  <Message.Header>Success!</Message.Header>
+                  You've added this person to your friends list. You can add as
+                  many friends as you'd like.
+                </Message>
+              )}
         </Form>
       </Container>
     )
