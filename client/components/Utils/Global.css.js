@@ -11,6 +11,13 @@ export default {
   footer: {
     background: colors.blueGray
   },
+  loader: {
+    margin: '0',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
+  },
   h1: {
     marginTop: '2em'
   },
