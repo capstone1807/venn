@@ -2,6 +2,7 @@ import React, {Fragment} from 'react'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import moment from 'moment'
+
 import {
   Header,
   Grid,
@@ -182,7 +183,8 @@ class EventDetail extends React.Component {
                       </Grid.Row>
                     </Grid>
                     <Divider />
-                    <div>Map with pin</div>
+                    {finalRestaurant ? <Map latitude={finalRestaurant.latitude} longitude={finalRestaurant.longitude}/> :
+                  <Map />}
                   </Card>
                   {userId === creator.id &&
                     currentEvent.isPending && (
@@ -198,12 +200,11 @@ class EventDetail extends React.Component {
                           </Button>
                         </Container>
                       </Grid.Column>
-                    )}
-                </GridColumn>
-              </Grid>
-            </Container>
-          </Grid.Column>
-        </Grid>
+              </GridColumn>
+            </Grid>
+          </Container>
+        </Grid.Column>finalRestaurant
+      </Grid>
       </Fragment>
     )
   }

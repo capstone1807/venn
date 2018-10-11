@@ -17,11 +17,9 @@ const Restaurant = db.define('restaurant', {
     }
   },
   latitude: {
-    // is this how we should save them?
     type: Sequelize.DECIMAL
   },
   longitude: {
-    // is this how we should save them?
     type: Sequelize.DECIMAL
   },
   placeId: {
