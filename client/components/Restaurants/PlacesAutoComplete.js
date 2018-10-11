@@ -4,7 +4,6 @@ import {saveRestaurant} from '../../store'
 import {connect} from 'react-redux'
 import {Search, Button, Container, Form} from 'semantic-ui-react'
 import styles from '../Utils/Global.css'
-import getLatLong from '../../../UtilFuncs/getLatLong'
 
 const autocompleteService = new google.maps.places.AutocompleteService()
 
@@ -45,7 +44,6 @@ class PlacesAutoComplete extends Component {
   }
 
   handleAutocompleteResult = (predictions, status) => {
-    getLatLong();
     if (status === google.maps.places.PlacesServiceStatus.OK) {
       this.setState({
         isLoading: false,

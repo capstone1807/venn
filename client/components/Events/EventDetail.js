@@ -37,7 +37,7 @@ class EventDetail extends React.Component {
       guests.length && guests.find(guest => guest.event_user.isAdmin)
     const prettyDate = currentEvent.date && formatDate(currentEvent.date)
     const prettyTime = currentEvent.time && formatTime(currentEvent.time)
-
+    console.log('lat&long =>', finalRestaurant)
     return (
       <Grid>
         <Grid.Column width={16}>
@@ -136,12 +136,13 @@ class EventDetail extends React.Component {
                     </Grid.Row>
                   </Grid>
                   <Divider />
-                  <Map/>
+                  {finalRestaurant ? <Map latitude={finalRestaurant.latitude} longitude={finalRestaurant.longitude}/> :
+                  <Map />}
                 </Card>
               </GridColumn>
             </Grid>
           </Container>
-        </Grid.Column>
+        </Grid.Column>finalRestaurant
       </Grid>
     )
   }

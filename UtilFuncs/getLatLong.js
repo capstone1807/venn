@@ -4,11 +4,7 @@ const getLatLong = () => {
 
   geocoder.geocode({ 'address': address }, function (results, status) {
 
-      if (status == google.maps.GeocoderStatus.OK) {
-          const latitude = results[0].geometry.location.lat();
-          const longitude = results[0].geometry.location.lng();
-
-      }
+      
   });
 }
 
