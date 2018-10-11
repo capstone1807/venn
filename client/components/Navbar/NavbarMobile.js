@@ -1,6 +1,6 @@
 import React from 'react'
 import {Image, Menu, Icon, Sidebar} from 'semantic-ui-react'
-import NavbarItemsMobile from './NavbarItemsMobile'
+import NavbarMobileItems from './NavbarMobileItems'
 
 const NavbarMobile = ({
   children,
@@ -21,7 +21,7 @@ const NavbarMobile = ({
       vertical
       visible={visible}
     >
-      <NavbarItemsMobile
+      <NavbarMobileItems
         isLoggedIn={isLoggedIn}
         firstName={firstName}
         events={events}

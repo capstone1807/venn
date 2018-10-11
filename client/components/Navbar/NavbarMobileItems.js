@@ -20,7 +20,7 @@ const NavbarItemsMobile = ({
         {isLoggedIn && (
           <Fragment>
             <Menu.Item>
-              <p>Welcome, {firstName}</p>
+              <p>Welcome {firstName}</p>
             </Menu.Item>
             <Menu.Item onClick={() => history.push('/events')}>
               {events &&
