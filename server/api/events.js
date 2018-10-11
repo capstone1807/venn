@@ -81,43 +81,23 @@ router.put('/:id/pending', async (req, res, next) => {
   }
 })
 
-router.put('/:id/scheduled', async (req, res, next) => {
-  try {
-    let updatedEvent = await Event.update(
-      {
-        isPending: false
-      },
-      {
-        where: {
-          id: req.params.id
-        },
-        returning: true
-      }
-    )
-    // FINAL RESTAURANT IS UPDATED WHEN AN EVENT MOVES TO 'SCHEDULED'
-    const restaurantScore = await EventRestaurant.findAll({
-      attributes: ['score', 'restaurantId'],
+router.put('/:id/close', async (req, res, next) => {
+  let updatedEvent = await EventUser.update(
+    {
+      hasResponded: true
+    },
+    {
       where: {
-        eventId: req.params.id
-      }
-    })
-    const finalId = EventRestaurant.getFinal(restaurantScore)
-    await EventRestaurant.update(
-      {
-        isFinal: true
+        eventId: req.params.id,
+        hasResponded: false
       },
-      {
-        where: {
-          restaurantId: finalId,
-          eventId: req.params.id
-        }
-      }
-    )
-    updatedEvent = updatedEvent[1][0]
-    res.status(201).json(updatedEvent)
-  } catch (err) {
-    next(err)
-  }
+      returning: true,
+      individualHooks: true
+    }
+  )
+
+  updatedEvent = updatedEvent[1][0]
+  res.status(201).json(updatedEvent)
 })
 
 router.post('/:id/restaurants', (req, res, next) => {

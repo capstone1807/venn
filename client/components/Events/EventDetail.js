@@ -11,19 +11,22 @@ import {
   Icon,
   GridColumn,
   Divider,
-  Button
+  Button,
+  Segment
 } from 'semantic-ui-react'
 import {
   fetchEvent,
   fetchGuests,
   fetchFinalRestaurant,
   fetchFriends,
-  addFriend
+  addFriend,
+  lockInEvent
 } from '../../store'
 import styles from '../Utils/Global.css'
 import EventDate from './EventDate'
 
 class EventDetail extends React.Component {
+
   async componentDidMount() {
     await this.props.getEvent()
     await this.props.getGuests()
@@ -37,6 +40,10 @@ class EventDetail extends React.Component {
     event.preventDefault()
     const id = event.target.value
     await this.props.addToFriends(id)
+  }
+
+  handleCloseEvent = async () => {
+    await this.props.closeEvent(this.props.currentEvent.id)
   }
 
   getStatus = event => {
@@ -112,11 +119,8 @@ class EventDetail extends React.Component {
                           />
                           Already In Friends
                         </Button>
-                      ) : (userId === item.id ? (
-                        <Button
-                          color="google plus"
-                          disabled
-                        >
+                      ) : userId === item.id ? (
+                        <Button color="google plus" disabled>
                           <Icon
                             name="heart"
                             style={{color: 'white'}}
@@ -137,7 +141,7 @@ class EventDetail extends React.Component {
                           />
                           Add to Friends
                         </Button>
-                      ))}
+                      )}
                     </Card>
                   ))}
                 </Card.Group>
@@ -188,6 +192,18 @@ class EventDetail extends React.Component {
                   <Divider />
                   <div>Map with pin</div>
                 </Card>
+                {userId === creator.id && currentEvent.isPending && <Grid.Column width={8}>
+                  <Container>
+                    <Button
+                      type="button"
+                      floated="right"
+                      color="google plus"
+                      onClick={this.handleCloseEvent}
+                    >
+                      Show me the plan!
+                    </Button>
+                  </Container>
+                </Grid.Column>}
               </GridColumn>
             </Grid>
           </Container>
@@ -210,7 +226,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getGuests: () => dispatch(fetchGuests(getId(ownProps))),
   getFinalRestaurant: () => dispatch(fetchFinalRestaurant(getId(ownProps))),
   getFriends: () => dispatch(fetchFriends()),
-  addToFriends: id => dispatch(addFriend(id))
+  addToFriends: id => dispatch(addFriend(id)),
+  closeEvent: id => dispatch(lockInEvent(id))
 })
 
 export default withRouter(
