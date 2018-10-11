@@ -12,7 +12,7 @@ export class AddFriends extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedUser: '',
+      selectedUser: ''
     }
   }
 
@@ -20,18 +20,19 @@ export class AddFriends extends React.Component {
     await this.props.getUsers()
   }
 
-    handleChange = (event, data) => {
-      this.setState({selectedUser: data.value})
-    }
+  handleChange = (event, data) => {
+    this.setState({selectedUser: data.value})
+  }
 
   handleSubmit = async event => {
     event.preventDefault()
     const username = this.state.selectedUser
     const id = this.props.users.find(user => user.username === username).id
     await this.props.addToFriends(id)
+    this.setState({selectedUser : ''})
   }
 
-  render(){
+  render() {
     const {users, friends} = this.props
     const friendUsernames = friends.map(friend => friend.username)
     const notFriends = users.filter(
@@ -84,7 +85,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getUsers: () => dispatch(fetchUsersFromDB()),
-  addToFriends: id => dispatch(addFriend(id)),
+  addToFriends: id => dispatch(addFriend(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddFriends)

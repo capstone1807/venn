@@ -22,50 +22,6 @@ router.get('/events', async (req, res, next) => {
   }
 })
 
-router.get('/events/pending', async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user.id)
-    let events = await user.getEvents({
-      where: {
-        isPast: false
-      }
-    })
-    events = events.filter(event => !event.event_user.hasResponded)
-    res.json(events)
-  } catch (err) {
-    next(err)
-  }
-})
-
-router.get('/events/scheduled', async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user.id)
-    let events = await user.getEvents({
-      where: {
-        isPast: false
-      }
-    })
-    events = events.filter(event => event.event_user.hasResponded)
-    res.json(events)
-  } catch (err) {
-    next(err)
-  }
-})
-
-router.get('/events/past', async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user.id)
-    let events = await user.getEvents({
-      where: {
-        isPast: true
-      }
-    })
-    res.json(events)
-  } catch (err) {
-    next(err)
-  }
-})
-
 router.get('/notfriends', async (req, res, next) => {
   try {
     const users = await User.findAll({
@@ -133,9 +89,19 @@ router.get('/restaurants', async (req, res, next) => {
 router.put('/restaurants', async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
-    const restaurant = await Restaurant.create(req.body)
-    await user.addRestaurant(restaurant)
-    res.status(201).send(restaurant)
+    const [restaurant] = await Restaurant.findOrCreate({
+      where: {
+        title: req.body.title,
+        description: req.body.description,
+        placeId: req.body.placeId
+      }
+    })
+    if (!await user.hasRestaurant(restaurant)) {
+      await user.addRestaurant(restaurant)
+      res.status(201).send(restaurant)
+    } else {
+      res.status(418).send('I\'m a teapot')
+    }
   } catch (err) {
     next(err)
   }

@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-const Event = require('./event')
 
 const EventRestaurant = db.define('event_restaurant', {
   score: {
@@ -36,7 +35,7 @@ EventRestaurant.getFinal = function(restaurantScoresArr) {
 
 EventRestaurant.checkForFinalRestaurant = async eventUser => {
   console.log('**1**')
-  const currentEvent = await Event.findById(eventUser.eventId)
+  const currentEvent = await db.model('event').findById(eventUser.eventId)
   const guests = await currentEvent.getUsers()
 
   console.log('**2**')
