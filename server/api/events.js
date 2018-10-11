@@ -82,7 +82,7 @@ router.put('/:id/pending', async (req, res, next) => {
 })
 
 router.put('/:id/close', async (req, res, next) => {
-  let updatedEvent = await EventUser.update(
+  await EventUser.update(
     {
       hasResponded: true
     },
@@ -91,12 +91,11 @@ router.put('/:id/close', async (req, res, next) => {
         eventId: req.params.id,
         hasResponded: false
       },
-      returning: true,
       individualHooks: true
     }
   )
+  const updatedEvent = await Event.findById(req.params.id)
 
-  updatedEvent = updatedEvent[1][0]
   res.status(201).json(updatedEvent)
 })
 

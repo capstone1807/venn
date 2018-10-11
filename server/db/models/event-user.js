@@ -24,8 +24,8 @@ EventUser.prototype.setAdmin = function() {
   this.isAdmin = !this.isAdmin
 }
 
-EventUser.afterUpdate(eventUser => {
-  db.model('event_restaurant').checkForFinalRestaurant(eventUser)
+EventUser.afterUpdate(async eventUser => {
+  await db.model('event_restaurant').checkForFinalRestaurant(eventUser)
 })
 
 module.exports = EventUser
