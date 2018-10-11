@@ -1,5 +1,4 @@
 import React, {Fragment} from 'react'
-import axios from 'axios'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import formatDate from '../../../UtilFuncs/formatDate'
@@ -20,12 +19,14 @@ import {
   fetchGuests,
   fetchFinalRestaurant,
   fetchFriends,
-  addFriend
+  addFriend,
+  lockInEvent
 } from '../../store'
 import styles from '../Utils/Global.css'
 import EventDate from './EventDate'
 
 class EventDetail extends React.Component {
+
   async componentDidMount() {
     await this.props.getEvent()
     await this.props.getGuests()
@@ -42,7 +43,7 @@ class EventDetail extends React.Component {
   }
 
   handleCloseEvent = async () => {
-    await axios.put(`/api/events/${this.props.currentEvent.id}/close`)
+    await this.props.closeEvent(this.props.currentEvent.id)
   }
 
   getStatus = event => {
@@ -225,7 +226,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getGuests: () => dispatch(fetchGuests(getId(ownProps))),
   getFinalRestaurant: () => dispatch(fetchFinalRestaurant(getId(ownProps))),
   getFriends: () => dispatch(fetchFriends()),
-  addToFriends: id => dispatch(addFriend(id))
+  addToFriends: id => dispatch(addFriend(id)),
+  closeEvent: id => dispatch(lockInEvent(id))
 })
 
 export default withRouter(

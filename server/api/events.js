@@ -82,23 +82,22 @@ router.put('/:id/pending', async (req, res, next) => {
 })
 
 router.put('/:id/close', async (req, res, next) => {
-  const event = await Event.findById(req.params.id)
-  const guests = await event.getUsers()
-  const closeEvent = guests.map(guest => guest.event_user.update(
-      {
-        hasResponded: true
+  let updatedEvent = await EventUser.update(
+    {
+      hasResponded: true
+    },
+    {
+      where: {
+        eventId: req.params.id,
+        hasResponded: false
       },
-      {
-        where: {
-          eventId: req.params.id
-        },
-        returning: true,
-        individualHooks: true
-      }
-    ))
-  Promise.all(closeEvent)
+      returning: true,
+      individualHooks: true
+    }
+  )
 
-  res.status(201).json('Event closed')
+  updatedEvent = updatedEvent[1][0]
+  res.status(201).json(updatedEvent)
 })
 
 router.post('/:id/restaurants', (req, res, next) => {
