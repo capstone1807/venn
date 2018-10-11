@@ -6,7 +6,13 @@ const EventDate = ({date}) => {
   const month = date.substring(0, 3).toUpperCase()
   const day = date.split(',')[0].slice(-2)
   return (
-    <Message style={{...styles.inline, ...styles.centerText}}>
+    <Message
+      style={{
+        ...styles.inline,
+        ...styles.centerText,
+        ...styles.mRight
+      }}
+    >
       <Message.Header
         style={{...styles.redText, ...styles.font2, ...styles.mBottomTiny}}
       >
