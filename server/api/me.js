@@ -51,7 +51,7 @@ router.get('/friends', async (req, res, next) => {
 })
 
 router.put('/friends', async (req, res, next) => {
-  if (req.body.friendId !== req.user.id) {
+  if (Number(req.body.friendId) !== req.user.id) {
     try {
       const user = await User.findById(req.user.id)
       const newFriend = await User.findById(req.body.friendId)
