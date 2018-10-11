@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react'
+import axios from 'axios'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import formatDate from '../../../UtilFuncs/formatDate'
@@ -11,7 +12,8 @@ import {
   Icon,
   GridColumn,
   Divider,
-  Button
+  Button,
+  Segment
 } from 'semantic-ui-react'
 import {
   fetchEvent,
@@ -37,6 +39,10 @@ class EventDetail extends React.Component {
     event.preventDefault()
     const id = event.target.value
     await this.props.addToFriends(id)
+  }
+
+  handleCloseEvent = async () => {
+    await axios.put(`/api/events/${this.props.currentEvent.id}/close`)
   }
 
   getStatus = event => {
@@ -112,11 +118,8 @@ class EventDetail extends React.Component {
                           />
                           Already In Friends
                         </Button>
-                      ) : (userId === item.id ? (
-                        <Button
-                          color="google plus"
-                          disabled
-                        >
+                      ) : userId === item.id ? (
+                        <Button color="google plus" disabled>
                           <Icon
                             name="heart"
                             style={{color: 'white'}}
@@ -137,7 +140,7 @@ class EventDetail extends React.Component {
                           />
                           Add to Friends
                         </Button>
-                      ))}
+                      )}
                     </Card>
                   ))}
                 </Card.Group>
@@ -188,6 +191,18 @@ class EventDetail extends React.Component {
                   <Divider />
                   <div>Map with pin</div>
                 </Card>
+                {userId === creator.id && currentEvent.isPending && <Grid.Column width={8}>
+                  <Container>
+                    <Button
+                      type="button"
+                      floated="right"
+                      color="google plus"
+                      onClick={this.handleCloseEvent}
+                    >
+                      Show me the plan!
+                    </Button>
+                  </Container>
+                </Grid.Column>}
               </GridColumn>
             </Grid>
           </Container>
