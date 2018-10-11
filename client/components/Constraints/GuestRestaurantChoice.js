@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import history from '../../history'
+import styles from '../Utils/Global.css'
 import {
   fetchEvent,
   fetchRestaurants,
@@ -83,11 +84,14 @@ export class GuestRestaurantChoice extends React.Component {
       }
     })
     return (
-      <Container style={{width: 500}}>
-        <Form onSubmit={this.handleSubmit} verticalalign="middle">
+      <Container style={{width: 500, ...styles.pBottom2}}>
+        <Form verticalalign="middle">
           <Header>{currentEvent && currentEvent.name}</Header>
           <Form.Field>
-            <label>Choose Restaurant</label>
+            <label>
+              Choose Restaurants{' '}
+              <span style={styles.blueGrayText}>(max 3)</span>
+            </label>
             <Select
               placeholder="Choose from your favorites"
               fluid
@@ -96,6 +100,7 @@ export class GuestRestaurantChoice extends React.Component {
               selection
               options={restaurantItems}
               onChange={this.handleChangeRestaurants}
+              style={styles.mSmallTop}
             />
           </Form.Field>
           {this.state.restaurants.length > 3 && (
@@ -104,17 +109,6 @@ export class GuestRestaurantChoice extends React.Component {
               message="Please remove a restaurant before submitting"
             />
           )}
-
-          <Form.Field>
-            <label>Need more favorites?</label>
-
-            <Modal trigger={<Button type="button" content="Find some more!" />}>
-              <Modal.Header>Find Restaurants</Modal.Header>
-              <Modal.Content>
-                <PlacesAutoComplete />
-              </Modal.Content>
-            </Modal>
-          </Form.Field>
           <Form.Field>
             <label>Importance</label>
             <Form.Group>
@@ -144,13 +138,42 @@ export class GuestRestaurantChoice extends React.Component {
               </Form.Field>
             </Form.Group>
           </Form.Field>
-          <Container floated="right">
-            <Button type="button" onClick={() => history.goBack()}>
-              Cancel
-            </Button>
-            <Button color="vk">Submit Choices</Button>
-          </Container>
         </Form>
+
+        <label style={styles.mTop}>Need more favorites?</label>
+
+        <Modal
+          trigger={
+            <Button
+              type="button"
+              content="Find some more!"
+              style={styles.mSmallTop}
+            />
+          }
+        >
+          <Modal.Header>Find Restaurants</Modal.Header>
+          <Modal.Content>
+            <PlacesAutoComplete />
+          </Modal.Content>
+        </Modal>
+        <Container>
+          <Button
+            floated="right"
+            style={styles.mTop}
+            color="vk"
+            onClick={this.handleSubmit}
+          >
+            Submit Choices
+          </Button>
+          <Button
+            floated="right"
+            style={styles.mTop}
+            type="button"
+            onClick={() => history.goBack()}
+          >
+            Cancel
+          </Button>
+        </Container>
       </Container>
     )
   }

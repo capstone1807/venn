@@ -51,8 +51,6 @@ export class AddFriendsModal extends React.Component {
 
   render() {
     const {users, friends} = this.props
-    console.log('FRIENDS =>', friends)
-
     const {submitted} = this.state
     const friendUsernames = friends.map(friend => friend.username)
     const notFriends = users.filter(
