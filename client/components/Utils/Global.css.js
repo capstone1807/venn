@@ -7,7 +7,14 @@ export default {
   },
   footer: {
     background: colors.blueGray,
-    marginTop: '3em'
+    height: '64px',
+    position: 'absolute',
+    right: '0',
+    bottom: '0',
+    left: '0'
+  },
+  content: {
+    marginBottom: '64px'
   },
   h1: {
     marginTop: '2em'
