@@ -92,6 +92,12 @@ export class GuestRestaurantChoice extends React.Component {
               Choose Restaurants{' '}
               <span style={styles.blueGrayText}>(max 3)</span>
             </label>
+            {this.state.restaurants.length > 3 && (
+              <ErrorMessage
+                headerMessage="Oops! You can only suggest 3 restaurants"
+                message="Please remove a restaurant before submitting"
+              />
+            )}
             <Select
               placeholder="Choose from your favorites"
               fluid
@@ -103,12 +109,6 @@ export class GuestRestaurantChoice extends React.Component {
               style={styles.mSmallTop}
             />
           </Form.Field>
-          {this.state.restaurants.length > 3 && (
-            <ErrorMessage
-              headerMessage="Oops! You can only suggest 3 restaurants"
-              message="Please remove a restaurant before submitting"
-            />
-          )}
           <Form.Field>
             <label>Importance</label>
             <Form.Group>
