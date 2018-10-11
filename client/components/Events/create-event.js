@@ -98,6 +98,7 @@ export class CreateEvent extends React.Component {
                 value={this.state.date}
                 iconPosition="left"
                 onChange={this.handleChangeDateOrTime}
+                dateFormat='MM-DD-YYYY'
               />
               <TimeInput
                 name="time"
@@ -105,6 +106,7 @@ export class CreateEvent extends React.Component {
                 value={this.state.time}
                 iconPosition="left"
                 onChange={this.handleChangeDateOrTime}
+                timeFormat="ampm"
               />
             </Segment>
           </Form.Field>
