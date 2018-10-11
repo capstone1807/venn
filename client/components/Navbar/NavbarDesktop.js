@@ -33,13 +33,15 @@ const NavbarDesktop = ({
     )}
 
     <Menu.Menu position="right">
-      <Menu.Item>
-        <p>Welcome, {firstName}</p>
-      </Menu.Item>
       {isLoggedIn ? (
-        <Menu.Item onClick={handleLogout}>
-          <Icon name="sign-out" /> Log Out
-        </Menu.Item>
+        <Fragment>
+          <Menu.Item>
+            <p>Welcome {firstName}</p>
+          </Menu.Item>
+          <Menu.Item onClick={handleLogout}>
+            <Icon name="sign-out" /> Log Out
+          </Menu.Item>
+        </Fragment>
       ) : (
         <Menu.Item onClick={() => history.push('/login')}>
           <Icon name="sign-in" /> Log In
