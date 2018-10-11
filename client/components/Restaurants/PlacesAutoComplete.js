@@ -80,9 +80,7 @@ class PlacesAutoComplete extends Component {
               results={results}
               value={value}
             />
-            <Button icon color="google plus" size="medium" style={styles.mLeft}>
-              <Icon name="plus" />
-            </Button>
+            <Button icon="plus" color="google plus" size="medium" style={styles.mLeft}/>
           </Form.Group>
         </Form>
       </Container>

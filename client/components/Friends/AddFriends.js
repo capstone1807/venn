@@ -1,7 +1,12 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchUsersFromDB, addFriend} from '../../store'
-import {Form, Icon, Select} from 'semantic-ui-react'
+import {
+  fetchUsersFromDB,
+  addFriend,
+} from '../../store'
+import styles from '../Utils/Global.css'
+import {Form, Button, Select} from
+'semantic-ui-react'
 
 export class AddFriends extends React.Component {
   constructor(props) {
@@ -44,38 +49,31 @@ export class AddFriends extends React.Component {
         }
       })
     return (
-      <div>
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Field>
-            <label>Search for people to add to your friends list</label>
-            <Select
-              onChange={this.handleChange}
-              placeholder="Search Name"
-              search
-              options={
-                userOptions
-                  ? userOptions
-                  : [
-                      {
-                        key: 999,
-                        text: 'add your friends'
-                      }
-                    ]
-              }
-              value={this.state.value}
-              fluid
-            />
-
-            <Form.Button
-              color="google plus"
-              size="medium"
-              onSubmit={this.handleSubmit}
-            >
-              <Icon name="plus" />Add Friend
-            </Form.Button>
-          </Form.Field>
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Field>
+        <label>Search for people to add to your friends list</label>
+        </Form.Field>
+        <Form.Group inline >
+      <Select
+            onChange={this.handleChange}
+            placeholder="search by name or username"
+            search
+            options={
+              userOptions
+                ? userOptions
+                : [
+                    {
+                      key: 999,
+                      text: 'add your friends'
+                    }
+                  ]
+            }
+            value={this.state.value}
+            fluid
+          />
+          <Button icon="plus" color="google plus" size="medium" style={styles.mLeft} onSubmit={this.handleSubmit}/>
+          </Form.Group>
         </Form>
-      </div>
     )
   }
 }
