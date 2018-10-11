@@ -4,7 +4,8 @@ import {fetchRestaurants, removeRestaurant} from '../../store'
 import NoData from '../Utils/NoData'
 import PlacesAutoComplete from './PlacesAutoComplete'
 import LoaderPage from '../Utils/Loader'
-import {Container, Header, Card, Button, Icon} from 'semantic-ui-react'
+import style from '../Utils/Global.css'
+import {Container, Header, Card, Button, Icon, Grid} from 'semantic-ui-react'
 
 class RestaurantsList extends Component {
   constructor(props) {
@@ -50,18 +51,32 @@ class RestaurantsList extends Component {
     return (
       <Container>
       {this.state.isLoading ? (<LoaderPage/>) : (
-      <Fragment>
-        <Header>Favorite Restaurants</Header>
-        {!restaurants.length && (
+        <Grid>
+        <Grid.Column width={16}>
+              <Header as="h1" content="Restaurants" style={style.h1} />
+            </Grid.Column>
+
+        {!restaurants.length ? (
+          <Fragment>
+          <Grid.Column width={16} textAlign="center">
           <NoData iconName="food" message="You have no restaurants saved" />
-        )}
+          </Grid.Column>
+          <Grid.Column width={16}>
+          <PlacesAutoComplete />
+                </Grid.Column>
+          </Fragment>
+        ) : (
+          <Fragment>
+                <Grid.Column width={16}>
         <PlacesAutoComplete />
+        </Grid.Column>
+                <Grid.Column width={16}>
         <Button color='vk' onClick={this.handleSort}>
             <Icon name={this.state.icon}/>
           </Button>
-        {restaurants && (
-          <Container>
-          <Card.Group>
+          </Grid.Column>
+                <Grid.Column width={16}>
+                <Card.Group>
             {restaurants.map(item => (
               <Card key={item.id}>
                 <Card.Content>
@@ -81,9 +96,10 @@ class RestaurantsList extends Component {
               </Card>
             ))}
           </Card.Group>
-          </Container>
+          </Grid.Column>
+          </Fragment>
         )}
-      </Fragment>
+      </Grid>
       )}
       </Container>
     )
