@@ -1,8 +1,7 @@
 import React, {Fragment} from 'react'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-import formatDate from '../../../UtilFuncs/formatDate'
-import formatTime from '../../../UtilFuncs/formatTime'
+import moment from 'moment'
 import {
   Header,
   Grid,
@@ -56,14 +55,14 @@ class EventDetail extends React.Component {
     const userId = friends.length && friends[0].friendship.userId
     const creator =
       guests.length && guests.find(guest => guest.event_user.isAdmin)
-    const prettyDate = currentEvent.date && formatDate(currentEvent.date)
-    const prettyTime = currentEvent.time && formatTime(currentEvent.time)
+    const prettyDate = moment(currentEvent.date, "MM-DD-YYYY").format('LL')
+    const prettyTime = currentEvent.time
 
     return (
       <Grid>
         <Grid.Column width={16}>
           <Container>
-            <EventDate date={currentEvent.date} />
+            <EventDate date={prettyDate} />
             <div>
               <span style={styles.mediumGreyText}>
                 {this.getStatus(currentEvent)}

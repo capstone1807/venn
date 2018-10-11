@@ -3,10 +3,10 @@ import {Card, Button, Icon} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import history from '../../history'
 import styles from '../Utils/Global.css'
-import formatDate from '../../../UtilFuncs/formatDate'
+import moment from 'moment'
 
 export const EventItem = ({evt}) => {
-  const prettyDate = evt.date && formatDate(evt.date)
+  const prettyDate = moment(evt.date, "MM-DD-YYYY").format('LL')
   const needsResponse = !evt.event_user.hasResponded
   const responded = evt.event_user.hasResponded && evt.isPending
   const scheduled = evt.event_user.hasResponded && !evt.isPending && !evt.isPast
