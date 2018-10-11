@@ -2,8 +2,9 @@ import debounce from 'lodash.debounce'
 import React, {Component} from 'react'
 import {saveRestaurant} from '../../store'
 import {connect} from 'react-redux'
-import {Search, Button, Icon, Container, Form} from 'semantic-ui-react'
+import {Search, Button, Container, Form} from 'semantic-ui-react'
 import styles from '../Utils/Global.css'
+import getLatLong from '../../../UtilFuncs/getLatLong'
 
 const autocompleteService = new google.maps.places.AutocompleteService()
 
@@ -35,9 +36,7 @@ class PlacesAutoComplete extends Component {
         value: '',
         selectedPlace: {}
       })
-      return
     }
-
     this.setState({isLoading: true, value})
     autocompleteService.getPlacePredictions(
       {input: value},
@@ -46,6 +45,7 @@ class PlacesAutoComplete extends Component {
   }
 
   handleAutocompleteResult = (predictions, status) => {
+    getLatLong();
     if (status === google.maps.places.PlacesServiceStatus.OK) {
       this.setState({
         isLoading: false,
@@ -63,6 +63,7 @@ class PlacesAutoComplete extends Component {
 
   render() {
     const {isLoading, value, results} = this.state
+    console.log(this.state.selectedPlace)
     return (
       <Container>
         <Form onSubmit={this.handleSubmit}>

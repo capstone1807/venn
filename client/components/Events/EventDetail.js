@@ -3,6 +3,7 @@ import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import formatDate from '../../../UtilFuncs/formatDate'
 import formatTime from '../../../UtilFuncs/formatTime'
+import Map from './Map'
 import {
   Header,
   Grid,
@@ -135,7 +136,7 @@ class EventDetail extends React.Component {
                     </Grid.Row>
                   </Grid>
                   <Divider />
-                  <div>Map with pin</div>
+                  <Map/>
                 </Card>
               </GridColumn>
             </Grid>
