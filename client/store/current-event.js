@@ -6,8 +6,7 @@ import axios from 'axios'
 
 const GET_EVENT = 'GET_EVENT'
 const SET_STATUS_TO_RESPONDED = 'SET_STATUS_TO_RESPONDED'
-const SET_STATUS_TO_SCHEDULED = 'SET_STATUS_TO_SCHEDULED'
-
+const CLOSE_EVENT = 'CLOSE_EVENT'
 
 /**
  * INITIAL STATE
@@ -19,18 +18,17 @@ const defaultEvent = {}
  * ACTION CREATORS
  */
 
-const getEvent = (currentEvent) => ({
+const getEvent = currentEvent => ({
   type: GET_EVENT,
   currentEvent
 })
 
-const setStatusToResponded = (event) => ({
+const setStatusToResponded = event => ({
   type: SET_STATUS_TO_RESPONDED,
   event
 })
-
-const setStatusToScheduled = (event) => ({
-  type: SET_STATUS_TO_SCHEDULED,
+const closeEvent = event => ({
+  type: CLOSE_EVENT,
   event
 })
 
@@ -40,16 +38,14 @@ const setStatusToScheduled = (event) => ({
 
 export const fetchEvent = id => async dispatch => {
   try {
-    const {
-      data: foundEvent
-    } = await axios.get(`/api/events/${id}`)
+    const {data: foundEvent} = await axios.get(`/api/events/${id}`)
     dispatch(getEvent(foundEvent))
   } catch (err) {
     console.log(err)
   }
 }
 
-export const updateRespondedStatus = (eventId) => async dispatch => {
+export const updateRespondedStatus = eventId => async dispatch => {
   try {
     const event = await axios.put(`/api/events/${eventId}/pending`)
     dispatch(setStatusToResponded(event))
@@ -58,12 +54,12 @@ export const updateRespondedStatus = (eventId) => async dispatch => {
   }
 }
 
-export const lockInEvent = (eventId) => async dispatch => {
+export const lockInEvent = eventId => async dispatch => {
   try {
-    const event = await axios.put(`/api/events/${eventId}/scheduled`)
-    dispatch(setStatusToScheduled(event))
+    const {data: event} = await axios.put(`/api/events/${eventId}/close`)
+    dispatch(closeEvent(event))
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 
@@ -71,13 +67,13 @@ export const lockInEvent = (eventId) => async dispatch => {
  * REDUCER
  */
 
-export default function (state = defaultEvent, action) {
+export default function(state = defaultEvent, action) {
   switch (action.type) {
     case GET_EVENT:
       return action.currentEvent
-    case SET_STATUS_TO_RESPONDED:
+    case CLOSE_EVENT:
       return action.event
-    case SET_STATUS_TO_SCHEDULED:
+    case SET_STATUS_TO_RESPONDED:
       return action.event
     default:
       return state

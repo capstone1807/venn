@@ -4,12 +4,19 @@ import {Provider} from 'react-redux'
 import {Router} from 'react-router-dom'
 import history from './history'
 import store from './store'
-import Sidebar from './components/Sidebar/Sidebar'
+import Navbar from './components/Navbar/Navbar'
+import Footer from './components/Footer/Footer'
+import Routes from './routes'
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Sidebar />
+      <Navbar>
+        <div>
+          <Routes />
+        </div>
+        <Footer />
+      </Navbar>
     </Router>
   </Provider>,
   document.getElementById('app')

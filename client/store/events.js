@@ -9,13 +9,11 @@ const CREATE_EVENT = 'CREATE_EVENT'
 /**
  * ACTION CREATORS
  */
-const getEvents = events => ({type: GET_EVENTS, events})
-
-/**
- * ACTION CREATORS
- */
-
-const createEvent = (event) => ({
+const getEvents = events => ({
+  type: GET_EVENTS,
+  events
+})
+const createEvent = event => ({
   type: CREATE_EVENT,
   event
 })
@@ -48,10 +46,8 @@ export default function(state = [], action) {
   switch (action.type) {
     case CREATE_EVENT:
       return [...state, action.event]
-
     case GET_EVENTS:
       return action.events
-
     default:
       return state
   }

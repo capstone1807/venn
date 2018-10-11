@@ -98,6 +98,7 @@ export class CreateEvent extends React.Component {
                 value={this.state.date}
                 iconPosition="left"
                 onChange={this.handleChangeDateOrTime}
+                dateFormat='MM-DD-YYYY'
               />
               <TimeInput
                 name="time"
@@ -105,6 +106,7 @@ export class CreateEvent extends React.Component {
                 value={this.state.time}
                 iconPosition="left"
                 onChange={this.handleChangeDateOrTime}
+                timeFormat="ampm"
               />
             </Segment>
           </Form.Field>
@@ -113,7 +115,7 @@ export class CreateEvent extends React.Component {
             <label>Description</label>
             <TextArea
               autoHeight
-              placeholder="Anything else you want your guests to know?"
+              placeholder="Suggest an area of town. Tell your guests a little something about the occasion."
               onChange={this.handleChangeDescription}
             />
           </Form.Field>

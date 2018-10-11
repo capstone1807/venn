@@ -5,9 +5,18 @@ export default {
     height: '75px',
     margin: '50px'
   },
+  menu: {
+    borderRadius: '0'
+  },
   footer: {
-    background: colors.blueGray,
-    marginTop: '3em'
+    background: colors.blueGray
+  },
+  loader: {
+    margin: '0',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
   },
   h1: {
     marginTop: '2em'
@@ -24,11 +33,18 @@ export default {
   padding: {
     padding: '1em'
   },
+  margin: {
+    margin: '1em'
+  },
   mSmallTop: {
     marginTop: '.5em'
   },
   paddingAllButBottom: {
     padding: '1em 1em 0 1em'
+  },
+
+  mRight: {
+    marginRight: '1em'
   },
   mRightSmall: {
     marginRight: '.5em'
@@ -39,11 +55,17 @@ export default {
   marginTopLeft: {
     margin: '16px 0 0 16px'
   },
+  marginLeftRight: {
+    margin: '0 16px 0 16px'
+  },
   pBottom2: {
     paddingBottom: '2em'
   },
   mBottom: {
     marginBottom: '1em'
+  },
+  mBottom2: {
+    marginBottom: '2em'
   },
   mLeft: {
     marginLeft: '1em'
@@ -56,6 +78,9 @@ export default {
   },
   mTop: {
     marginTop: '1em'
+  },
+  mTop2: {
+    marginTop: '2em'
   },
   greenText: {
     color: colors.green
@@ -74,6 +99,9 @@ export default {
   },
   redText: {
     color: colors.red
+  },
+  flex: {
+    display: 'flex'
   },
   eventContent: {
     background: colors.grey,
