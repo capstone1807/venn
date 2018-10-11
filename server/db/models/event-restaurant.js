@@ -44,7 +44,6 @@ EventRestaurant.checkForFinalRestaurant = async eventUser => {
       isPending: false
     })
     console.log('**3**')
-
     const restaurantScores = await EventRestaurant.findAll({
       attributes: ['score', 'restaurantId'],
       where: {
