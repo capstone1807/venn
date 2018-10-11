@@ -10,7 +10,7 @@ const NavbarDesktop = ({
   events,
   needsResponse
 }) => (
-  <Menu>
+  <Menu borderless style={styles.menu}>
     <Menu.Item>
       <Image size="mini" src="/assets/venn-logo.png" />
     </Menu.Item>

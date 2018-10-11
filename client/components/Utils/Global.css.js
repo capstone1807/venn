@@ -5,16 +5,11 @@ export default {
     height: '75px',
     margin: '50px'
   },
-  footer: {
-    background: colors.blueGray,
-    height: '64px',
-    position: 'absolute',
-    right: '0',
-    bottom: '0',
-    left: '0'
+  menu: {
+    borderRadius: '0'
   },
-  content: {
-    marginBottom: '64px'
+  footer: {
+    background: colors.blueGray
   },
   h1: {
     marginTop: '2em'
