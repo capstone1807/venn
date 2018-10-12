@@ -4,12 +4,10 @@ import {connect} from 'react-redux'
 import moment from 'moment'
 import Map from './Map'
 import {
-  Header,
   Grid,
   Container,
   Card,
   Icon,
-  GridColumn,
   Divider,
   Button,
   Item
@@ -20,7 +18,8 @@ import {
   fetchFinalRestaurant,
   fetchFriends,
   addFriend,
-  lockInEvent
+  lockInEvent,
+  clearFinalRestaurant
 } from '../../store'
 import styles from '../Utils/Global.css'
 import EventDate from './EventDate'
@@ -33,6 +32,10 @@ class EventDetail extends React.Component {
     this.props.currentEvent &&
       !this.props.currentEvent.isPending &&
       (await this.props.getFinalRestaurant())
+  }
+
+  componentWillUnmount() {
+    this.props.clearFinalRestaurant()
   }
 
   handleSubmit = async event => {
@@ -76,19 +79,30 @@ class EventDetail extends React.Component {
             </Item>
           </Item.Group>
         </Container>
-        <Grid>
-          <Grid.Column width={16} style={styles.eventContent}>
-            <Container>
-              <Grid>
-                <GridColumn width={8}>
-                  <Header as="h2">Details</Header>
-                  <p>{currentEvent.description}</p>
+        <div style={styles.eventContent}>
+          <Container style={styles.pBottom}>
+            <Item.Group style={styles.flex}>
+              <Item
+                style={{
+                  ...styles.flexGrow,
+                  ...styles.mLeft,
+                  ...styles.flextStart
+                }}
+              >
+                <Item.Content>
+                  <Item.Header style={styles.mBottomTiny}>Details</Item.Header>
+                  <Item.Description style={styles.mBottom2}>
+                    {currentEvent.description}
+                  </Item.Description>
+
                   {!currentEvent.isPast ? (
-                    <Header as="h2">
+                    <Item.Header style={styles.mBottom}>
                       Who's going to be there? ({guests.length})
-                    </Header>
+                    </Item.Header>
                   ) : (
-                    <Header as="h2">Who went? ({guests.length})</Header>
+                    <Item.Header style={styles.mBottom}>
+                      Who went? ({guests.length})
+                    </Item.Header>
                   )}
                   <Card.Group>
                     {guests.map((item, idx) => (
@@ -138,80 +152,76 @@ class EventDetail extends React.Component {
                       </Card>
                     ))}
                   </Card.Group>
-                </GridColumn>
-                <GridColumn width={8}>
-                  <Card fluid>
-                    <Grid style={styles.paddingAllButBottom}>
-                      <Grid.Row>
-                        <Grid.Column width={2}>
-                          <Icon size="large" name="clock" color="grey" />
-                        </Grid.Column>
-                        <Grid.Column width={14}>
-                          <h4 style={styles.mBottomNone}>{prettyDate}</h4>
-                          <h4 style={styles.mTopNone}>{prettyTime}</h4>
-                        </Grid.Column>
-                      </Grid.Row>
-                      <Grid.Row>
-                        <Grid.Column width={2}>
-                          <Icon
-                            size="large"
-                            name="map marker alternate"
-                            color="grey"
-                          />
-                        </Grid.Column>
-                        <Grid.Column width={14}>
-                          {!currentEvent.isPending && finalRestaurant.id ? (
-                            <Fragment>
-                              <h4 style={styles.mBottomNone}>
-                                {finalRestaurant.title}
-                              </h4>
-                              <h4
-                                style={{
-                                  ...styles.mediumGreyText,
-                                  ...styles.mTopNone
-                                }}
-                              >
-                                {finalRestaurant.description}
-                              </h4>
-                            </Fragment>
-                          ) : (
-                            <h4 style={styles.mediumGreyText}>
-                              Check back when everyone has responded!
+                </Item.Content>
+              </Item>
+
+              <Item style={styles.flextStart}>
+                <Card fluid>
+                  <Grid style={styles.paddingAllButBottom}>
+                    <Grid.Row>
+                      <Grid.Column width={2}>
+                        <Icon size="large" name="clock" color="grey" />
+                      </Grid.Column>
+                      <Grid.Column width={14}>
+                        <h4 style={styles.mBottomNone}>{prettyDate}</h4>
+                        <h4 style={styles.mTopNone}>{prettyTime}</h4>
+                      </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                      <Grid.Column width={2}>
+                        <Icon
+                          size="large"
+                          name="map marker alternate"
+                          color="grey"
+                        />
+                      </Grid.Column>
+                      <Grid.Column width={14}>
+                        {!currentEvent.isPending && finalRestaurant.id ? (
+                          <Fragment>
+                            <h4 style={styles.mBottomNone}>
+                              {finalRestaurant.title}
                             </h4>
+                            <h4
+                              style={{
+                                ...styles.mediumGreyText,
+                                ...styles.mTopNone
+                              }}
+                            >
+                              {finalRestaurant.description}
+                            </h4>
+                          </Fragment>
+                        ) : (
+                          <h4 style={styles.mediumGreyText}>
+                            Check back when everyone has responded!
+                          </h4>
+                        )}
+                        {userId === creator.id &&
+                          currentEvent.isPending && (
+                            <Button
+                              type="button"
+                              color="google plus"
+                              onClick={this.handleCloseEvent}
+                            >
+                              Show me the plan!
+                            </Button>
                           )}
-                        </Grid.Column>
-                      </Grid.Row>
-                    </Grid>
-                    <Divider />
-                    {finalRestaurant ? (
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
+
+                  <Divider style={styles.mBottomNone} />
+                  {finalRestaurant &&
+                    finalRestaurant.latitude && (
                       <Map
                         latitude={Number(finalRestaurant.latitude)}
                         longitude={Number(finalRestaurant.longitude)}
                       />
-                    ) : (
-                      <Map />
                     )}
-                  </Card>
-                  {userId === creator.id &&
-                    currentEvent.isPending && (
-                      <Grid.Column width={8}>
-                        <Container>
-                          <Button
-                            type="button"
-                            floated="right"
-                            color="google plus"
-                            onClick={this.handleCloseEvent}
-                          >
-                            Show me the plan!
-                          </Button>
-                        </Container>
-                      </Grid.Column>
-                    )}
-                </GridColumn>
-              </Grid>
-            </Container>
-          </Grid.Column>
-        </Grid>
+                </Card>
+              </Item>
+            </Item.Group>
+          </Container>
+        </div>
       </Fragment>
     )
   }
@@ -229,7 +239,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getFinalRestaurant: () => dispatch(fetchFinalRestaurant(getId(ownProps))),
   getFriends: () => dispatch(fetchFriends()),
   addToFriends: id => dispatch(addFriend(id)),
-  closeEvent: id => dispatch(lockInEvent(id))
+  closeEvent: id => dispatch(lockInEvent(id)),
+  clearFinalRestaurant: () => dispatch(clearFinalRestaurant())
 })
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(EventDetail)

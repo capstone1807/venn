@@ -46,7 +46,7 @@ class EventList extends Component {
     const hasEvents = this.props.events.length > 0
 
     return (
-      <Container>
+      <Container style={style.container}>
         {this.state.isLoading ? (
           <LoaderPage />
         ) : (

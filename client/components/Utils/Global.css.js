@@ -11,6 +11,9 @@ export default {
   footer: {
     background: colors.blueGray
   },
+  container: {
+    minHeight: 'calc(100vh - 8em)'
+  },
   loader: {
     margin: '0',
     position: 'absolute',
@@ -106,7 +109,8 @@ export default {
   eventContent: {
     background: colors.grey,
     marginTop: '1em',
-    paddingTop: '3em'
+    paddingTop: '3em',
+    minHeight: 'calc(100vh - 18.5em)'
   },
   centerText: {
     alignText: 'center'
@@ -114,7 +118,13 @@ export default {
   inline: {
     display: 'inline-block'
   },
-  placeSearch: {
+  flexGrow: {
     flexGrow: '1'
+  },
+  pBottom: {
+    paddingBottom: '1em'
+  },
+  flextStart: {
+    alignItems: 'flex-start'
   }
 }

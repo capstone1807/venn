@@ -17,8 +17,7 @@ import {
   Container,
   Button,
   Modal,
-  Radio,
-  Divider
+  Radio
 } from 'semantic-ui-react'
 
 export class GuestRestaurantChoice extends React.Component {
@@ -93,7 +92,7 @@ export class GuestRestaurantChoice extends React.Component {
       }
     })
     return (
-      <Container style={{width: 500, ...styles.pBottom2}}>
+      <Container style={{width: 500, ...styles.pBottom2, ...styles.container}}>
         <Form verticalalign="middle">
           <Header>{currentEvent && currentEvent.name}</Header>
           <Form.Field>

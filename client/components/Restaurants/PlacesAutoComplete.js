@@ -71,7 +71,7 @@ class PlacesAutoComplete extends Component {
         <Form onSubmit={this.handleSubmit}>
           <Form.Group inline>
             <Search
-              style={styles.placeSearch}
+              style={styles.flexGrow}
               placeholder="Add restaurant by name"
               input={{fluid: true}}
               loading={isLoading}
@@ -83,15 +83,20 @@ class PlacesAutoComplete extends Component {
               results={results}
               value={value}
             />
-            <Button icon="plus" color="google plus" size="medium" style={styles.mLeft}/>
+            <Button
+              icon="plus"
+              color="google plus"
+              size="medium"
+              style={styles.mLeft}
+            />
           </Form.Group>
-              {this.state.submitted && (
-                <Message positive>
-                  <Message.Header>Success!</Message.Header>
-                  You've added this restaurant to your favorites. You can add as
-                  many as you'd like.
-                </Message>
-              )}
+          {this.state.submitted && (
+            <Message positive>
+              <Message.Header>Success!</Message.Header>
+              You've added this restaurant to your favorites. You can add as
+              many as you'd like.
+            </Message>
+          )}
         </Form>
       </Container>
     )
