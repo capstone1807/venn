@@ -21,7 +21,7 @@ const NavbarDesktop = ({
           <Icon name="calendar alternate" />
           <p style={styles.pTopTiny}>Events</p>
         </Menu.Item>
-        <Menu.Item onClick={() => history.push('friends')}>
+        <Menu.Item onClick={() => history.push('/friends')}>
           <Icon name="users" /> Friends
         </Menu.Item>
         <Menu.Item onClick={() => history.push('/restaurants')}>

@@ -57,7 +57,7 @@ class EventDetail extends React.Component {
       guests.length && guests.find(guest => guest.event_user.isAdmin)
     const prettyDate = moment(currentEvent.date, 'MM-DD-YYYY').format('LL')
     const prettyTime = currentEvent.time
-
+    console.log('Final Restaurant: ', this.props.finalRestaurant)
     return (
       <Fragment>
         <Container style={styles.h1}>
@@ -185,8 +185,8 @@ class EventDetail extends React.Component {
                     <Divider />
                     {finalRestaurant ? (
                       <Map
-                        latitude={finalRestaurant.latitude}
-                        longitude={finalRestaurant.longitude}
+                        latitude={Number(finalRestaurant.latitude)}
+                        longitude={Number(finalRestaurant.longitude)}
                       />
                     ) : (
                       <Map />

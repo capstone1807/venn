@@ -1,8 +1,9 @@
 const router = require('express').Router()
 const {User, EventRestaurant, Restaurant, EventUser} = require('../db/models')
-const Sequelize = require('sequelize')
 const getPlaceDetailsById = require('./googleplaces')
+const Sequelize = require('sequelize')
 const Op = Sequelize.Op
+const chalk = require('chalk')
 
 module.exports = router
 

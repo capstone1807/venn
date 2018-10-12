@@ -1,38 +1,37 @@
-import React, { Component } from 'react';
-import GoogleMapReact from 'google-map-react';
+import React, {Component} from 'react'
+import GoogleMapReact from 'google-map-react'
 import GOOGLE_API_KEY from '../../../secrets'
-
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+import Loader from '../Utils/Loader'
 
 class Map extends Component {
-
-  static defaultProps = {
-    center: {
-      lat: 59.95,
-      lng: 30.33
-    },
-    zoom: 11
-  };
-
+  //  static defaultProps = {
+  //   center: {
+  //     lat: this.props.latitude,
+  //     lng: this.props.longitude
+  //   },
+  //   zoom: 11
+  // };
   render() {
-    console.log('FINAL', this.props.latitude)
-    const lat = this.props.latitude
-    const long = this.props.longitude
+    const {latitude, longitude} = this.props
+    console.log(latitude, longitude)
+
     return (
-      <div style={{ height: '50vh', width: '100%' }}>
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: GOOGLE_API_KEY }}
-          defaultCenter={this.props.center}
-          defaultZoom={this.props.zoom}
-        >
-          <AnyReactComponent
-            lat={lat}
-            lng={long}
+      <div style={{height: '50vh', width: '100%'}}>
+        {latitude ? (
+          <GoogleMapReact
+            bootstrapURLKeys={{key: GOOGLE_API_KEY}}
+            initialCenter={{
+              lat: latitude,
+              lng: longitude
+            }}
+            center={[latitude, longitude]}
+            defaultZoom={14}
           />
-        </GoogleMapReact>
+        ) : (
+          <Loader />
+        )}
       </div>
-    );
+    )
   }
 }
-
-export default (Map)
+export default Map
