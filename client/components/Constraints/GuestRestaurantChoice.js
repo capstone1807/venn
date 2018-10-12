@@ -26,7 +26,8 @@ export class GuestRestaurantChoice extends React.Component {
     super(props)
     this.state = {
       restaurants: [],
-      importance: 0
+      importance: 0,
+      modalOpen: false
     }
   }
 
@@ -40,6 +41,14 @@ export class GuestRestaurantChoice extends React.Component {
     this.setState({
       restaurants: data.value
     })
+  }
+
+  handleOpen = () => {
+    this.setState({modalOpen: true})
+  }
+
+  handleClose = () => {
+    this.setState({modalOpen: false})
   }
 
   handleSubmit = async event => {
@@ -143,13 +152,17 @@ export class GuestRestaurantChoice extends React.Component {
         <label style={styles.mTop}>Need more favorites?</label>
 
         <Modal
+          closeIcon
           trigger={
             <Button
               type="button"
               content="Find some more!"
               style={styles.mSmallTop}
+              onClick={this.handleOpen}
             />
           }
+          open={this.state.modalOpen}
+          onClose={this.handleClose}
         >
           <Modal.Header>Find Restaurants</Modal.Header>
           <Modal.Content>

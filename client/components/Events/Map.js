@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import GoogleMapReact from 'google-map-react'
 import GOOGLE_API_KEY from '../../../secrets'
 import Loader from '../Utils/Loader'
-import {Icon, Container, Label} from 'semantic-ui-react'
 
 class Map extends Component {
   //  static defaultProps = {

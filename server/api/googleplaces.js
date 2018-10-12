@@ -1,7 +1,8 @@
 const request = require('request-promise');
 const places = "https://maps.googleapis.com/maps/api/place/details/json?"
 const GOOGLE_API_KEY = require('../../secrets')
- const getPlaceDetailsById = (placeId) => {
+
+const getPlaceDetailsById = (placeId) => {
   return request({
   "method":"GET",
   "uri": `${places}placeid=${placeId}&key=${GOOGLE_API_KEY}`,
@@ -15,4 +16,5 @@ const GOOGLE_API_KEY = require('../../secrets')
   return {longitude, latitude}
 });
 }
- module.exports = getPlaceDetailsById
+
+module.exports = getPlaceDetailsById
