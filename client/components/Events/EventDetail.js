@@ -24,7 +24,6 @@ import {
 } from '../../store'
 import styles from '../Utils/Global.css'
 import EventDate from './EventDate'
-import Map from './Map'
 
 class EventDetail extends React.Component {
   async componentDidMount() {
@@ -186,8 +185,8 @@ class EventDetail extends React.Component {
                     <Divider />
                     {finalRestaurant ? (
                       <Map
-                        latitude={finalRestaurant.latitude}
-                        longitude={finalRestaurant.longitude}
+                        latitude={Number(finalRestaurant.latitude)}
+                        longitude={Number(finalRestaurant.longitude)}
                       />
                     ) : (
                       <Map />
