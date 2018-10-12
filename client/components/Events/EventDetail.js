@@ -18,7 +18,8 @@ import {
   fetchFinalRestaurant,
   fetchFriends,
   addFriend,
-  lockInEvent
+  lockInEvent,
+  clearFinalRestaurant
 } from '../../store'
 import styles from '../Utils/Global.css'
 import EventDate from './EventDate'
@@ -31,6 +32,10 @@ class EventDetail extends React.Component {
     this.props.currentEvent &&
       !this.props.currentEvent.isPending &&
       (await this.props.getFinalRestaurant())
+  }
+
+  componentWillUnmount() {
+    this.props.clearFinalRestaurant()
   }
 
   handleSubmit = async event => {
@@ -234,7 +239,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getFinalRestaurant: () => dispatch(fetchFinalRestaurant(getId(ownProps))),
   getFriends: () => dispatch(fetchFriends()),
   addToFriends: id => dispatch(addFriend(id)),
-  closeEvent: id => dispatch(lockInEvent(id))
+  closeEvent: id => dispatch(lockInEvent(id)),
+  clearFinalRestaurant: () => dispatch(clearFinalRestaurant())
 })
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(EventDetail)
