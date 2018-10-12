@@ -5,15 +5,7 @@ import NoData from '../Utils/NoData'
 import LoaderPage from '../Utils/Loader'
 import style from '../Utils/Global.css'
 import AddFriends from './AddFriends'
-import {
-  Divider,
-  Container,
-  Header,
-  Card,
-  Button,
-  Icon,
-  Grid
-} from 'semantic-ui-react'
+import {Container, Header, Card, Button, Icon, Grid} from 'semantic-ui-react'
 
 export class FriendsList extends React.Component {
   constructor(props) {
@@ -48,15 +40,16 @@ export class FriendsList extends React.Component {
 
   render() {
     const {friends} = this.props
-    friends.length && friends.sort((a, b) => {
-      const A = a.firstName.toUpperCase()
-      const B = b.firstName.toUpperCase()
-      let comparison = 0
-      A > B ? (comparison = 1) : (comparison = -1)
-      return comparison
-    })
+    friends.length &&
+      friends.sort((a, b) => {
+        const A = a.firstName.toUpperCase()
+        const B = b.firstName.toUpperCase()
+        let comparison = 0
+        A > B ? (comparison = 1) : (comparison = -1)
+        return comparison
+      })
     return (
-      <Container>
+      <Container style={style.container}>
         {this.state.isLoading ? (
           <LoaderPage />
         ) : (

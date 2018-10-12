@@ -40,15 +40,16 @@ class RestaurantsList extends Component {
 
   render() {
     const {restaurants} = this.props
-    restaurants.length && restaurants.sort((a, b) => {
-      const A = a.title.toUpperCase()
-      const B = b.title.toUpperCase()
-      let comparison = 0
-      A > B ? (comparison = 1) : (comparison = -1)
-      return comparison
-    })
+    restaurants.length &&
+      restaurants.sort((a, b) => {
+        const A = a.title.toUpperCase()
+        const B = b.title.toUpperCase()
+        let comparison = 0
+        A > B ? (comparison = 1) : (comparison = -1)
+        return comparison
+      })
     return (
-      <Container>
+      <Container style={style.container}>
         {this.state.isLoading ? (
           <LoaderPage />
         ) : (

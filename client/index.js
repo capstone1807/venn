@@ -7,14 +7,13 @@ import store from './store'
 import Navbar from './components/Navbar/Navbar'
 import Footer from './components/Footer/Footer'
 import Routes from './routes'
+import styles from './components/Utils/Global.css'
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Navbar>
-        <div>
-          <Routes />
-        </div>
+        <Routes />
         <Footer />
       </Navbar>
     </Router>

@@ -23,7 +23,7 @@ const AuthForm = props => {
   const isSignup = name === 'signup'
 
   return (
-    <Grid textAlign="center" style={{height: '100%'}} verticalAlign="middle">
+    <Grid textAlign="center" style={styles.container} verticalAlign="middle">
       <Grid.Column style={{maxWidth: 450}}>
         {/* HEADER */}
 

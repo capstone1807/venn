@@ -11,8 +11,10 @@ import {
   Container,
   Divider,
   Segment,
-  Button
+  Button,
+  Header
 } from 'semantic-ui-react'
+import styles from '../Utils/Global.css'
 
 export class CreateEvent extends React.Component {
   constructor(props) {
@@ -79,8 +81,9 @@ export class CreateEvent extends React.Component {
         }
       })
     return (
-      <Container style={{width: 500}}>
-        <Form verticalalign="middle" >
+      <Container style={{width: 500, ...styles.container}}>
+        <Form verticalalign="middle">
+          <Header as="h1" content="Create Event" style={styles.h1} />
           <Form.Field>
             <label>Name your event</label>
             <input
@@ -98,7 +101,7 @@ export class CreateEvent extends React.Component {
                 value={this.state.date}
                 iconPosition="left"
                 onChange={this.handleChangeDateOrTime}
-                dateFormat='MM-DD-YYYY'
+                dateFormat="MM-DD-YYYY"
               />
               <TimeInput
                 name="time"
@@ -134,9 +137,11 @@ export class CreateEvent extends React.Component {
           <Divider horizontal hidden />
         </Form>
         <AddFriendsModal />
-        <Button floated="right" color="vk" onClick={this.handleSubmit}>Create Event</Button>
+        <Button floated="right" color="vk" onClick={this.handleSubmit}>
+          Create Event
+        </Button>
         <Button floated="right" onClick={() => history.goBack()}>
-            Cancel
+          Cancel
         </Button>
       </Container>
     )
