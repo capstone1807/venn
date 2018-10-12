@@ -88,8 +88,8 @@ class PlacesAutoComplete extends Component {
               {this.state.submitted && (
                 <Message positive>
                   <Message.Header>Success!</Message.Header>
-                  You've added this person to your friends list. You can add as
-                  many friends as you'd like.
+                  You've added this restaurant to your favorites. You can add as
+                  many as you'd like.
                 </Message>
               )}
         </Form>
