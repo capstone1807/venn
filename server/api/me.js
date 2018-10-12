@@ -1,7 +1,9 @@
 const router = require('express').Router()
 const {User, EventRestaurant, Restaurant, EventUser} = require('../db/models')
+const getPlaceDetailsById = require('./googleplaces')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
+const chalk = require('chalk')
 
 module.exports = router
 
@@ -96,6 +98,8 @@ router.put('/restaurants', async (req, res, next) => {
         placeId: req.body.placeId
       }
     })
+    const latLong = await getPlaceDetailsById(req.body.placeId);
+    await restaurant.update(latLong)
     if (!await user.hasRestaurant(restaurant)) {
       await user.addRestaurant(restaurant)
       res.status(201).send(restaurant)

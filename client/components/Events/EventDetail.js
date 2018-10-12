@@ -23,6 +23,7 @@ import {
 } from '../../store'
 import styles from '../Utils/Global.css'
 import EventDate from './EventDate'
+import Map from './Map'
 
 class EventDetail extends React.Component {
 
@@ -57,7 +58,7 @@ class EventDetail extends React.Component {
       guests.length && guests.find(guest => guest.event_user.isAdmin)
     const prettyDate = moment(currentEvent.date, "MM-DD-YYYY").format('LL')
     const prettyTime = currentEvent.time
-
+    console.log('Final Restaurant: ', this.props.finalRestaurant)
     return (
       <Grid>
         <Grid.Column width={16}>
@@ -189,7 +190,8 @@ class EventDetail extends React.Component {
                     </Grid.Row>
                   </Grid>
                   <Divider />
-                  <div>Map with pin</div>
+                  {finalRestaurant.latitude ? <Map latitude={Number(finalRestaurant.latitude)} longitude={Number(finalRestaurant.longitude)}/> :
+                  <Map />}
                 </Card>
                 {userId === creator.id && currentEvent.isPending && <Grid.Column width={8}>
                   <Container>
