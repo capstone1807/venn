@@ -19,6 +19,16 @@ class RestaurantsList extends Component {
 
   async componentDidMount() {
     await this.props.getRestaurants()
+    const {restaurants} = this.props
+    restaurants.length &&
+    restaurants.sort((a, b) => {
+      const A = a.title.toUpperCase()
+      const B = b.title.toUpperCase()
+      let comparison = 0
+      A > B ? (comparison = 1) : (comparison = -1)
+      return comparison
+    })
+    console.log('RESTAURANTS =>', restaurants)
     this.setState({isLoading: false})
   }
 
@@ -29,6 +39,7 @@ class RestaurantsList extends Component {
   }
 
   handleSort = () => {
+    console.log('IS REVERSED? =>', this.state.isReversed)
     if (!this.state.isReversed) {
       this.setState({icon: 'sort alphabet down', isReversed: true})
       this.props.restaurants.reverse()
@@ -40,14 +51,6 @@ class RestaurantsList extends Component {
 
   render() {
     const {restaurants} = this.props
-    restaurants.length &&
-      restaurants.sort((a, b) => {
-        const A = a.title.toUpperCase()
-        const B = b.title.toUpperCase()
-        let comparison = 0
-        A > B ? (comparison = 1) : (comparison = -1)
-        return comparison
-      })
     return (
       <Container style={style.container}>
         {this.state.isLoading ? (

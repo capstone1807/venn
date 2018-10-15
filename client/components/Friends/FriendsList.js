@@ -19,6 +19,15 @@ export class FriendsList extends React.Component {
 
   async componentDidMount() {
     await this.props.getFriends()
+    const {friends} = this.props
+    friends.length &&
+      friends.sort((a, b) => {
+        const A = a.firstName.toUpperCase()
+        const B = b.firstName.toUpperCase()
+        let comparison = 0
+        A > B ? (comparison = 1) : (comparison = -1)
+        return comparison
+      })
     this.setState({isLoading: false})
   }
 
@@ -40,14 +49,6 @@ export class FriendsList extends React.Component {
 
   render() {
     const {friends} = this.props
-    friends.length &&
-      friends.sort((a, b) => {
-        const A = a.firstName.toUpperCase()
-        const B = b.firstName.toUpperCase()
-        let comparison = 0
-        A > B ? (comparison = 1) : (comparison = -1)
-        return comparison
-      })
     return (
       <Container style={style.container}>
         {this.state.isLoading ? (

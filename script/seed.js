@@ -8,55 +8,92 @@ async function seed() {
 
   const users = await Promise.all([
     User.create({
-      firstName: 'Cody',
-      lastName: 'Code',
-      username: 'codydog2018',
-      email: 'cody@email.com',
+      firstName: 'Tess',
+      lastName: 'Wolterstorff',
+      username: 'tesspresso',
+      email: 'tesswolterstorff@gmail.com',
       password: '123'
     }),
     User.create({
-      firstName: 'Murphy',
-      lastName: 'Murph',
-      username: 'themurph2018',
-      email: 'murphy@email.com',
+      firstName: 'Laura',
+      lastName: 'Robinson',
+      username: 'helloimlaura',
+      email: 'laurarachel@gmail.com',
       password: '123'
     }),
     User.create({
-      firstName: 'Smurfy',
-      lastName: 'Smurf',
-      username: 'bigd4wg',
-      email: 'smurfy@email.com',
+      firstName: 'Gittie',
+      lastName: 'Atlas',
+      username: 'gittieatlas',
+      email: 'gittieatlas@email.com',
+      password: '123'
+    }),
+    User.create({
+      firstName: 'James',
+      lastName: 'Byrd',
+      username: 'jamesbyrd1265',
+      email: 'james.byrd1265@gmail.com',
+      password: '123'
+    }),
+    User.create({
+      firstName: 'Dan',
+      lastName: 'Gilbert',
+      username: 'danglebert',
+      email: 'daniel.gilbert0051@gmail.com',
+      password: '123'
+    }),
+    User.create({
+      firstName: 'Adil',
+      lastName: 'Minocherhomjee',
+      username: 'aminoche',
+      email: 'adilminocherhomjee@gmail.com',
+      password: '123'
+    }),
+    User.create({
+      firstName: 'John',
+      lastName: 'Riccardi',
+      username: 'riccjohn',
+      email: 'riccjohn@gmail.com',
+      password: '123'
+    }),
+    User.create({
+      firstName: 'Morgan',
+      lastName: 'Brown',
+      username: 'morganb816',
+      email: 'morganb816@gmail.com',
+      password: '123'
+    }),
+    User.create({
+      firstName: 'Javier',
+      lastName: 'Carey',
+      username: 'jav1jav',
+      email: 'javiercarey@gmail.com',
+      password: '123'
+    }),
+    User.create({
+      firstName: 'Omri',
+      lastName: 'Bernstein',
+      username: 'omribernstein',
+      email: 'hippiccolo@gmail.com',
+      password: '123'
+    }),
+    User.create({
+      firstName: 'Jessie',
+      lastName: 'De La Cruz Santos',
+      username: 'jessdelacruzsantos',
+      email: 'jessdelacruzsantos@gmail.com',
+      password: '123'
+    }),
+    User.create({
+      firstName: 'Jack',
+      lastName: 'Lye',
+      username: 'catncradle',
+      email: 'catncradle@gmail.com',
       password: '123'
     })
   ])
-
-  const restaurants = await Promise.all([
-    Restaurant.create({
-      title: 'Ottimo Cafe',
-      description: 'U.S. 9, Howell, NJ, USA',
-      placeId: 'ChIJ8VK-FVV_wYkR4A3G7hRBkjU'
-    }),
-
-    Restaurant.create({
-      title: 'Dairy Queen',
-      description: 'Trenton Lakewood Road, Clarksburg, NJ, USA',
-      placeId: 'ChIJv-c_qCNjwYkRK--WCcRJ6y0'
-    })
-  ])
-
-  const cody = await User.findById(1)
-  const murphy = await User.findById(2)
-  const smurfy = await User.findById(3)
-  await cody.addFriends(murphy)
-  await cody.addFriends(smurfy)
-
-  const ottimo = await Restaurant.findById(1)
-  const dairyQueen = await Restaurant.findById(2)
-  await cody.addRestaurant(ottimo)
-  await cody.addRestaurant(dairyQueen)
 
   console.log(`seeded ${users.length} users`)
-  console.log(`seeded ${restaurants.length} users`)
   console.log(`seeded successfully`)
 }
 
