@@ -26,9 +26,8 @@ class PlacesAutoComplete extends Component {
 
   handleSubmit = async event => {
     event.preventDefault()
-    console.log('PLACE', this.state.selectedPlace)
-    await this.props.addRestaurant(this.state.selectedPlace)
-    this.setState({submitted: true})
+    const success = await this.props.addRestaurant(this.state.selectedPlace)
+    success && this.setState({submitted: true})
   }
 
   handleSearchChange = (e, {value}) => {

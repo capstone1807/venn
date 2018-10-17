@@ -1,11 +1,10 @@
 const request = require('request-promise');
 const places = "https://maps.googleapis.com/maps/api/place/details/json?"
-const GOOGLE_API_KEY = require('../../secrets')
 
 const getPlaceDetailsById = (placeId) => {
   return request({
   "method":"GET",
-  "uri": `${places}placeid=${placeId}&key=${GOOGLE_API_KEY}`,
+  "uri": `${places}placeid=${placeId}&key=${process.env.GOOGLE_API_KEY}`,
   "json": true,
   "headers": {
     "User-Agent": "Venn"
