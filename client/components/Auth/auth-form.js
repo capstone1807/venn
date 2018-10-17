@@ -75,7 +75,7 @@ const AuthForm = props => {
             <Button fluid color="vk" size="large" style={styles.mBottom}>
               {displayName}
             </Button>
-            <Button fluid as={Link} to="/auth/google" color="google plus">
+            <Button fluid as="a" href="/auth/google" color="google plus">
               <Icon name="google" />
               {displayName} with Google
             </Button>
